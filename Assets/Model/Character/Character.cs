@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -25,6 +26,7 @@ public class Character : MonoBehaviour
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.W))
         {
+            isGrounded = false;
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
@@ -40,9 +42,9 @@ public class Character : MonoBehaviour
     private void CheckGround()
     {
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
 
-        isGrounded = colliders.Length > 1;
+        isGrounded = colliders.Any();
     }
 
     private void OnDrawGizmos()
