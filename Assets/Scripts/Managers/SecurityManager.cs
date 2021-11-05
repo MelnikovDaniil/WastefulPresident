@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SecurityManager : MonoBehaviour
@@ -26,10 +27,32 @@ public class SecurityManager : MonoBehaviour
         }
     }
 
+    public void SetUpNextSecurity()
+    {
+        targetSecurity = securities.Where(x => x.isDead == false).GetRandomOrDefault();
+        if (targetSecurity != null)
+        {
+            securities.Remove(targetSecurity);
+            targetSecurity.OnDeath += () => targetSecurity = null;
+        }
+    }
+
     public void SetUpTarget()
     {
-        var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        targetSecurity.target = worldPosition;
+        if (targetSecurity == null)
+        {
+            SetUpNextSecurity();
+        }
+
+        if (targetSecurity == null)
+        {
+            Debug.Log("No any security alive");
+        }
+        else
+        {
+            var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            targetSecurity.target = worldPosition;
+        }
     }
 
     public IEnumerator FollowPreidentRoutine()
