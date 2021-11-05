@@ -4,35 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Security : MonoBehaviour
+public class Security : Human
 {
-    public float speed;
-    public float jumpForce;
     public float targetStopDistance = 0.1f;
     public float presidentStopDistance = 0.1f;
 
+
     [Space]
-    public float checkGroundOffsetY = -0.5f;
     public float checkGroundOffsetX = 0.5f;
-    public float checkFroundRadius = 0.3f;
 
     [NonSerialized]
     public Vector2? target;
 
-    private Rigidbody2D _rigidbody;
-    private bool isGrounded;
     private bool inFrontOfWall;
     private bool jumpDelay;
     private bool isFollowPresedent;
 
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
-
     private void Update()
     {
-        if (!jumpDelay && inFrontOfWall && isGrounded)
+        if (!isDead && !jumpDelay && inFrontOfWall && isGrounded)
         {
             isGrounded = false;
             jumpDelay = true;
@@ -49,7 +39,7 @@ public class Security : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target != null)
+        if (!isDead && target != null)
         {
             var side = Mathf.Sign(target.Value.x - transform.position.x);
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
@@ -65,6 +55,7 @@ public class Security : MonoBehaviour
             {
                 target = null;
                 _rigidbody.velocity = Vector2.zero;
+                TryInteract();
             }
 
             CheckGround();
@@ -79,12 +70,10 @@ public class Security : MonoBehaviour
         this.target = target;
     }
 
-    private void CheckGround()
+    public override void Death()
     {
-        var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
-
-        isGrounded = colliders.Any();
+        base.Death();
+        target = null;
     }
 
     private void CheckWall()
