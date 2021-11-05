@@ -10,12 +10,17 @@ public class SecurityManager : MonoBehaviour
     public Character character;
 
     public float followPeriod = 0.5f;
-
-    public Vector2 presidentStopRange = new Vector2(0.1f, 0.5f);
+    public float securityDistacnceGap = 1;
 
     private void Start()
     {
-        securities.ForEach(x => x.presidentStopDistance = Random.Range(presidentStopRange.x, presidentStopRange.y));
+        var x = 2f;
+        foreach (var security in securities)
+        {
+            security.presidentStopDistance = x;
+            x += securityDistacnceGap;
+        }
+
         StartCoroutine(FollowPreidentRoutine());
     }
 
