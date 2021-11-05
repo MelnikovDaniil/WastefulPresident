@@ -66,4 +66,13 @@ public class Character : Human
     {
         _animator.SetTrigger("order");
     }
+
+    public new void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+        if (collision.TryGetComponent<DialogueTrigger>(out var dialogueTrigger))
+        {
+            dialogueTrigger.TriggerDialogue();
+        }
+    }
 }
