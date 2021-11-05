@@ -11,7 +11,7 @@ public class Security : Human
 
 
     [Space]
-    public float checkGroundOffsetX = 0.5f;
+    public Vector2 checkWallOffset = new Vector2(1.2f, 0.5f);
 
     [NonSerialized]
     public Vector2? target;
@@ -27,6 +27,7 @@ public class Security : Human
             isGrounded = false;
             jumpDelay = true;
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            _animator.SetTrigger("jump");
             StartCoroutine(JumpDelayRoutine());
         }
     }
@@ -39,27 +40,54 @@ public class Security : Human
 
     private void FixedUpdate()
     {
-        if (!isDead && target != null)
+        if (!isDead)
         {
-            var side = Mathf.Sign(target.Value.x - transform.position.x);
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
-            _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-            var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
-            if (isFollowPresedent && targetDistance < presidentStopDistance)
+            if (target != null)
             {
-                isFollowPresedent = false;
-                target = null;
-                _rigidbody.velocity = Vector2.zero;
-            }
-            if (targetDistance < targetStopDistance)
-            {
-                target = null;
-                _rigidbody.velocity = Vector2.zero;
-                TryInteract();
+                var side = Mathf.Sign(target.Value.x - transform.position.x);
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
+                _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
+                var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
+
+                if (isFollowPresedent)
+                {
+                    _animator.SetBool("run", false);
+                    _animator.SetBool("walk", true);
+                }
+                else
+                {
+                    _animator.SetBool("run", true);
+                    _animator.SetBool("walk", false);
+                }
+
+                if (isFollowPresedent && targetDistance < presidentStopDistance)
+                {
+                    isFollowPresedent = false;
+                    target = null;
+                    _rigidbody.velocity = Vector2.zero;
+                    _animator.SetBool("walk", false);
+                }
+                if (targetDistance < targetStopDistance)
+                {
+                    target = null;
+                    _rigidbody.velocity = Vector2.zero;
+                    TryInteract();
+                    _animator.SetBool("run", false);
+                }
+
+                CheckWall();
             }
 
+
+            if (_rigidbody.velocity.y < -0.1)
+            {
+                _animator.SetBool("fall", true);
+            }
+            else
+            {
+                _animator.SetBool("fall", false);
+            }
             CheckGround();
-            CheckWall();
         }
     }
 
@@ -78,7 +106,9 @@ public class Security : Human
 
     private void CheckWall()
     {
-        var position = new Vector2(transform.position.x + checkGroundOffsetX * Mathf.Sign(transform.localScale.x), transform.position.y);
+        var position = new Vector2(
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
+            transform.position.y + checkWallOffset.y);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
 
         inFrontOfWall = colliders.Any();
@@ -90,7 +120,9 @@ public class Security : Human
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundPosition, checkFroundRadius);
 
-        var wallPosition = new Vector2(transform.position.x + checkGroundOffsetX * Mathf.Sign(transform.localScale.x), transform.position.y);
+        var wallPosition = new Vector2(
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
+            transform.position.y + checkWallOffset.y);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
     }

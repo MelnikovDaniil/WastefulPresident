@@ -17,12 +17,14 @@ public class Human : MonoBehaviour
     public bool isDead;
 
     protected Rigidbody2D _rigidbody;
+    protected Animator _animator;
 
     protected bool isGrounded;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
 
@@ -58,6 +60,7 @@ public class Human : MonoBehaviour
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
 
         isGrounded = colliders.Any();
+        _animator.SetBool("grounded", isGrounded);
     }
 
     private void OnDrawGizmos()
