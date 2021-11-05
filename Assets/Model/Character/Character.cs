@@ -61,4 +61,9 @@ public class Character : Human
             CheckGround();
         }
     }
+
+    public void SendOrder()
+    {
+        _animator.SetTrigger("order");
+    }
 }

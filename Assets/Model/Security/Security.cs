@@ -48,13 +48,24 @@ public class Security : Human
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
                 _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
                 var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
-                _animator.SetBool("run", true);
+
+                if (isFollowPresedent)
+                {
+                    _animator.SetBool("run", false);
+                    _animator.SetBool("walk", true);
+                }
+                else
+                {
+                    _animator.SetBool("run", true);
+                    _animator.SetBool("walk", false);
+                }
+
                 if (isFollowPresedent && targetDistance < presidentStopDistance)
                 {
                     isFollowPresedent = false;
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
-                    _animator.SetBool("run", false);
+                    _animator.SetBool("walk", false);
                 }
                 if (targetDistance < targetStopDistance)
                 {

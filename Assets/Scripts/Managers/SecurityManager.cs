@@ -55,6 +55,7 @@ public class SecurityManager : MonoBehaviour
         }
         else
         {
+            character.SendOrder();
             var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             targetSecurity.target = worldPosition;
         }
