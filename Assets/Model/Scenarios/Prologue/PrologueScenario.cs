@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -73,6 +73,7 @@ public class PrologueScenario : MonoBehaviour
         CameraManager.Instance.CraracterCamera();
         character.GetComponent<SecurityManager>().AddSecurities(agents);
         character.isLocked = false;
+        StickerManager.Instance.AddSticker("DoorOpen", "Открыть дверь");
     }
 
     public IEnumerator SpawnAgentsRoutine()
