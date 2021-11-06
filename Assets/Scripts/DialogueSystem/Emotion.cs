@@ -11,4 +11,5 @@ public enum Emotion
     Pensive,
     Smile,
     Dead,
+    Security,
 }

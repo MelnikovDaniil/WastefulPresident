@@ -11,6 +11,10 @@ public class CameraManager : MonoBehaviour
     public float cameraSizeLimit = 11f;
     public Vector2 clamp;
 
+    [Space]
+    public Vector2 characterCameraShift = new Vector2(0, 2);
+    public float characterCameraSize = 5;
+
     private const float StandartWidth = 1280f;
     private const float StandartHight = 720f;
 
@@ -66,6 +70,12 @@ public class CameraManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void CraracterCamera()
+    {
+        var caracter = FindObjectOfType<Character>();
+        SetTarget(caracter.gameObject, characterCameraSize, -1, characterCameraShift);
     }
 
     public void SetTarget(GameObject target, float time, Vector3 cameraShift)

@@ -12,13 +12,15 @@ public class SecurityManager : MonoBehaviour
     public float followPeriod = 0.5f;
     public float securityDistacnceGap = 1;
 
+    private float presidentDistance;
+
     private void Start()
     {
-        var x = 2f;
+        presidentDistance = 2f;
         foreach (var security in securities)
         {
-            security.presidentStopDistance = x;
-            x += securityDistacnceGap;
+            security.presidentStopDistance = presidentDistance;
+            presidentDistance += securityDistacnceGap;
         }
 
         StartCoroutine(FollowPreidentRoutine());
@@ -26,12 +28,20 @@ public class SecurityManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!DialogueManager.isWorking && !character.isDead && Input.GetMouseButtonDown(0))
         {
             SetUpTarget();
         }
     }
-
+    public void AddSecurities(List<Security> newSecurities)
+    {
+        this.securities.AddRange(newSecurities);
+        foreach (var security in securities)
+        {
+            security.presidentStopDistance = presidentDistance;
+            presidentDistance += securityDistacnceGap;
+        }
+    }
     public void SetUpNextSecurity()
     {
         targetSecurity = securities.Where(x => x.isDead == false).GetRandomOrDefault();

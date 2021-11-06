@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
+    public static bool isWorking;
 
     public Text nameText;
     public TMP_Text m_TextComponent;
@@ -22,6 +23,7 @@ public class DialogueManager : MonoBehaviour
     public Sprite Pensive;
     public Sprite Smile;
     public Sprite Dead;
+    public Sprite Security;
 
     [Space]
     public float AngleMultiplier = 1.0f;
@@ -46,10 +48,7 @@ public class DialogueManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    public void Start()
-    {
+        sentances = new Queue<Sentance>();
         emotions = new List<(Emotion emotion, Sprite sprite)>
         {
             (Emotion.Common, Common),
@@ -57,13 +56,14 @@ public class DialogueManager : MonoBehaviour
             (Emotion.Pensive, Pensive),
             (Emotion.Smile, Smile),
             (Emotion.Dead, Dead),
+            (Emotion.Security, Security),
         };
-        sentances = new Queue<Sentance>();
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
         animator.SetBool("open", true);
+        isWorking = true;
         sentances.Clear();
 
         foreach (var sentance in dialogue.sentences)
@@ -89,6 +89,7 @@ public class DialogueManager : MonoBehaviour
         {
             StartCoroutine(AnimateVertexColors());
         }
+        sentance.action?.Invoke();
         StartCoroutine(TypeSentenceRoutine(sentance.text));
     }
 
@@ -105,6 +106,7 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        isWorking = false;
         animator.SetBool("open", false);
     }
 
