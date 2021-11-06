@@ -150,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66578333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.45, y: -5, z: 0}
+  m_LocalPosition: {x: 25.97, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1728115621}
@@ -6624,7 +6624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548165624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.12, y: -5.0054, z: 0}
+  m_LocalPosition: {x: 27.64, y: -5.0054, z: 0}
   m_LocalScale: {x: 1.17, y: 1.17, z: 1.17}
   m_Children:
   - {fileID: 214053780}
@@ -6698,7 +6698,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -3625896165640141590, guid: 33a5c97b24c18fd4a8c2163f75746c27, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7239,18 +7239,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
       propertyPath: dialogue.sentences.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
       propertyPath: dialogue.sentences.Array.data[0].text
       value: "\u041A\u0430\u043A \u0436\u0435 \u0445\u043E\u0440\u043E\u0448\u043E,
-        \u0447\u0442\u043E \u044F \u043D\u0435 \u0433\u043B\u0443\u043F\u0435\u0446,
-        \u0438 \u0432\u0441\u0451 \u0434\u043E\u0432\u0435\u0440\u044F\u044E \u0441\u0432\u043E\u0438\u043C
-        \u0432\u0435\u0440\u043D\u044B\u043C \u0445\u043E\u043B\u043E\u043F\u0430\u043C."
+        \u0447\u0442\u043E \u044F \u043D\u0435 \u0433\u043B\u0443\u043F\u0435\u0446."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1].text
+      value: "\u0418 \u0432\u0441\u0451 \u0434\u043E\u0432\u0435\u0440\u044F\u044E
+        \u0441\u0432\u043E\u0438\u043C \u0432\u0435\u0440\u043D\u044B\u043C \u0445\u043E\u043B\u043E\u043F\u0430\u043C."
       objectReference: {fileID: 0}
     - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
       propertyPath: dialogue.sentences.Array.data[0].emotion
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
+      propertyPath: dialogue.sentences.Array.data[1].emotion
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0].action.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0].action.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445610902256524497, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
+      propertyPath: dialogue.sentences.Array.data[0].action.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5445610902256524508, guid: 15c63a6eb74cc734792d181cd6bec849, type: 3}
       propertyPath: m_RootOrder
@@ -7797,7 +7816,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1088952896
 GameObject:
@@ -12926,7 +12945,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413960991
 GameObject:
@@ -12984,7 +13003,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_Sprite: {fileID: -5223057158339156959, guid: 33a5c97b24c18fd4a8c2163f75746c27, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13004,7 +13023,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413960991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.12, y: -5, z: 0}
+  m_LocalPosition: {x: 29.64, y: -5, z: 0}
   m_LocalScale: {x: -1.17, y: 1.17, z: 1.17}
   m_Children: []
   m_Father: {fileID: 1728115621}
@@ -13155,7 +13174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7921480361557168695, guid: c2fc6c0aaa5bfee448dbf13e6539f1a3, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7921480361557168695, guid: c2fc6c0aaa5bfee448dbf13e6539f1a3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13902,8 +13921,8 @@ Tilemap:
   - first: {x: 13, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -14192,8 +14211,8 @@ Tilemap:
   - first: {x: 13, y: -3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -14482,8 +14501,8 @@ Tilemap:
   - first: {x: 13, y: -2, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -15881,7 +15900,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 189
+  - m_RefCount: 192
     m_Data: {fileID: 11400000, guid: 5063921b76d05e540afa6b436ffc3391, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -15891,10 +15910,10 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 8942d5fa6e42f83419e0ab1124c65cdc, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 3
-    m_Data: {fileID: 11400000, guid: a0b486d6d12a9a4469c1c96f6d611a6d, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 189
+  - m_RefCount: 192
     m_Data: {fileID: -5390113763524105233, guid: 8b8ca8cc11d2639439c48e8a775a9ddd, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -15904,8 +15923,8 @@ Tilemap:
     m_Data: {fileID: 4179751574024523906, guid: 8b8ca8cc11d2639439c48e8a775a9ddd, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 3
-    m_Data: {fileID: -2262058637458314484, guid: 4d111d72461eb5747bc7f86a9b3fb295, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 253
     m_Data:
@@ -16350,7 +16369,7 @@ Transform:
   - {fileID: 658290122}
   - {fileID: 1134286528}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1728115622
 MonoBehaviour:
@@ -16487,7 +16506,7 @@ Transform:
   - {fileID: 1356031358}
   - {fileID: 1288564844}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1752153266
 GameObject:
@@ -17293,7 +17312,7 @@ Transform:
   m_LocalScale: {x: 1.9203, y: 1.9203, z: 1.9203}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2061965331
 MonoBehaviour:
@@ -17741,7 +17760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8989124590530775009, guid: 76fc430d16e04064d8ff63248fdec9a2, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8989124590530775009, guid: 76fc430d16e04064d8ff63248fdec9a2, type: 3}
       propertyPath: m_LocalScale.x
