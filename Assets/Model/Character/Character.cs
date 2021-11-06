@@ -6,19 +6,17 @@ using UnityEngine;
 
 public class Character : Human
 {
+    [NonSerialized]
+    public bool isLocked;
     [Space]
     public Vector2 cameraOffset = Vector2.up;
 
     private float horizontalMove = 0;
 
-    private void Start()
-    {
-        CameraManager.Instance.SetTarget(gameObject, 5, -1, cameraOffset);
-    }
 
     public void Update()
     {
-        if (!isDead)
+        if (!isLocked && !DialogueManager.isWorking && !isDead)
         {
             if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
@@ -27,7 +25,7 @@ public class Character : Human
                 _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
-            if (isGrounded && Input.GetKeyDown(KeyCode.W))
+            if (isGrounded && Input.GetKeyDown(KeyCode.E))
             {
                 TryInteract();
             }
@@ -42,6 +40,11 @@ public class Character : Human
             {
                 _animator.SetBool("walk", false);
             }
+        }
+        else
+        {
+            _animator.SetBool("walk", false);
+            horizontalMove = 0;
         }
     }
 
@@ -67,10 +70,15 @@ public class Character : Human
         _animator.SetTrigger("order");
     }
 
+    public void PlayAnimation(string animName)
+    {
+        _animator.Play(animName);
+    }
+
     public new void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if (collision.TryGetComponent<DialogueTrigger>(out var dialogueTrigger))
+        if (collision.TryGetComponent<ColliderDialogueTrigger>(out var dialogueTrigger))
         {
             dialogueTrigger.TriggerDialogue();
         }

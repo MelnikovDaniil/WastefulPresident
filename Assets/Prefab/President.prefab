@@ -645,7 +645,7 @@ MonoBehaviour:
   targetSecurity: {fileID: 0}
   character: {fileID: 8989124590530775010}
   followPeriod: 0.5
-  presidentStopRange: {x: 0.1, y: 1}
+  securityDistacnceGap: 1
 --- !u!114 &8989124590530775010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,7 +662,8 @@ MonoBehaviour:
   jumpForce: 20
   checkGroundOffsetY: -1.1
   checkFroundRadius: 0.3
-  interactRadius: 0.5
+  interactRadius: 1.5
+  cameraOffset: {x: 0, y: 2}
 --- !u!1 &8989124590546827834
 GameObject:
   m_ObjectHideFlags: 0

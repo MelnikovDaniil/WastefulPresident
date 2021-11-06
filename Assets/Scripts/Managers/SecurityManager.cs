@@ -12,13 +12,15 @@ public class SecurityManager : MonoBehaviour
     public float followPeriod = 0.5f;
     public float securityDistacnceGap = 1;
 
+    private float presidentDistance;
+
     private void Start()
     {
-        var x = 2f;
+        presidentDistance = 2f;
         foreach (var security in securities)
         {
-            security.presidentStopDistance = x;
-            x += securityDistacnceGap;
+            security.presidentStopDistance = presidentDistance;
+            presidentDistance += securityDistacnceGap;
         }
 
         StartCoroutine(FollowPreidentRoutine());
@@ -26,12 +28,20 @@ public class SecurityManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!DialogueManager.isWorking && !character.isDead && Input.GetMouseButtonDown(0))
         {
             SetUpTarget();
         }
     }
-
+    public void AddSecurities(List<Security> newSecurities)
+    {
+        this.securities.AddRange(newSecurities);
+        foreach (var security in securities)
+        {
+            security.presidentStopDistance = presidentDistance;
+            presidentDistance += securityDistacnceGap;
+        }
+    }
     public void SetUpNextSecurity()
     {
         targetSecurity = securities.Where(x => x.isDead == false).GetRandomOrDefault();
@@ -44,20 +54,27 @@ public class SecurityManager : MonoBehaviour
 
     public void SetUpTarget()
     {
-        if (targetSecurity == null)
-        {
-            SetUpNextSecurity();
-        }
+        var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var hits = Physics2D.RaycastAll(position, position);
+        var interactableObject = hits
+            .Select(x => x.transform.gameObject)
+            .FirstOrDefault(x => x.transform.gameObject.GetComponent<InteractableObject>());
 
-        if (targetSecurity == null)
+        if (interactableObject != null)
         {
-            Debug.Log("No any security alive");
-        }
-        else
-        {
-            character.SendOrder();
-            var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetSecurity.target = worldPosition;
+            if (targetSecurity == null)
+            {
+                SetUpNextSecurity();
+            }
+
+            if (targetSecurity == null)
+            {
+                Debug.Log("No any security alive");
+            }
+            else
+            {
+                targetSecurity.target = interactableObject.transform.position;
+            }
         }
     }
 
