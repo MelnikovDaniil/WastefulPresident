@@ -9,11 +9,17 @@ public class CameraManager : MonoBehaviour
     GameObject _target;
     public Camera camera;
     public float cameraSizeLimit = 11f;
-    public Vector2 clamp;
+    public Vector2 clampPoint1;
+    public Vector2 clampPoint2;
+    public float startCameraMove = 2f;
+    public float maxCameraDistance = 5f;
 
     [Space]
     public Vector2 characterCameraShift = new Vector2(0, 2);
     public float characterCameraSize = 5;
+
+    [Space]
+    public bool isFollowMouse = true;
 
     private const float StandartWidth = 1280f;
     private const float StandartHight = 720f;
@@ -26,6 +32,7 @@ public class CameraManager : MonoBehaviour
     private Vector3 cameraShift;
 
     private float standartCameraSize;
+    private Vector3 toPosition;
 
 
     private void Awake()
@@ -44,9 +51,19 @@ public class CameraManager : MonoBehaviour
         {
             if (secondsForMoving == -1)
             {
+                var mouthPos = camera.ScreenToWorldPoint(Input.mousePosition);
+                var distance = Vector2.Distance(mouthPos, _target.transform.position);
+                toPosition = _target.transform.position;
+                if (isFollowMouse && startCameraMove < distance)
+                {
+                    var cameraVector = mouthPos - _target.transform.position;
+                    toPosition = _target.transform.position + (cameraVector.normalized * Mathf.Clamp(distance, 0, maxCameraDistance));
+                }
+
                 var cameraPosition = new Vector3(
-                    _target.transform.position.x,
-                    Mathf.Clamp(_target.transform.position.y, -clamp.y + camera.orthographicSize * camera.aspect, clamp.y - camera.orthographicSize * camera.aspect), -10);
+                    Mathf.Clamp(toPosition.x, clampPoint1.x + camera.orthographicSize * camera.aspect, clampPoint2.x - camera.orthographicSize * camera.aspect),
+                    Mathf.Clamp(toPosition.y, clampPoint1.y + camera.orthographicSize, clampPoint2.y - camera.orthographicSize),
+                    -10);
                 cameraPosition += cameraShift;
                 transform.position = cameraPosition;
             }
@@ -92,5 +109,19 @@ public class CameraManager : MonoBehaviour
         this.cameraShift = cameraShift;
         toCameraSize = size;
         currentTime = 0;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(Vector2.Lerp(clampPoint1, clampPoint2, 0.5f), clampPoint2 - clampPoint1);
+
+        var cameraSize = new Vector3(
+                    (clampPoint2.x - clampPoint1.x) - camera.orthographicSize * camera.aspect * 2,
+                    (clampPoint2.y - clampPoint1.y) - camera.orthographicSize * 2,
+                    -10);
+
+
+        Gizmos.DrawWireCube(Vector2.Lerp(clampPoint1, clampPoint2, 0.5f), cameraSize);
     }
 }

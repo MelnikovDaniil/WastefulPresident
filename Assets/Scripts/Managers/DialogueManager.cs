@@ -65,6 +65,7 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("open", true);
         isWorking = true;
         sentances.Clear();
+        CameraManager.Instance.isFollowMouse = false;
 
         foreach (var sentance in dialogue.sentences)
         {
@@ -108,6 +109,7 @@ public class DialogueManager : MonoBehaviour
     {
         isWorking = false;
         animator.SetBool("open", false);
+        CameraManager.Instance.isFollowMouse = true;
     }
 
 
