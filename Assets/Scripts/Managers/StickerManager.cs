@@ -36,7 +36,7 @@ public class StickerManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Sticker {name} not found!");
+            Debug.LogWarning($"Sticker {name} not found!");
         }
     }
 }

@@ -35,6 +35,11 @@ public class Human : MonoBehaviour
         if (collider != null)
         {
             collider.GetComponent<InteractableObject>().Interect();
+            if (collider.GetComponent<ElectricityInteractableObject>())
+            {
+                _animator.SetTrigger("electricity");
+                Death();
+            }
         }
     }
 
@@ -43,7 +48,6 @@ public class Human : MonoBehaviour
         OnDeath?.Invoke();
         isDead = true;
         _rigidbody.freezeRotation = false;
-        GetComponent<SpriteRenderer>().color += Color.black;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

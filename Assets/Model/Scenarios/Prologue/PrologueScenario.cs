@@ -14,6 +14,7 @@ public class PrologueScenario : MonoBehaviour
 
     public DialogueTrigger dialogue1;
     public DialogueTrigger dialogue2;
+    public ColliderDialogueTrigger dialogue3;
 
     public List<AgentSpawner> agentSpawners;
     public List<Security> agents;
@@ -25,9 +26,23 @@ public class PrologueScenario : MonoBehaviour
     public float frame6Delay;
     public float frame7Delay;
 
+    private bool firstCutSceen;
+
     private void Start()
     {
-        Frame1();
+        firstCutSceen = PlayerPrefs.GetInt("FirstCutSceen", 0) == 0;
+
+        if (firstCutSceen)
+        {
+            Frame1();
+        }
+        else
+        {
+            character.isLocked = true;
+            destroedCity.SetActive(true);
+            Frame4();
+
+        }
     }
 
     public void Frame1()
@@ -73,7 +88,17 @@ public class PrologueScenario : MonoBehaviour
         CameraManager.Instance.CraracterCamera();
         character.GetComponent<SecurityManager>().AddSecurities(agents);
         character.isLocked = false;
-        StickerManager.Instance.AddSticker("DoorOpen", "Открыть дверь");
+
+        if (firstCutSceen)
+        {
+            StickerManager.Instance.AddSticker("DoorOpen", "Открыть дверь при помощи \"E\"");
+            PlayerPrefs.SetInt("FirstCutSceen", 1);
+        }
+        else
+        {
+            dialogue3.gameObject.SetActive(true);
+            StickerManager.Instance.AddSticker("DoorOpen", "Отправить агента нажав \"ЛКМ\"");
+        }
     }
 
     public IEnumerator SpawnAgentsRoutine()

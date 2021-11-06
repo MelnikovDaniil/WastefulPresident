@@ -54,20 +54,27 @@ public class SecurityManager : MonoBehaviour
 
     public void SetUpTarget()
     {
-        if (targetSecurity == null)
-        {
-            SetUpNextSecurity();
-        }
+        var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var hits = Physics2D.RaycastAll(position, position);
+        var interactableObject = hits
+            .Select(x => x.transform.gameObject)
+            .FirstOrDefault(x => x.transform.gameObject.GetComponent<InteractableObject>());
 
-        if (targetSecurity == null)
+        if (interactableObject != null)
         {
-            Debug.Log("No any security alive");
-        }
-        else
-        {
-            character.SendOrder();
-            var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetSecurity.target = worldPosition;
+            if (targetSecurity == null)
+            {
+                SetUpNextSecurity();
+            }
+
+            if (targetSecurity == null)
+            {
+                Debug.Log("No any security alive");
+            }
+            else
+            {
+                targetSecurity.target = interactableObject.transform.position;
+            }
         }
     }
 

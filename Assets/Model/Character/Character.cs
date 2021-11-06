@@ -25,7 +25,7 @@ public class Character : Human
                 _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
-            if (isGrounded && Input.GetKeyDown(KeyCode.W))
+            if (isGrounded && Input.GetKeyDown(KeyCode.E))
             {
                 TryInteract();
             }
@@ -40,6 +40,11 @@ public class Character : Human
             {
                 _animator.SetBool("walk", false);
             }
+        }
+        else
+        {
+            _animator.SetBool("walk", false);
+            horizontalMove = 0;
         }
     }
 
