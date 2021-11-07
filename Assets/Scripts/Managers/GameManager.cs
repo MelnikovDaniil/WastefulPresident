@@ -16,6 +16,14 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(string lvlName)
     {
+        StartCoroutine(LoadLevelRoutine(lvlName));
+    }
+
+    private IEnumerator LoadLevelRoutine(string lvlName)
+    {
+        yield return new WaitForSeconds(1);
+        UIManager.Instance.Hide();
+        yield return new WaitForSeconds(reloadDelay - 1);
         SceneManager.LoadScene(lvlName);
     }
 
@@ -26,7 +34,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ReloadLevelRoutine()
     {
-        yield return new WaitForSeconds(reloadDelay);
+        yield return new WaitForSeconds(1);
+        UIManager.Instance.Hide();
+        yield return new WaitForSeconds(reloadDelay - 1);
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
