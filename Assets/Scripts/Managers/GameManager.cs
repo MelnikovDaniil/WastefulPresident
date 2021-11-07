@@ -8,10 +8,21 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public Character character;
     public float reloadDelay = 5;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        character.OnDeath += ReloadLevel;
+        Time.timeScale = 1;
+        if (character != null)
+        {
+            character.OnDeath += ReloadLevel;
+        }
+        SoundManager.PlayMusic("Soundtrack");
     }
 
     public void LoadLevel(string lvlName)
@@ -21,22 +32,22 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadLevelRoutine(string lvlName)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         UIManager.Instance.Hide();
-        yield return new WaitForSeconds(reloadDelay - 1);
+        yield return new WaitForSecondsRealtime(reloadDelay - 1);
         SceneManager.LoadScene(lvlName);
     }
 
-    private void ReloadLevel()
+    public void ReloadLevel()
     {
         StartCoroutine(ReloadLevelRoutine());
     }
 
     private IEnumerator ReloadLevelRoutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         UIManager.Instance.Hide();
-        yield return new WaitForSeconds(reloadDelay - 1);
+        yield return new WaitForSecondsRealtime(reloadDelay - 1);
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }

@@ -5,23 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelsMenu : MonoBehaviour
 {
-    public void LvlPrologueSelected()
+    public void LoadScene(string name)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void Lvl1Selected()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-    }
-
-    public void Lvl2Selected()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 3);
-    }
-
-    public void Lvl3Selected()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 4);
+        SceneManager.LoadScene(name);
     }
 }
