@@ -24,6 +24,7 @@ public class StickerManager : MonoBehaviour
         var sticker = Instantiate(stickerPrefab, stickerPlace);
         sticker.stickerName = name;
         sticker.description.text = description;
+        stickers.Add(sticker);
     }
 
     public void CloseSticker(string stickerName)
