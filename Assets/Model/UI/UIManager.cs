@@ -16,4 +16,9 @@ public class UIManager : MonoBehaviour
     {
         effectAnimator.SetTrigger("light");
     }
+
+    public void Hide()
+    {
+        effectAnimator.SetTrigger("hide");
+    }
 }
