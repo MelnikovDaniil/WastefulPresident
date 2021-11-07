@@ -1,28 +1,34 @@
 fileFormatVersion: 2
-guid: 8ed349996a99ddd43930cfe3b2bd0a73
+guid: 7199f34aa484fe64b9ddcfd9cc6ee875
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8756005231550194220
-    second: TileInsideHole_0
+      213: 4044489657254709605
+    second: Lvl2BgTileMap_0
   - first:
-      213: -298178970759288518
-    second: TileInsideHole_1
+      213: -7677607350562735002
+    second: Lvl2BgTileMap_1
   - first:
-      213: -8619617219120611916
-    second: TileInsideHole_2
+      213: -3639600432049930321
+    second: Lvl2BgTileMap_3
   - first:
-      213: -4464231447218485666
-    second: TileInsideHole_3
+      213: 6314228415565704422
+    second: Lvl2BgTileMap_4
   - first:
-      213: 7470181284611961156
-    second: TileInsideHole_4
+      213: 7282614028657222530
+    second: Lvl2BgTileMap_5
+  - first:
+      213: 2257841738780563076
+    second: Lvl2BgTileMap_6
+  - first:
+      213: 3618605933157892356
+    second: Lvl2BgTileMap_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
-    sRGBTexture: 1
+    enableMipMap: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -31,7 +37,7 @@ TextureImporter:
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
-    convertToNormalMap: 0
+    convertToNormalMap: 1
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
@@ -65,9 +71,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 1
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -118,7 +124,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TileInsideHole_0
+      name: Lvl2BgTileMap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,20 +132,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dd1df912ab6c7680800000000000000
-      internalID: -8756005231550194220
+      spriteID: 56988662ae9e02830800000000000000
+      internalID: 4044489657254709605
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileInsideHole_1
+      name: Lvl2BgTileMap_1
       rect:
         serializedVersion: 2
         x: 128
@@ -147,20 +153,20 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a39a6605ec7acdbf0800000000000000
-      internalID: -298178970759288518
+      spriteID: 66cb7c8dac8a37590800000000000000
+      internalID: -7677607350562735002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileInsideHole_2
+      name: Lvl2BgTileMap_3
       rect:
         serializedVersion: 2
         x: 0
@@ -168,41 +174,83 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4bdb972dec7f06880800000000000000
-      internalID: -8619617219120611916
+      spriteID: faf3e43c0ba8d7dc0800000000000000
+      internalID: -3639600432049930321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileInsideHole_3
+      name: Lvl2BgTileMap_4
       rect:
         serializedVersion: 2
-        x: 128
+        x: 129
         y: 128
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e560a69b62ddb02c0800000000000000
-      internalID: -4464231447218485666
+      spriteID: 6eca87c2a45a0a750800000000000000
+      internalID: 6314228415565704422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileInsideHole_4
+      name: Lvl2BgTileMap_5
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 283e366cfda011560800000000000000
+      internalID: 7282614028657222530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lvl2BgTileMap_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 486d01f4917755f10800000000000000
+      internalID: 2257841738780563076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lvl2BgTileMap_7
       rect:
         serializedVersion: 2
         x: 128
@@ -210,14 +258,14 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4413115bc4a6ba760800000000000000
-      internalID: 7470181284611961156
+      spriteID: 4014ffb8ceed73230800000000000000
+      internalID: 3618605933157892356
       vertices: []
       indices: 
       edges: []
@@ -231,9 +279,7 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {fileID: 2800000, guid: a29d2cd98f9e5a1488618f2637b9c8bf, type: 3}
-      name: _NormalMap
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -22,6 +22,7 @@ namespace Assets.Model.InteractableObjects
 
         public void Expload(float force, float radius, float explotionTime = 0.2f)
         {
+            ShakingManager.Instance.Shake(2f,0.2f);
             particles.Play();
             pointEffector.forceMagnitude = force;
             transform.localScale *= radius;
