@@ -14,7 +14,7 @@ public class Level1Scenario : MonoBehaviour
 
     private void Start()
     {
-        CameraManager.Instance.CraracterCamera();
+        CameraManager.Instance.CharacterCamera();
     }
 
     public void TurrelFrame()
@@ -43,6 +43,6 @@ public class Level1Scenario : MonoBehaviour
     private IEnumerator BackToCharacter()
     {
         yield return new WaitForSeconds(donutTime);
-        CameraManager.Instance.CraracterCamera();
+        CameraManager.Instance.CharacterCamera();
     }
 }

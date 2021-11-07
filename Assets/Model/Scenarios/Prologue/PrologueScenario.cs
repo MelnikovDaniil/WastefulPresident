@@ -48,7 +48,7 @@ public class PrologueScenario : MonoBehaviour
     public void Frame1()
     {
         dialogue1.TriggerDialogue();
-        CameraManager.Instance.CraracterCamera();
+        CameraManager.Instance.CharacterCamera();
         character.PlayAnimation("Writting");
         character.isLocked = true;
         //PlayWithDelay(Frame2, frame2Delay);
@@ -72,7 +72,7 @@ public class PrologueScenario : MonoBehaviour
     
     public void Frame4()
     {
-        CameraManager.Instance.CraracterCamera();
+        CameraManager.Instance.CharacterCamera();
         dialogue2.TriggerDialogue();
     }
 
@@ -85,7 +85,7 @@ public class PrologueScenario : MonoBehaviour
 
     public void Frame6()
     {
-        CameraManager.Instance.CraracterCamera();
+        CameraManager.Instance.CharacterCamera();
         character.GetComponent<SecurityManager>().AddSecurities(agents);
         character.isLocked = false;
 

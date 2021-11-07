@@ -89,7 +89,7 @@ public class CameraManager : MonoBehaviour
 
     }
 
-    public void CraracterCamera()
+    public void CharacterCamera()
     {
         var caracter = FindObjectOfType<Character>();
         SetTarget(caracter.gameObject, characterCameraSize, -1, characterCameraShift);
