@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         if (character != null)
         {
             character.OnDeath += ReloadLevel;
@@ -31,22 +32,22 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadLevelRoutine(string lvlName)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         UIManager.Instance.Hide();
-        yield return new WaitForSeconds(reloadDelay - 1);
+        yield return new WaitForSecondsRealtime(reloadDelay - 1);
         SceneManager.LoadScene(lvlName);
     }
 
-    private void ReloadLevel()
+    public void ReloadLevel()
     {
         StartCoroutine(ReloadLevelRoutine());
     }
 
     private IEnumerator ReloadLevelRoutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         UIManager.Instance.Hide();
-        yield return new WaitForSeconds(reloadDelay - 1);
+        yield return new WaitForSecondsRealtime(reloadDelay - 1);
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }

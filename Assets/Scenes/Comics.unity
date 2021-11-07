@@ -559,7 +559,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &320707103
 RectTransform:
@@ -1626,6 +1626,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectAnimator: {fileID: 1863648687}
+  pausePanel: {fileID: 0}
+  isPaused: 0
 --- !u!4 &1572933778
 Transform:
   m_ObjectHideFlags: 0
