@@ -26,9 +26,9 @@ public class StickerManager : MonoBehaviour
         sticker.description.text = description;
     }
 
-    public void CloseSticker(string name)
+    public void CloseSticker(string stickerName)
     {
-        var sticker = stickers.FirstOrDefault(x => x.stickerName == name);
+        var sticker = stickers.FirstOrDefault(x => x.stickerName == stickerName);
         if (sticker != null)
         {
             stickers.Remove(sticker);
@@ -36,7 +36,7 @@ public class StickerManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Sticker {name} not found!");
+            Debug.LogWarning($"Sticker {stickerName} not found!");
         }
     }
 }

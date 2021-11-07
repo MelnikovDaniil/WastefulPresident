@@ -28,17 +28,37 @@ public class Human : MonoBehaviour
     }
 
 
-    public void TryInteract()
+    public virtual void TryInteract()
     {
         var collider = Physics2D.OverlapCircleAll(transform.position, interactRadius)
             .FirstOrDefault(x => x.GetComponent<InteractableObject>());
         if (collider != null)
         {
-            collider.GetComponent<InteractableObject>().Interect();
-            if (collider.GetComponent<ElectricityInteractableObject>())
+            var interactableObject = collider.GetComponent<InteractableObject>();
+            if (interactableObject != null &&
+                ((GetComponent<Character>() && interactableObject.allowForPresedent)
+                || (GetComponent<Security>() && interactableObject.allowForSecurity)))
             {
-                _animator.SetTrigger("electricity");
-                Death();
+
+                interactableObject.Interect();
+                if (collider.GetComponent<ElectricityInteractableObject>())
+                {
+                    _animator.SetTrigger("electricity");
+                    Death();
+                }
+                else if (collider.TryGetComponent<PitInteractableObject>(out var pit))
+                {
+                    _animator.SetTrigger("pit");
+                    transform.localScale = new Vector3(
+                        Mathf.Abs(transform.localScale.x) * Mathf.Sign(pit.transform.localScale.x),
+                        transform.localScale.y,
+                        transform.localScale.z);
+                    GetComponent<SpriteRenderer>().sortingOrder += 10;
+                    _rigidbody.velocity = Vector2.zero;
+                    _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
+                    Death();
+                    _rigidbody.freezeRotation = true;
+                }
             }
         }
     }
@@ -47,12 +67,18 @@ public class Human : MonoBehaviour
     {
         OnDeath?.Invoke();
         isDead = true;
+        _rigidbody.sharedMaterial = null;
         _rigidbody.freezeRotation = false;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isDead && collision.tag == "DeathCollider")
+        if (!isDead && collision.tag == "Bomb")
+        {
+            _animator.SetTrigger("bomb");
+            Death();
+        }
+        else if (!isDead && collision.tag == "DeathCollider")
         {
             Death();
         }

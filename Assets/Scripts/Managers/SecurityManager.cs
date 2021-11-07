@@ -60,7 +60,7 @@ public class SecurityManager : MonoBehaviour
             .Select(x => x.transform.gameObject)
             .FirstOrDefault(x => x.transform.gameObject.GetComponent<InteractableObject>());
 
-        if (interactableObject != null)
+        if (interactableObject != null && interactableObject.GetComponent<InteractableObject>().enabled)
         {
             if (targetSecurity == null)
             {

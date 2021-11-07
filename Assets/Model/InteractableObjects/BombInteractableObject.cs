@@ -17,7 +17,6 @@ namespace Assets.Model.InteractableObjects
         {
             var exploasion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             exploasion.Expload(explotionForce, explotionRadius);
-            GetComponent<SpriteRenderer>().color = Color.black;
         }
 
         private void OnDrawGizmos()

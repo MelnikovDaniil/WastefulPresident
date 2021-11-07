@@ -67,7 +67,7 @@ public class Security : Human
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
                 }
-                if (targetDistance < targetStopDistance)
+                else if (targetDistance < targetStopDistance)
                 {
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
