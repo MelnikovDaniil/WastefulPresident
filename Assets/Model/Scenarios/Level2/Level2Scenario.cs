@@ -65,6 +65,11 @@ public class Level2Scenario : MonoBehaviour
         fire.SetActive(true);
     }
 
+    public void DonatCamera()
+    {
+        CameraManager.Instance.SetTarget(donut, 1, Vector2.zero);
+    }
+
     public void Granade1()
     {
         granage.gameObject.SetActive(true);

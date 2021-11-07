@@ -23778,7 +23778,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410160570}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.662086, y: -28.677431, z: 353.99777}
+  m_LocalPosition: {x: -27.69, y: -28.677431, z: 353.99777}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 686396469}
@@ -24009,6 +24009,40 @@ MonoBehaviour:
       action:
         m_PersistentCalls:
           m_Calls: []
+    - text: "\u041E, \u043F\u043E\u043D\u0447\u0438\u043A."
+      emotion: 0
+      action:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 686396470}
+            m_TargetAssemblyTypeName: Level2Scenario, Assembly-CSharp
+            m_MethodName: DonatCamera
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - text: ...
+      emotion: 3
+      action:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1578773571}
+            m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+            m_MethodName: CharacterCamera
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
   singleRun: 0
 --- !u!1 &1525205809
 GameObject:
