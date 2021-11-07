@@ -65,6 +65,15 @@ public class Character : Human
         }
     }
 
+    public override void Death()
+    {
+        base.Death();
+        if (DialogueManager.isWorking)
+        {
+            DialogueManager.Instance.EndDialogue();
+        }
+    }
+
     public void SendOrder()
     {
         _animator.SetTrigger("order");

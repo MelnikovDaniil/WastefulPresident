@@ -5,20 +5,20 @@ public class ActionTrigger : MonoBehaviour
 {
     [SerializeField]
     public UnityEvent unityEvent;
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<Character>())
-        {
-            unityEvent?.Invoke();
-        }
-    }
+    public bool allowForPresident = true;
+    public bool allowForSecurity = false;
+    public bool singleRun;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Character>())
+        if ((allowForPresident && collision.gameObject.GetComponent<Character>())
+            || (allowForSecurity && collision.gameObject.GetComponent<Security>()))
         {
             unityEvent?.Invoke();
+            if (singleRun)
+            {
+                unityEvent.RemoveAllListeners();
+            }
         }
     }
 }

@@ -4,5 +4,8 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
+    public bool allowForSecurity = true;
+    public bool allowForPresedent = true;
+
     public abstract void Interect();
 }
