@@ -8,10 +8,20 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public Character character;
     public float reloadDelay = 5;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        character.OnDeath += ReloadLevel;
+        if (character != null)
+        {
+            character.OnDeath += ReloadLevel;
+        }
+        SoundManager.PlayMusic("Soundtrack");
     }
 
     public void LoadLevel(string lvlName)
