@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Character : Human
+public class Character : Human, ICharacterVisitor
 {
     [NonSerialized]
     public bool isLocked;
@@ -16,7 +16,7 @@ public class Character : Human
 
     public void Update()
     {
-        if (!isLocked && !DialogueManager.isWorking && !isDead)
+        if (!isLocked && !DialogueManager.isWorking && humanState != HumanState.Dead)
         {
             if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             {
@@ -36,7 +36,7 @@ public class Character : Human
                 _animator.SetBool("walk", true);
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Input.GetAxisRaw("Horizontal"), transform.localScale.y, 0);
             }
-            else
+            else if (humanState == HumanState.Waiting)
             {
                 _animator.SetBool("walk", false);
             }
@@ -50,9 +50,30 @@ public class Character : Human
 
     public void FixedUpdate()
     {
-        if (!isDead)
+        if (humanState != HumanState.Dead)
         {
-            _rigidbody.velocity = new Vector2(horizontalMove, _rigidbody.velocity.y);
+            if (target != null)
+            {
+                var side = Mathf.Sign(target.Value.x - transform.position.x);
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
+                _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
+                var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
+                
+                _animator.SetBool("walk", true);
+
+                if (targetDistance < targetStopDistance)
+                {
+                    humanState = HumanState.Waiting;
+                    target = null;
+                    _rigidbody.velocity = Vector2.zero;
+                    _animator.SetBool("walk", false);
+                    TryInteract();
+                }
+
+                CheckWall();
+            }
+
+
             if (_rigidbody.velocity.y < -0.1)
             {
                 _animator.SetBool("fall", true);
@@ -62,15 +83,6 @@ public class Character : Human
                 _animator.SetBool("fall", false);
             }
             CheckGround();
-        }
-    }
-
-    public override void Death()
-    {
-        base.Death();
-        if (DialogueManager.isWorking)
-        {
-            DialogueManager.Instance.EndDialogue();
         }
     }
 

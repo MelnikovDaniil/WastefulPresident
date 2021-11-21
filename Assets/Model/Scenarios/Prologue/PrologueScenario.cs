@@ -17,7 +17,7 @@ public class PrologueScenario : MonoBehaviour
     public ColliderDialogueTrigger dialogue3;
 
     public List<AgentSpawner> agentSpawners;
-    public List<Security> agents;
+    public List<Agent> agents;
 
     //public float frame2Delay = 2;
     public float frame3Delay = 5;
@@ -86,7 +86,7 @@ public class PrologueScenario : MonoBehaviour
     public void Frame6()
     {
         CameraManager.Instance.CharacterCamera();
-        character.GetComponent<SecurityManager>().AddSecurities(agents);
+        character.GetComponent<ControllerManager>().AddAgents(agents);
         character.isLocked = false;
 
         if (firstCutSceen)

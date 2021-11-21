@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class AgentSpawner : MonoBehaviour
 {
-    public Security security;
+    public Agent agent;
 
     private Vector2 position;
 
     public void Start()
     {
-        security.GetComponent<Animator>().Play("Agent_Rope");
-        security.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        agent.GetComponent<Animator>().Play("Agent_Rope");
+        agent.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
     }
 
     public void SeuritySpawned()
     {
-        position = security.transform.position;
-        security.transform.parent = null;
-        security.GetComponent<Animator>().Play("Agent_PeelingOff");
-        security.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        security.transform.position = position;
+        position = agent.transform.position;
+        agent.transform.parent = null;
+        agent.GetComponent<Animator>().Play("Agent_PeelingOff");
+        agent.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        agent.transform.position = position;
     }
 
     public void FinishSpawn()
