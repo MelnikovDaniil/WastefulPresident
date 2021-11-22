@@ -1,11 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
-    public bool allowForSecurity = true;
-    public bool allowForPresedent = true;
+    public float interactionTime = 0;
 
-    public abstract void Interect();
+    private IVisitor visitor;
+
+    public virtual void StartInteraction(IVisitor visitor)
+    {
+        this.visitor = visitor;
+        StartCoroutine(InteractionRoutine());
+    }
+
+    public abstract void SuccessInteraction(IVisitor visitor);
+
+    private IEnumerator InteractionRoutine()
+    {
+        yield return new WaitForSeconds(interactionTime);
+        visitor.FinishVisiting();
+        SuccessInteraction(visitor);
+    }
 }
