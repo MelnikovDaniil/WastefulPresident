@@ -44,6 +44,7 @@ public class ControllerManager : MonoBehaviour
             var color = Random.ColorHSV();
             agent.characterColor.color = color;
             agent.presidentStopDistance = presidentDistance;
+            presidentDistance += securityDistacnceGap;
             SelectionMenu.Instance.AddItem(agent);
         }
     }
@@ -70,9 +71,9 @@ public class ControllerManager : MonoBehaviour
             SelectionMenu.Instance.Hide();
         }
         else if ((character.humanState == HumanState.Waiting 
-            || character.humanState == HumanState.Moving) && !raycastResults.Any())
+            || character.humanState == HumanState.MovingToInteract) && !raycastResults.Any())
         {
-            character.SetTarget(position);
+            character.WalkTo(position);
         }
     }
 

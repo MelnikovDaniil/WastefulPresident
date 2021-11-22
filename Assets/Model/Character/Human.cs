@@ -109,7 +109,7 @@ public class Human : MonoBehaviour, IVisitor
 
     public virtual void SetTarget(Vector2 target)
     {
-        humanState = HumanState.Moving;
+        humanState = HumanState.MovingToInteract;
         this.target = target;
     }
 

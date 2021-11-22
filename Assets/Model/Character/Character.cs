@@ -63,11 +63,15 @@ public class Character : Human, ICharacterVisitor
 
                 if (targetDistance < targetStopDistance)
                 {
+                    if (humanState == HumanState.MovingToInteract)
+                    {
+                        TryInteract();
+                    }
                     humanState = HumanState.Waiting;
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
-                    TryInteract();
+
                 }
 
                 CheckWall();
@@ -84,6 +88,12 @@ public class Character : Human, ICharacterVisitor
             }
             CheckGround();
         }
+    }
+
+    public void WalkTo(Vector2 position)
+    {
+        humanState = HumanState.Walking;
+        this.target = position;
     }
 
     public void SendOrder()
