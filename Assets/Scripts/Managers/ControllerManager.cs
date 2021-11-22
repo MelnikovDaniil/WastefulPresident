@@ -13,6 +13,7 @@ public class ControllerManager : MonoBehaviour
     public float securityDistacnceGap = 1;
 
     private float presidentDistance;
+    private bool validInput;
 
     private void Start()
     {
@@ -23,13 +24,17 @@ public class ControllerManager : MonoBehaviour
         SelectionMenu.Instance.AddItem(character);
         AddAgents(FindObjectsOfType<Agent>().ToList());
 
-        CameraManager.Instance.CharacterCamera();
         StartCoroutine(FollowPreidentRoutine());
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (!DialogueManager.isWorking && character.humanState != HumanState.Dead && Input.GetMouseButtonDown(0))
+        ValidateInput();
+        if (!DialogueManager.isWorking
+            && !CameraManager.Instance.isMovingByTaps
+            && character.humanState != HumanState.Dead 
+            && Input.GetMouseButtonUp(0) 
+            && validInput)
         {
             SetUpTarget();
         }
@@ -57,21 +62,19 @@ public class ControllerManager : MonoBehaviour
             .Select(x => x.transform.gameObject)
             .ToList();
 
-        var pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
-        var raycastResults = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
         var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>());
 
         if (interactableObject != null)
         {
             SelectionMenu.Instance.Show(interactableObject.transform.position);
         }
-        else if (SelectionMenu.isSelecting && !raycastResults.Any())
+        else if (SelectionMenu.isSelecting)
         {
             SelectionMenu.Instance.Hide();
         }
-        else if ((character.humanState == HumanState.Waiting 
-            || character.humanState == HumanState.MovingToInteract) && !raycastResults.Any())
+        else if (character.humanState == HumanState.Waiting 
+            || character.humanState == HumanState.MovingToInteract
+            || character.humanState == HumanState.Walking)
         {
             character.WalkTo(position);
         }
@@ -95,5 +98,28 @@ public class ControllerManager : MonoBehaviour
                 agent.FollowPresedent(character.transform.position);
             }
         }
+    }
+
+    private void ValidateInput()
+    {
+    #if UNITY_STANDALONE || UNITY_EDITOR
+        //DESKTOP COMPUTERS
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+                validInput = false;
+            else
+                validInput = true;
+        }
+    #else
+        //MOBILE DEVICES
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                validInput = false;
+            else
+                validInput = true;
+        }
+    #endif
     }
 }
