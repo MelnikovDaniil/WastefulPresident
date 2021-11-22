@@ -2,7 +2,8 @@
 {
     Waiting = 0,
     Follow,
-    Moving,
+    MovingToInteract,
+    Walking,
     Acivating,
     Dead,
 }
