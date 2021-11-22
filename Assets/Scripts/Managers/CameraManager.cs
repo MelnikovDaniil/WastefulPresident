@@ -21,6 +21,13 @@ public class CameraManager : MonoBehaviour
     [Space]
     public bool isFollowMouse = true;
 
+    [Space]
+    public bool canMovingByTaps = true;
+    public float startMovingDistance = 1f;
+
+    [NonSerialized]
+    public bool isMovingByTaps;
+
     private const float StandartWidth = 1280f;
     private const float StandartHight = 720f;
 
@@ -34,6 +41,7 @@ public class CameraManager : MonoBehaviour
     private float standartCameraSize;
     private Vector3 toPosition;
 
+    private Vector3 touchStartPosition;
 
     private void Awake()
     {
@@ -60,12 +68,7 @@ public class CameraManager : MonoBehaviour
                     toPosition = _target.transform.position + (cameraVector.normalized * Mathf.Clamp(distance, 0, maxCameraDistance));
                 }
 
-                var cameraPosition = new Vector3(
-                    Mathf.Clamp(toPosition.x, clampPoint1.x + camera.orthographicSize * camera.aspect, clampPoint2.x - camera.orthographicSize * camera.aspect),
-                    Mathf.Clamp(toPosition.y, clampPoint1.y + camera.orthographicSize, clampPoint2.y - camera.orthographicSize),
-                    -10);
-                cameraPosition += cameraShift;
-                transform.position = cameraPosition;
+                transform.position = toPosition + cameraShift;
             }
             else if (secondsForMoving > currentTime)
             {
@@ -86,7 +89,29 @@ public class CameraManager : MonoBehaviour
                 OnReachesTargetEvnet = null;
             }
         }
+        else if (canMovingByTaps)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                touchStartPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+            }
 
+            if (Input.GetMouseButton(0))
+            {
+                var diraction = touchStartPosition - camera.ScreenToWorldPoint(Input.mousePosition);
+                if (isMovingByTaps || diraction.magnitude > startMovingDistance)
+                {
+                    isMovingByTaps = true;
+                    transform.position += diraction;
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isMovingByTaps = false;
+            }
+        }
+        ClampCamera();
     }
 
     public void CharacterCamera()
@@ -109,6 +134,14 @@ public class CameraManager : MonoBehaviour
         this.cameraShift = cameraShift;
         toCameraSize = size;
         currentTime = 0;
+    }
+
+    private void ClampCamera()
+    {
+        transform.position = new Vector3(
+                    Mathf.Clamp(transform.position.x, clampPoint1.x + camera.orthographicSize * camera.aspect, clampPoint2.x - camera.orthographicSize * camera.aspect),
+                    Mathf.Clamp(transform.position.y, clampPoint1.y + camera.orthographicSize, clampPoint2.y - camera.orthographicSize),
+                    -10);
     }
 
     private void OnDrawGizmos()

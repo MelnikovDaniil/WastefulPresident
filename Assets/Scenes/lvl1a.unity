@@ -758,12 +758,14 @@ MonoBehaviour:
   camera: {fileID: 756490439}
   cameraSizeLimit: 11
   clampPoint1: {x: -11.44, y: -10.2}
-  clampPoint2: {x: 50.2, y: 8.2}
+  clampPoint2: {x: 17.1, y: 8.2}
   startCameraMove: 0
   maxCameraDistance: 7
   characterCameraShift: {x: 0, y: 2}
   characterCameraSize: 3.5
   isFollowMouse: 0
+  canMovingByTaps: 1
+  startMovingDistance: 0.5
 --- !u!4 &1367752401
 Transform:
   m_ObjectHideFlags: 0
