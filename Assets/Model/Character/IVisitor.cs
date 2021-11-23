@@ -2,5 +2,8 @@
 {
     void VisitLever();
 
+    void VisitElectricPanel();
+    void ElectricPanelDeath();
+
     void FinishVisiting();
 }
