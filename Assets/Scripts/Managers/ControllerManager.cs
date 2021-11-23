@@ -27,7 +27,7 @@ public class ControllerManager : MonoBehaviour
         StartCoroutine(FollowPreidentRoutine());
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         ValidateInput();
         if (!DialogueManager.isWorking
