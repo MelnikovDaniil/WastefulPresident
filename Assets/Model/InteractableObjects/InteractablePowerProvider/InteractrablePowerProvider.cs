@@ -43,7 +43,7 @@ public abstract class InteractrablePowerProvider : InteractableObject
         }
     }
 
-    private void TurnEnergy()
+    protected void TurnEnergy()
     {
         foreach (var wire in wires)
         {
@@ -51,7 +51,7 @@ public abstract class InteractrablePowerProvider : InteractableObject
         }
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = wireColor;
         foreach (var wire in wires)
