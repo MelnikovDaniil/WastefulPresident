@@ -155,4 +155,15 @@ public class Human : MonoBehaviour, IVisitor
     {
         humanState = HumanState.Waiting;
     }
+
+    public void VisitElectricPanel()
+    {
+        _animator.SetTrigger("electricPanel");
+    }
+
+    public void ElectricPanelDeath()
+    {
+        _animator.SetTrigger("electricity");
+        Death();
+    }
 }
