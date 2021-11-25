@@ -107,10 +107,22 @@ public class Human : MonoBehaviour, IVisitor
         }
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        if (humanState != HumanState.Dead && other.tag == "DeathCollider")
+        {
+            _animator.SetTrigger("bomb");
+            Death();
+        }
+    }
+
     public virtual void SetTarget(Vector2 target)
     {
-        humanState = HumanState.MovingToInteract;
-        this.target = target;
+        if (humanState != HumanState.Dead)
+        {
+            humanState = HumanState.MovingToInteract;
+            this.target = target;
+        }
     }
 
     protected void CheckGround()
@@ -165,5 +177,21 @@ public class Human : MonoBehaviour, IVisitor
     {
         _animator.SetTrigger("electricity");
         Death();
+    }
+
+    public void VisitPit()
+    {
+        _animator.SetTrigger("pit");
+        GetComponent<SpriteRenderer>().sortingOrder += 10;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    public void FinishVisitPit()
+    {
+        _animator.SetBool("fall", true);
+        GetComponent<SpriteRenderer>().sortingOrder -= 10;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 }

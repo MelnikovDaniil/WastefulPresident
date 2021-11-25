@@ -5,6 +5,9 @@ public abstract class InteractableObject : MonoBehaviour
 {
     public float interactionTime = 0;
 
+    public bool forCharacter = true;
+    public bool forAgent = true;
+
     private IVisitor visitor;
 
     public virtual void StartInteraction(IVisitor visitor)

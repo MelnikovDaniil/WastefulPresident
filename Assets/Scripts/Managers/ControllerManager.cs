@@ -62,11 +62,11 @@ public class ControllerManager : MonoBehaviour
             .Select(x => x.transform.gameObject)
             .ToList();
 
-        var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>());
+        var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>())?.GetComponent<InteractableObject>();
 
         if (interactableObject != null)
         {
-            SelectionMenu.Instance.Show(interactableObject.transform.position);
+            SelectionMenu.Instance.Show(interactableObject);
         }
         else if (SelectionMenu.isSelecting)
         {

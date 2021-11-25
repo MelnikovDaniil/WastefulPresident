@@ -23,13 +23,17 @@ public class SelectionMenu : MonoBehaviour
         selectionItems = new List<SelectionMenuItem>();
     }
 
-    public void Show(Vector2 position)
+    public void Show(InteractableObject interactableObject)
     {
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
         selectionItems.ForEach(x => x.human.characterColor.gameObject.SetActive(true));
-        menuCanvas.position = position;
-        var activeItems = selectionItems.Where(x => x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow);
+        menuCanvas.position = interactableObject.transform.position;
+        var activeItems = selectionItems
+            .Where(x => 
+            (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow)
+            && ((interactableObject.forCharacter && x.human.GetComponent<Character>())
+                || (interactableObject.forAgent && x.human.GetComponent<Agent>())));
 
         var currentItemAngel = (activeItems.Count() - 1) * itemGap / 2 * -1;
         foreach (var item in activeItems)
@@ -40,7 +44,16 @@ public class SelectionMenu : MonoBehaviour
             item.button.onClick.RemoveAllListeners();
             item.button.onClick.AddListener(() =>
             {
-                item.human.SetTarget(position);
+                var complexPositioning = interactableObject as IComplexPositioning;
+                if (complexPositioning != null)
+                {
+                    var position = complexPositioning.GetPositionForInteraction(item.human);
+                    item.human.SetTarget(position);
+                }
+                else
+                {
+                    item.human.SetTarget(interactableObject.transform.position);
+                }
                 Hide();
             });
             item.gameObject.SetActive(true);
