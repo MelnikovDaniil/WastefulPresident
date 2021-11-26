@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1329551396670845063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329551396670845061}
+  - component: {fileID: 1329551396670845062}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329551396670845061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329551396670845063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329551396670845062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329551396670845063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89289f356c5711542aa068800bb37b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 0}
+  m_TextComponent: {fileID: 0}
+  icon: {fileID: 0}
+  animator: {fileID: 0}
+  Common: {fileID: -5163384327764935654, guid: cfd66ef504a697f42be2918ad4802cac, type: 3}
+  Angry: {fileID: -3376929520900707505, guid: cfd66ef504a697f42be2918ad4802cac, type: 3}
+  Pensive: {fileID: -3569957211602395668, guid: cfd66ef504a697f42be2918ad4802cac, type: 3}
+  Smile: {fileID: -7706566390568078306, guid: cfd66ef504a697f42be2918ad4802cac, type: 3}
+  Dead: {fileID: 2089404720388485663, guid: cfd66ef504a697f42be2918ad4802cac, type: 3}
+  Security: {fileID: 21300000, guid: 026928ff74af57a4293d175143de1738, type: 3}
+  AngleMultiplier: 2
+  SpeedMultiplier: 1
+  CurveScale: 4

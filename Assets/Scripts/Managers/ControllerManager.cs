@@ -4,8 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ControllerManager : MonoBehaviour
+public class ControllerManager : BaseManager
 {
+    public static ControllerManager Instance;
     public List<Agent> agents;
     public Character character;
 
@@ -15,8 +16,22 @@ public class ControllerManager : MonoBehaviour
     private float presidentDistance;
     private bool validInput;
 
-    private void Start()
+    private void Awake()
     {
+        // start of new code
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // end of new code
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    public override void LoadManager()
+    {
+        base.LoadManager();
         presidentDistance = 2f;
         agents = new List<Agent>();
 
@@ -62,11 +77,11 @@ public class ControllerManager : MonoBehaviour
             .Select(x => x.transform.gameObject)
             .ToList();
 
-        var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>());
+        var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>())?.GetComponent<InteractableObject>();
 
         if (interactableObject != null)
         {
-            SelectionMenu.Instance.Show(interactableObject.transform.position);
+            SelectionMenu.Instance.Show(interactableObject);
         }
         else if (SelectionMenu.isSelecting)
         {

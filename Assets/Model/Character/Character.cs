@@ -57,17 +57,21 @@ public class Character : Human, ICharacterVisitor
                 var side = Mathf.Sign(target.Value.x - transform.position.x);
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
                 _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-                var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
-                
+                var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+                var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
                 _animator.SetBool("walk", true);
 
-                if (targetDistance < targetStopDistance)
+                if (targetDistanceX < targetStopDistanceX)
                 {
                     if (humanState == HumanState.MovingToInteract)
                     {
                         TryInteract();
                     }
-                    humanState = HumanState.Waiting;
+                    else
+                    {
+                        humanState = HumanState.Waiting;
+                    }
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);

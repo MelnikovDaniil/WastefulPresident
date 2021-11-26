@@ -17,7 +17,8 @@ public class Agent : Human
                 var side = Mathf.Sign(target.Value.x - transform.position.x);
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
                 _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-                var targetDistance = Mathf.Abs(transform.position.x - target.Value.x);
+                var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+                var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
                 if (humanState == HumanState.Follow)
                 {
@@ -30,14 +31,16 @@ public class Agent : Human
                     _animator.SetBool("walk", false);
                 }
 
-                if (humanState == HumanState.Follow && targetDistance < presidentStopDistance)
+                if (humanState == HumanState.Follow && targetDistanceX < presidentStopDistance)
                 {
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
                 }
-                else if (targetDistance < targetStopDistance)
+                else if (targetDistanceX < targetStopDistanceX 
+                    && targetDistanceY < targetStopDistanceY)
                 {
+                    humanState = HumanState.Waiting;
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("run", false);

@@ -5,10 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SelectionMenu : MonoBehaviour
+public class SelectionMenu : BaseManager
 {
     public static SelectionMenu Instance;
     public static bool isSelecting;
+    public Canvas canvas;
     public float itemGap = 30;
     public SelectionMenuItem selectionMenuItemPrefab;
     public Transform menuCanvas;
@@ -20,16 +21,24 @@ public class SelectionMenu : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+    public override void LoadManager()
+    {
         selectionItems = new List<SelectionMenuItem>();
+        canvas.worldCamera = Camera.main;
     }
 
-    public void Show(Vector2 position)
+    public void Show(InteractableObject interactableObject)
     {
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
         selectionItems.ForEach(x => x.human.characterColor.gameObject.SetActive(true));
-        menuCanvas.position = position;
-        var activeItems = selectionItems.Where(x => x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow);
+        menuCanvas.position = interactableObject.transform.position;
+        var activeItems = selectionItems
+            .Where(x => 
+            (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow)
+            && ((interactableObject.forCharacter && x.human.GetComponent<Character>())
+                || (interactableObject.forAgent && x.human.GetComponent<Agent>())));
 
         var currentItemAngel = (activeItems.Count() - 1) * itemGap / 2 * -1;
         foreach (var item in activeItems)
@@ -40,7 +49,16 @@ public class SelectionMenu : MonoBehaviour
             item.button.onClick.RemoveAllListeners();
             item.button.onClick.AddListener(() =>
             {
-                item.human.SetTarget(position);
+                var complexPositioning = interactableObject as IComplexPositioning;
+                if (complexPositioning != null)
+                {
+                    var position = complexPositioning.GetPositionForInteraction(item.human);
+                    item.human.SetTarget(position);
+                }
+                else
+                {
+                    item.human.SetTarget(interactableObject.transform.position);
+                }
                 Hide();
             });
             item.gameObject.SetActive(true);
