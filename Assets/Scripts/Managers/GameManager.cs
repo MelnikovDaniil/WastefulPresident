@@ -66,9 +66,9 @@ public class GameManager : BaseManager
         SceneManager.LoadScene(lvlName);
     }
 
-    public void ReloadLevel()
+    public static void ReloadLevel()
     {
-        StartCoroutine(ReloadLevelRoutine());
+        Instance.StartCoroutine(Instance.ReloadLevelRoutine());
     }
 
     private IEnumerator ReloadLevelRoutine()
