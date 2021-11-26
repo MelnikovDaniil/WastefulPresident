@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : BaseManager
 {
     public event Action OnReachesTargetEvnet;
 
@@ -28,9 +28,6 @@ public class CameraManager : MonoBehaviour
     [NonSerialized]
     public bool isMovingByTaps;
 
-    private const float StandartWidth = 1280f;
-    private const float StandartHight = 720f;
-
     private float secondsForMoving;
     private float toCameraSize;
     private float currentTime;
@@ -46,9 +43,6 @@ public class CameraManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        var standartAspectRatio = StandartHight / StandartWidth;
-        var currentAspectRation = (float)Screen.height / Screen.width;
-        camera.orthographicSize = camera.orthographicSize / standartAspectRatio * currentAspectRation;
         standartCameraSize = Mathf.Clamp(camera.orthographicSize, 0, cameraSizeLimit);
     }
 

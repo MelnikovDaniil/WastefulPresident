@@ -6,7 +6,6 @@ public class Turret : PowerConsumer
 {
     public LineRenderer lazerPrefab;
     public Vector3 laserStartPosition;
-    public float bulletsForce;
     public GameObject shootingParticles;
 
     private LineRenderer lazer;

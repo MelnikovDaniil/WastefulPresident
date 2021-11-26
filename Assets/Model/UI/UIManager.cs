@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : BaseManager
 {
     public static UIManager Instance;
     public Animator effectAnimator;
@@ -11,7 +11,22 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        // start of new code
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // end of new code
+
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public override void LoadManager()
+    {
+        base.LoadManager();
+        effectAnimator.SetTrigger("show");
     }
 
     private void Update()

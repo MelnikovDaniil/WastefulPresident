@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ComicsManager : MonoBehaviour
+public class ComicsManager : BaseManager
 {
     public List<Sprite> slides;
     public Image slide;

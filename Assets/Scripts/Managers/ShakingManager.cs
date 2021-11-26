@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class ShakingManager : MonoBehaviour
+public class ShakingManager : BaseManager
 {
     public static ShakingManager Instance;
 

@@ -10,7 +10,8 @@ public class Human : MonoBehaviour, IVisitor
     public float jumpForce;
 
     [Space]
-    public float targetStopDistance = 0.1f;
+    public float targetStopDistanceX = 0.1f;
+    public float targetStopDistanceY = 1f;
     public float checkGroundOffsetY = -1.8f;
     public float checkFroundRadius = 0.3f;
     public float interactRadius = 0.5f;

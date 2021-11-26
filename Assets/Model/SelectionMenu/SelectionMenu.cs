@@ -5,10 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SelectionMenu : MonoBehaviour
+public class SelectionMenu : BaseManager
 {
     public static SelectionMenu Instance;
     public static bool isSelecting;
+    public Canvas canvas;
     public float itemGap = 30;
     public SelectionMenuItem selectionMenuItemPrefab;
     public Transform menuCanvas;
@@ -20,7 +21,11 @@ public class SelectionMenu : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+    public override void LoadManager()
+    {
         selectionItems = new List<SelectionMenuItem>();
+        canvas.worldCamera = Camera.main;
     }
 
     public void Show(InteractableObject interactableObject)

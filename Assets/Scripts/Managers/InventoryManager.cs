@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : BaseManager
 {
     public static InventoryManager Instance;
     public event Action OnItemNotForund;
@@ -16,6 +16,11 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    public override void LoadManager()
+    {
+        base.LoadManager();
         inventoryItems = new List<InventoryItem>();
     }
 

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : BaseManager
 {
     public static DialogueManager Instance;
     public static bool isWorking;

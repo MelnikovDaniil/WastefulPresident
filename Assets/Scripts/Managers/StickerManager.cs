@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StickerManager : MonoBehaviour
+public class StickerManager : BaseManager
 {
     public static StickerManager Instance;
     public List<StickerView> stickers;
@@ -14,8 +14,9 @@ public class StickerManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public override void LoadManager()
     {
+        base.LoadManager();
         stickers = new List<StickerView>();
     }
 
