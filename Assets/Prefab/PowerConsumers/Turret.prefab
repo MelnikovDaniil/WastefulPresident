@@ -130,7 +130,6 @@ MonoBehaviour:
   isActive: 0
   lazerPrefab: {fileID: 359085596839086581, guid: 88160deb5f4da3f49b404dbbb05a2d33, type: 3}
   laserStartPosition: {x: 0.39, y: 2.55, z: 0}
-  bulletsForce: 0
   shootingParticles: {fileID: 3281226226221534411}
 --- !u!1 &3281226226221534411
 GameObject:
@@ -247,7 +246,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2

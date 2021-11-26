@@ -42,7 +42,7 @@ public class PressurePlate : InteractrablePowerProvider
         {
             yield return new WaitForSeconds(pressureCheckPeriod);
             var colliers = Physics2D.OverlapBoxAll(pressurePlacePosition + transform.position, pressureSize, 0);
-            var people = colliers.Where(x => x.GetComponent<Human>());
+            var people = colliers.Where(x => x.GetComponent<Human>() && x.GetComponent<Human>().humanState != HumanState.Dead);
             if (!isActive && people.Any())
             {
                 isActive = true;
