@@ -286,11 +286,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3.5
   jumpForce: 14
-  targetStopDistance: 0.1
-  checkGroundOffsetY: -0.96
+  targetStopDistanceX: 0.1
+  targetStopDistanceY: 1.5
+  checkGroundOffsetY: -1
   checkFroundRadius: 0.4
   interactRadius: 0.75
-  checkWallOffset: {x: 0.84, y: 0.5}
+  checkWallOffset: {x: 0.85, y: 0.5}
   characterColor: {fileID: 8178119761976904209}
   presidentStopDistance: 0.1
 --- !u!50 &1301001192553050919
