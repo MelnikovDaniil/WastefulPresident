@@ -13,8 +13,11 @@ public class ControllerManager : BaseManager
     public float followPeriod = 0.5f;
     public float securityDistacnceGap = 1;
 
+    public Color startColor;
+
     private float presidentDistance;
     private bool validInput;
+    private Color currentHumanColor;
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class ControllerManager : BaseManager
     }
     public override void LoadManager()
     {
+        currentHumanColor = startColor;
         base.LoadManager();
         presidentDistance = 2f;
         agents = new List<Agent>();
@@ -59,10 +63,12 @@ public class ControllerManager : BaseManager
         this.agents.AddRange(newSecurities);
         foreach (var agent in agents)
         {
+            Color.RGBToHSV(currentHumanColor, out var H, out var S, out var V);
+            currentHumanColor = Color.HSVToRGB((H + 30f / 360.0f) % 1, S, V);
+
             agent.humanState = HumanState.Follow;
 
-            var color = Random.ColorHSV();
-            agent.characterColor.color = color;
+            agent.characterColor.color = currentHumanColor;
             agent.presidentStopDistance = presidentDistance;
             presidentDistance += securityDistacnceGap;
             SelectionMenu.Instance.AddItem(agent);

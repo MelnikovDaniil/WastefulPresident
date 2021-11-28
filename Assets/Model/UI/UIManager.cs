@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : BaseManager
 {
     public static UIManager Instance;
     public Animator effectAnimator;
     public GameObject pausePanel;
-    public bool isPaused; 
+    public bool isPaused;
+    public Text lvlText;
 
     private void Awake()
     {
@@ -26,6 +29,7 @@ public class UIManager : BaseManager
     public override void LoadManager()
     {
         base.LoadManager();
+        lvlText.text = SceneManager.GetActiveScene().name.ToUpper();
         effectAnimator.SetTrigger("show");
     }
 

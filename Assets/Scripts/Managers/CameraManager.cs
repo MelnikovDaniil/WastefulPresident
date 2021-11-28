@@ -8,11 +8,12 @@ public class CameraManager : BaseManager
     public static CameraManager Instance;
     GameObject _target;
     public Camera camera;
-    public float cameraSizeLimit = 11f;
+    public float minSize = 5f;
     public Vector2 clampPoint1;
     public Vector2 clampPoint2;
     public float startCameraMove = 2f;
     public float maxCameraDistance = 5f;
+    public float zoomingSensitive = 0.01f;
 
     [Space]
     public Vector2 characterCameraShift = new Vector2(0, 2);
@@ -27,6 +28,8 @@ public class CameraManager : BaseManager
 
     [NonSerialized]
     public bool isMovingByTaps;
+
+    private float maxSize;
 
     private float secondsForMoving;
     private float toCameraSize;
@@ -43,7 +46,9 @@ public class CameraManager : BaseManager
     private void Awake()
     {
         Instance = this;
-        standartCameraSize = Mathf.Clamp(camera.orthographicSize, 0, cameraSizeLimit);
+        var maxSizeByX = (clampPoint2.x - clampPoint1.x) / 2f / camera.aspect;
+        var maxSizeByY = (clampPoint2.y - clampPoint1.y) / 2f;
+        maxSize = Mathf.Min(maxSizeByX, maxSizeByY);
     }
 
     // Update is called once per frame
@@ -100,11 +105,29 @@ public class CameraManager : BaseManager
                 }
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.touchCount == 2)
+            {
+                isMovingByTaps = true;
+                var firstTouch = Input.GetTouch(0);
+                var secondTouch = Input.GetTouch(1);
+
+                var firstPreviousPosition = firstTouch.position - firstTouch.deltaPosition;
+                var secondPreviousPosition = secondTouch.position - secondTouch.deltaPosition;
+
+                var previousMagnitude = (firstPreviousPosition - secondPreviousPosition).magnitude;
+                var currentMagnitude = (firstTouch.position - secondTouch.position).magnitude;
+
+                var difference = currentMagnitude - previousMagnitude;
+
+                Zoom(difference * zoomingSensitive);
+            }
+
+            if (Input.GetMouseButtonUp(0) && Input.touchCount <= 1)
             {
                 isMovingByTaps = false;
             }
         }
+        Zoom(Input.GetAxis("Mouse ScrollWheel"));
         ClampCamera();
     }
 
@@ -128,6 +151,14 @@ public class CameraManager : BaseManager
         this.cameraShift = cameraShift;
         toCameraSize = size;
         currentTime = 0;
+    }
+
+    private void Zoom(float increment)
+    {
+        if (increment != 0)
+        {
+            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize - increment, minSize, maxSize);
+        }
     }
 
     private void ClampCamera()

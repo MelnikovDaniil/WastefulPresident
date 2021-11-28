@@ -47,11 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionTime: 0
+  forCharacter: 1
+  forAgent: 1
   isActive: 0
   wires: []
   wireColor: {r: 0.34117648, g: 0.34901962, b: 0.6431373, a: 1}
   pressurePlacePosition: {x: 0, y: 0.4, z: 0}
-  pressureSize: {x: 1.22, y: 0.2}
+  pressureSize: {x: 0.7, y: 0.2}
   sprteRenderer: {fileID: 5842089204502253507}
   pressedSprite: {fileID: 3155088654588756143, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
   releasedSprite: {fileID: 8944011322215776670, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
@@ -178,7 +180,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 8944011322215776670, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

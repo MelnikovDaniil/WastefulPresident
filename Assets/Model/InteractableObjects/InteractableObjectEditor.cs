@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(InteractableObject), true)]
 public class InteractableObjectEditor : Editor
 {
@@ -21,3 +22,4 @@ public class InteractableObjectEditor : Editor
         }
     }
 }
+#endif

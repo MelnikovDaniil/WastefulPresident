@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class InteractrablePowerProvider : InteractableObject
@@ -31,7 +26,7 @@ public abstract class InteractrablePowerProvider : InteractableObject
 
     public void CreateWires()
     {
-        var wirePrefab = AssetDatabase.LoadAssetAtPath<LineRenderer>("Assets/Prefab/InteractableObjects/PowerProvider/wire.prefab");
+        var wirePrefab = Resources.Load<LineRenderer>("wire");
         foreach (var wire in wires)
         {
             var spawnedWire = Instantiate(wirePrefab, transform);
