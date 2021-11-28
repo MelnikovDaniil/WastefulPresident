@@ -11,6 +11,7 @@ public class GameManager : BaseManager
     public Character character;
     public float reloadDelay = 5;
 
+    private bool isBusy;
     private void Awake()
     {
         // start of new code
@@ -46,6 +47,7 @@ public class GameManager : BaseManager
             character.OnDeath += ReloadLevel;
         }
         SoundManager.PlayMusic("Soundtrack");
+        isBusy = false;
     }
 
     public static void Load(string lvlName)
@@ -68,12 +70,17 @@ public class GameManager : BaseManager
 
     public static void ReloadLevel()
     {
-        Instance.StartCoroutine(Instance.ReloadLevelRoutine());
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            SelectionMenu.Instance.Hide();
+            Instance.StartCoroutine(Instance.ReloadLevelRoutine(0));
+        }
     }
 
-    private IEnumerator ReloadLevelRoutine()
+    private IEnumerator ReloadLevelRoutine(float delay = 1f)
     {
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(delay);
         UIManager.Instance.Hide();
         yield return new WaitForSecondsRealtime(reloadDelay - 1);
         var scene = SceneManager.GetActiveScene();

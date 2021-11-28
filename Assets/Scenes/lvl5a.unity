@@ -3145,8 +3145,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8481729406785200814, guid: c24d1abfacce54542a181eaded9f1f5a, type: 3}
+      propertyPath: clampPoint1.y
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481729406785200814, guid: c24d1abfacce54542a181eaded9f1f5a, type: 3}
       propertyPath: clampPoint2.x
       value: 32.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 8481729406785200814, guid: c24d1abfacce54542a181eaded9f1f5a, type: 3}
+      propertyPath: clampPoint2.y
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8481729406785200815, guid: c24d1abfacce54542a181eaded9f1f5a, type: 3}
       propertyPath: m_RootOrder
@@ -8737,15 +8745,19 @@ PrefabInstance:
       objectReference: {fileID: 1688843008}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.size
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
+      propertyPath: wires.Array.data[0].points.Array.data[0].x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[0].y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[1].x
-      value: 8.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[1].y
@@ -8757,11 +8769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[2].y
-      value: 7.3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[3].x
-      value: 12
+      value: 8.3
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[3].y
@@ -8773,6 +8785,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[4].y
+      value: 7.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
+      propertyPath: wires.Array.data[0].points.Array.data[5].x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842089203385580718, guid: 7e40f3243450ade4c9114a1c549a0ac5, type: 3}
+      propertyPath: wires.Array.data[0].points.Array.data[5].y
       value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
