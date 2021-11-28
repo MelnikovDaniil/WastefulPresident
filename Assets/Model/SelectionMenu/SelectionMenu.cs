@@ -17,11 +17,19 @@ public class SelectionMenu : BaseManager
     [NonSerialized]
     public List<SelectionMenuItem> selectionItems;
 
+    private Vector3 startLoacalScale;
 
     private void Awake()
     {
         Instance = this;
+        startLoacalScale = menuCanvas.localScale;
     }
+
+    private void Update()
+    {
+        menuCanvas.localScale = startLoacalScale * Camera.main.orthographicSize / 9f;
+    }
+
     public override void LoadManager()
     {
         selectionItems = new List<SelectionMenuItem>();
