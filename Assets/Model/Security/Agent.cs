@@ -51,7 +51,7 @@ public class Agent : Human
             }
 
 
-            if (_rigidbody.velocity.y < -0.1)
+            if (_rigidbody.velocity.y < -5f)
             {
                 _animator.SetBool("fall", true);
             }
