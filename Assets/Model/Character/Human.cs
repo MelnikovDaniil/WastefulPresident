@@ -26,6 +26,8 @@ public class Human : MonoBehaviour, IVisitor
 
     [NonSerialized]
     public HumanState humanState;
+    [NonSerialized]
+    public Sprite icon;
 
     protected Rigidbody2D _rigidbody;
     protected Animator _animator;
@@ -40,7 +42,7 @@ public class Human : MonoBehaviour, IVisitor
     protected bool inFrontOfWall;
     protected bool jumpDelay;
 
-    private void Awake()
+    protected void Awake()
     {
         characterColor.gameObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();

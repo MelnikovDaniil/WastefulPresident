@@ -7,8 +7,10 @@ using UnityEngine.EventSystems;
 public class ControllerManager : BaseManager
 {
     public static ControllerManager Instance;
+    public List<AgentSkin> skins;
     public List<Agent> agents;
     public Character character;
+    public Sprite characterIcon;
 
     public float followPeriod = 0.5f;
     public float securityDistacnceGap = 1;
@@ -40,6 +42,7 @@ public class ControllerManager : BaseManager
         agents = new List<Agent>();
 
         character = FindObjectOfType<Character>();
+        character.icon = characterIcon;
         SelectionMenu.Instance.AddItem(character);
         AddAgents(FindObjectsOfType<Agent>().ToList());
 
@@ -71,6 +74,10 @@ public class ControllerManager : BaseManager
             agent.characterColor.color = currentHumanColor;
             agent.presidentStopDistance = presidentDistance;
             presidentDistance += securityDistacnceGap;
+
+            var skin = skins.GetRandom();
+            agent.spriteRenderer.sprite = skin.skin;
+            agent.icon = skin.icon;
             SelectionMenu.Instance.AddItem(agent);
         }
     }
