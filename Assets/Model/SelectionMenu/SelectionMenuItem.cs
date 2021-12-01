@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SelectionMenuItem : MonoBehaviour
 {
     public Image colorIcon;
+    public Image faceIcon;
     public Animator animator;
     public Button button;
     [NonSerialized]

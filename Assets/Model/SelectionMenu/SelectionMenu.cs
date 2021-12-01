@@ -52,6 +52,7 @@ public class SelectionMenu : BaseManager
         foreach (var item in activeItems)
         {
             item.transform.localEulerAngles = new Vector3(0, 0, currentItemAngel);
+            item.faceIcon.transform.rotation = Quaternion.identity;
             currentItemAngel += itemGap;
 
             item.button.onClick.RemoveAllListeners();
@@ -86,6 +87,7 @@ public class SelectionMenu : BaseManager
     public void AddItem(Human human)
     {
         var selectionItem = Instantiate(selectionMenuItemPrefab, menuCanvas);
+        selectionItem.faceIcon.sprite = human.icon;
         selectionItem.colorIcon.color = human.characterColor.color;
         selectionItem.human = human;
         selectionItem.gameObject.SetActive(false);

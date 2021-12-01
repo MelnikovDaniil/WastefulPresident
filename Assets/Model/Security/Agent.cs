@@ -8,6 +8,15 @@ public class Agent : Human
 {
     public float presidentStopDistance = 0.1f;
 
+    [NonSerialized]
+    public SpriteRenderer spriteRenderer;
+
+    public new void Awake()
+    {
+        base.Awake();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void FixedUpdate()
     {
         if (humanState != HumanState.Dead)
