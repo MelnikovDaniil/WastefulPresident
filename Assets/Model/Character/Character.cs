@@ -77,8 +77,8 @@ public class Character : Human, ICharacterVisitor
                     _animator.SetBool("walk", false);
 
                 }
-
                 CheckWall();
+                CheckPositionChanges();
             }
 
 
