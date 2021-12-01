@@ -18,6 +18,10 @@ public class Human : MonoBehaviour, IVisitor
     public Vector2 checkWallOffset = new Vector2(1.2f, 0.5f);
 
     [Space]
+    public float samePositionTime = 0.1f;
+    public float samePositionDistance = 0.05f;
+
+    [Space]
     public SpriteRenderer characterColor;
 
     [NonSerialized]
@@ -27,6 +31,9 @@ public class Human : MonoBehaviour, IVisitor
     protected Animator _animator;
 
     protected Vector2? target;
+
+    protected float currentPositionTime;
+    protected float previosPositionX;
 
     protected bool isGrounded;
 
@@ -123,6 +130,32 @@ public class Human : MonoBehaviour, IVisitor
         {
             humanState = HumanState.MovingToInteract;
             this.target = target;
+        }
+    }
+
+    protected void CheckPositionChanges()
+    {
+        if (isGrounded)
+        {
+            if (transform.position.x >= previosPositionX + samePositionDistance
+                || transform.position.x <= previosPositionX - samePositionDistance)
+            {
+                previosPositionX = transform.position.x;
+                currentPositionTime = 0;
+            }
+            else
+            {
+                currentPositionTime += Time.fixedDeltaTime;
+                if (currentPositionTime >= samePositionTime)
+                {
+                    humanState = HumanState.Waiting;
+                    target = null;
+                    _rigidbody.velocity = Vector2.zero;
+                    _animator.SetBool("run", false);
+                    _animator.SetBool("walk", false);
+                    currentPositionTime = 0;
+                }
+            }
         }
     }
 
