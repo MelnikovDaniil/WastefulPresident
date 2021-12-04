@@ -45,15 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 8481729408203996345}
-  cameraSizeLimit: 11
-  clampPoint1: {x: -9.42, y: -10.2}
-  clampPoint2: {x: 17.1, y: 8.2}
+  clampPoint1: {x: -21, y: -22}
+  clampPoint2: {x: 21, y: 22}
+  minSize: {x: 18, y: 32}
   startCameraMove: 0
   maxCameraDistance: 7
+  zoomingSensitive: 0.01
   characterCameraShift: {x: 0, y: 2}
   characterCameraSize: 3.5
   isFollowMouse: 0
-  canMovingByTaps: 1
+  isZooming: 0
+  canMovingByTaps: 0
   startMovingDistance: 0.5
 --- !u!1 &8481729408203996344
 GameObject:

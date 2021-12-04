@@ -27,6 +27,7 @@ public class Timer : InteractrablePowerProvider
         {
             GetComponent<BoxCollider2D>().enabled = false;
             base.StartInteraction(visitor);
+            visitor.VisitTimer(1 / interactionTime);
             _animator.SetBool("charging", true);
             isBusy = true;
         }
@@ -35,6 +36,7 @@ public class Timer : InteractrablePowerProvider
     public override void SuccessInteraction(IVisitor visitor)
     {
         base.SuccessInteraction(visitor);
+        visitor.FinishVisitTimer();
         StartCoroutine(ResetRoutine());
     }
 

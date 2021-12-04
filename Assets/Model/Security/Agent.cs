@@ -8,7 +8,6 @@ public class Agent : Human
 {
     public float presidentStopDistance = 0.1f;
 
-    [NonSerialized]
     public SpriteRenderer spriteRenderer;
 
     public new void Awake()
@@ -76,6 +75,7 @@ public class Agent : Human
 
     public void FollowPresedent(Vector2 target)
     {
+        currentPositionTime = 0;
         this.target = target;
     }
 }

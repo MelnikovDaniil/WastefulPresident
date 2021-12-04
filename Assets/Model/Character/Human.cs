@@ -62,7 +62,7 @@ public class Human : MonoBehaviour, IVisitor
         }
     }
 
-    private IEnumerator JumpDelayRoutine()
+    protected IEnumerator JumpDelayRoutine()
     {
         yield return new WaitForSeconds(0.5f);
         jumpDelay = false;
@@ -130,6 +130,7 @@ public class Human : MonoBehaviour, IVisitor
     {
         if (humanState != HumanState.Dead)
         {
+            currentPositionTime = 0;
             humanState = HumanState.MovingToInteract;
             this.target = target;
         }
@@ -166,9 +167,17 @@ public class Human : MonoBehaviour, IVisitor
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius)
             .Where(x => x.gameObject.layer == 6 || x.gameObject.layer == 7);
+        var anyCollider = colliders.Any();
+        if (isGrounded != anyCollider)
+        {
+            isGrounded = anyCollider;
 
-        isGrounded = colliders.Any();
-        _animator.SetBool("grounded", isGrounded);
+            if (isGrounded)
+            {
+                _rigidbody.velocity = Vector2.zero;
+            }
+            _animator.SetBool("grounded", isGrounded);
+        }
     }
 
     protected void CheckWall()
@@ -229,5 +238,16 @@ public class Human : MonoBehaviour, IVisitor
         GetComponent<SpriteRenderer>().sortingOrder -= 10;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void VisitTimer(float animationSpeed)
+    {
+        _animator.SetTrigger("timerOn");
+        _animator.SetFloat("timerSpeed", animationSpeed);
+    }
+
+    public void FinishVisitTimer()
+    {
+        _animator.SetTrigger("timerOff");
     }
 }

@@ -96,6 +96,7 @@ public class Character : Human, ICharacterVisitor
 
     public void WalkTo(Vector2 position)
     {
+        currentPositionTime = 0;
         humanState = HumanState.Walking;
         this.target = position;
     }

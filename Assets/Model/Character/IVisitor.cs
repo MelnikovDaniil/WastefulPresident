@@ -8,5 +8,8 @@
     void VisitPit();
     void FinishVisitPit();
 
+    void VisitTimer(float timeSpeed);
+    void FinishVisitTimer();
+
     void FinishVisiting();
 }
