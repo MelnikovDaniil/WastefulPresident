@@ -8,9 +8,10 @@ public class CameraManager : BaseManager
     public static CameraManager Instance;
     GameObject _target;
     public Camera camera;
-    public float minSize = 5f;
     public Vector2 clampPoint1;
     public Vector2 clampPoint2;
+    public Vector2 minSize = new Vector2(18, 32);
+
     public float startCameraMove = 2f;
     public float maxCameraDistance = 5f;
     public float zoomingSensitive = 0.01f;
@@ -21,6 +22,7 @@ public class CameraManager : BaseManager
 
     [Space]
     public bool isFollowMouse = true;
+    public bool isZooming = false;
 
     [Space]
     public bool canMovingByTaps = true;
@@ -49,6 +51,7 @@ public class CameraManager : BaseManager
         var maxSizeByX = (clampPoint2.x - clampPoint1.x) / 2f / camera.aspect;
         var maxSizeByY = (clampPoint2.y - clampPoint1.y) / 2f;
         maxSize = Mathf.Min(maxSizeByX, maxSizeByY);
+        camera.orthographicSize = Mathf.Max(minSize.x / camera.aspect, minSize.y) / 2f;
     }
 
     // Update is called once per frame
@@ -155,9 +158,10 @@ public class CameraManager : BaseManager
 
     private void Zoom(float increment)
     {
-        if (increment != 0)
+        if (isZooming && increment != 0)
         {
-            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize - increment, minSize, maxSize);
+            var minOrthographicSize = Mathf.Max(minSize.x / 2f * camera.aspect, minSize.y / 2f);
+            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize - increment, minOrthographicSize, maxSize);
         }
     }
 
@@ -181,5 +185,8 @@ public class CameraManager : BaseManager
 
 
         Gizmos.DrawWireCube(Vector2.Lerp(clampPoint1, clampPoint2, 0.5f), cameraSize);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(Vector3.zero, minSize);
     }
 }
