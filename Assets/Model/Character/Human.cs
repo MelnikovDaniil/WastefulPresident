@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Human : MonoBehaviour, IVisitor
+public abstract class Human : MonoBehaviour, IVisitor
 {
     public event Action OnDeath;
     public float speed;
@@ -61,6 +61,12 @@ public class Human : MonoBehaviour, IVisitor
             StartCoroutine(JumpDelayRoutine());
         }
     }
+
+    public abstract void SetColor(Color color);
+
+    public abstract void ShowColor();
+
+    public abstract void HideColor();
 
     protected IEnumerator JumpDelayRoutine()
     {
