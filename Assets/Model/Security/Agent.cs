@@ -9,6 +9,7 @@ public class Agent : Human
     public float presidentStopDistance = 0.1f;
 
     public SpriteRenderer spriteRenderer;
+    public SpriteRenderer skinRenderer;
 
     public new void Awake()
     {
@@ -72,6 +73,21 @@ public class Agent : Human
         }
     }
 
+    public override void SetColor(Color color)
+    {
+        spriteRenderer.material.SetColor("_Color", color);
+        spriteRenderer.material.SetFloat("_Thickness", 0f);
+    }
+
+    public override void ShowColor()
+    {
+        spriteRenderer.material.SetFloat("_Thickness", 1.5f);
+    }
+
+    public override void HideColor()
+    {
+        spriteRenderer.material.SetFloat("_Thickness", 0f);
+    }
 
     public void FollowPresedent(Vector2 target)
     {

@@ -23,7 +23,8 @@ public class Turret : PowerConsumer
     {
         if (isActive)
         {
-            var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x));
+            var mask = LayerMask.GetMask("Ground", "Door", "Characters");
+            var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x), 200, mask);
             lazer.SetPosition(0, lazerPlace.position);
             lazer.SetPosition(1, rayCastHit.point);
             if (!isShooting && rayCastHit.collider.gameObject.layer == 3)

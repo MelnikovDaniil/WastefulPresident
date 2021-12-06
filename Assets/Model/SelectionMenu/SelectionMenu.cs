@@ -40,7 +40,7 @@ public class SelectionMenu : BaseManager
     {
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
-        selectionItems.ForEach(x => x.human.characterColor.gameObject.SetActive(true));
+        selectionItems.ForEach(x => x.human.ShowColor());
         menuCanvas.position = interactableObject.transform.position;
         var activeItems = selectionItems
             .Where(x => 
@@ -80,7 +80,7 @@ public class SelectionMenu : BaseManager
         foreach (var item in selectionItems)
         {
             item.gameObject.SetActive(false);
-            item.human.characterColor.gameObject.SetActive(false);
+            item.human.HideColor();
         }
     }
 
