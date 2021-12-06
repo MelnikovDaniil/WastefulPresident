@@ -91,20 +91,27 @@ public class ControllerManager : BaseManager
             .ToList();
 
         var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>())?.GetComponent<InteractableObject>();
+        var guideStep = hitObjects.FirstOrDefault(x => x.GetComponent<GuideStep>())?.GetComponent<GuideStep>();
 
-        if (interactableObject != null)
+
+
+        if (!GuideManager.waitingStep || guideStep != null)
         {
-            SelectionMenu.Instance.Show(interactableObject);
-        }
-        else if (SelectionMenu.isSelecting)
-        {
-            SelectionMenu.Instance.Hide();
-        }
-        else if (character.humanState == HumanState.Waiting 
-            || character.humanState == HumanState.MovingToInteract
-            || character.humanState == HumanState.Walking)
-        {
-            character.WalkTo(position);
+            guideStep?.Interact();
+            if (interactableObject != null)
+            {
+                SelectionMenu.Instance.Show(interactableObject);
+            }
+            else if (SelectionMenu.isSelecting)
+            {
+                SelectionMenu.Instance.Hide();
+            }
+            else if (character.humanState == HumanState.Waiting
+                || character.humanState == HumanState.MovingToInteract
+                || character.humanState == HumanState.Walking)
+            {
+                character.WalkTo(position);
+            }
         }
     }
 

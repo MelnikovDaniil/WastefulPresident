@@ -74,11 +74,22 @@ public class SelectionMenu : BaseManager
         }
     }
 
+    public void SetUpNextCharacter(Human humanToInteract)
+    {
+        selectionItems.Where(x => x.human != humanToInteract).ToList()
+            .ForEach(x => {
+                x.button.interactable = false;
+                x.faceIcon.color = x.button.colors.disabledColor;
+            });
+    }
+
     public void Hide()
     {
         isSelecting = false;
         foreach (var item in selectionItems)
         {
+            item.faceIcon.color = Color.white;
+            item.button.interactable = true;
             item.gameObject.SetActive(false);
             item.human.characterColor.gameObject.SetActive(false);
         }
