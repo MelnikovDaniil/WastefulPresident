@@ -80,6 +80,7 @@ public class ControllerManager : BaseManager
 
             var skin = skins.GetRandom();
             agent.spriteRenderer.sprite = skin.skin;
+            agent.skinRenderer.sprite = skin.skin;
             agent.icon = skin.icon;
             SelectionMenu.Instance.AddItem(agent);
         }

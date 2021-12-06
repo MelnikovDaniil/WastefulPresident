@@ -9,6 +9,7 @@ public class Agent : Human
     public float presidentStopDistance = 0.1f;
 
     public SpriteRenderer spriteRenderer;
+    public SpriteRenderer skinRenderer;
 
     public new void Awake()
     {
