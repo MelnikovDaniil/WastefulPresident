@@ -27,6 +27,7 @@ public class SelectionMenu : BaseManager
     {
         Instance = this;
         startLoacalScale = menuCanvas.localScale;
+        selectionItems = new List<SelectionMenuItem>();
     }
 
     private void Update()
@@ -36,6 +37,7 @@ public class SelectionMenu : BaseManager
 
     public override void LoadManager()
     {
+        Clear();
         selectionItems = new List<SelectionMenuItem>();
         canvas.worldCamera = Camera.main;
     }
@@ -97,6 +99,14 @@ public class SelectionMenu : BaseManager
             item.button.interactable = true;
             item.gameObject.SetActive(false);
             item.human.HideColor();
+        }
+    }
+
+    private void Clear()
+    {
+        foreach (var item in selectionItems)
+        {
+            Destroy(item.gameObject);
         }
     }
 
