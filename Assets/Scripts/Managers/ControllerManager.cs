@@ -43,6 +43,8 @@ public class ControllerManager : BaseManager
 
         character = FindObjectOfType<Character>();
         character.icon = characterIcon;
+        character.characterColor.color = startColor;
+        character.SetColor(startColor);
         SelectionMenu.Instance.AddItem(character);
         AddAgents(FindObjectsOfType<Agent>().ToList());
 
@@ -67,16 +69,18 @@ public class ControllerManager : BaseManager
         foreach (var agent in agents)
         {
             Color.RGBToHSV(currentHumanColor, out var H, out var S, out var V);
-            currentHumanColor = Color.HSVToRGB((H + 30f / 360.0f) % 1, S, V);
+            currentHumanColor = Color.HSVToRGB((H + SelectionMenu.Instance.itemGap / 360.0f) % 1, S, V);
 
             agent.humanState = HumanState.Follow;
 
+            agent.SetColor(currentHumanColor);
             agent.characterColor.color = currentHumanColor;
             agent.presidentStopDistance = presidentDistance;
             presidentDistance += securityDistacnceGap;
 
             var skin = skins.GetRandom();
             agent.spriteRenderer.sprite = skin.skin;
+            agent.skinRenderer.sprite = skin.skin;
             agent.icon = skin.icon;
             SelectionMenu.Instance.AddItem(agent);
         }

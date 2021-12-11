@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class SelectionMenu : BaseManager
 {
     public static SelectionMenu Instance;
     public static bool isSelecting;
+
+    public UnityEvent OnSelection;
+
     public Canvas canvas;
     public float itemGap = 30;
     public SelectionMenuItem selectionMenuItemPrefab;
@@ -40,7 +44,7 @@ public class SelectionMenu : BaseManager
     {
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
-        selectionItems.ForEach(x => x.human.characterColor.gameObject.SetActive(true));
+        selectionItems.ForEach(x => x.human.ShowColor());
         menuCanvas.position = interactableObject.transform.position;
         var activeItems = selectionItems
             .Where(x => 
@@ -58,6 +62,7 @@ public class SelectionMenu : BaseManager
             item.button.onClick.RemoveAllListeners();
             item.button.onClick.AddListener(() =>
             {
+                OnSelection?.Invoke();
                 var complexPositioning = interactableObject as IComplexPositioning;
                 if (complexPositioning != null)
                 {
@@ -91,7 +96,7 @@ public class SelectionMenu : BaseManager
             item.faceIcon.color = Color.white;
             item.button.interactable = true;
             item.gameObject.SetActive(false);
-            item.human.characterColor.gameObject.SetActive(false);
+            item.human.HideColor();
         }
     }
 

@@ -290,7 +290,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 40
+  m_SortingOrder: 200
   m_TargetDisplay: 0
 --- !u!114 &833401388733385220
 MonoBehaviour:
@@ -774,6 +774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e75aeda8afc484cb5dad53355a8474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSelection:
+    m_PersistentCalls:
+      m_Calls: []
   canvas: {fileID: 5422878899177410955}
   itemGap: 60
   selectionMenuItemPrefab: {fileID: 4039681673200845829, guid: 06243504792224541aa39f2e8669ffd0, type: 3}

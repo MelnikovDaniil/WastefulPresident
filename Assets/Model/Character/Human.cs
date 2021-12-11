@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Human : MonoBehaviour, IVisitor
+public abstract class Human : MonoBehaviour, IVisitor
 {
     public event Action OnDeath;
     public float speed;
@@ -23,6 +23,7 @@ public class Human : MonoBehaviour, IVisitor
 
     [Space]
     public SpriteRenderer characterColor;
+    public GameObject quesinMark;
 
     [NonSerialized]
     public HumanState humanState;
@@ -52,15 +53,21 @@ public class Human : MonoBehaviour, IVisitor
 
     private void Update()
     {
-        if (humanState != HumanState.Dead && !jumpDelay && inFrontOfWall && isGrounded)
-        {
-            isGrounded = false;
-            jumpDelay = true;
-            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            _animator.SetTrigger("jump");
-            StartCoroutine(JumpDelayRoutine());
-        }
+        //if (humanState != HumanState.Dead && !jumpDelay && inFrontOfWall && isGrounded)
+        //{
+        //    isGrounded = false;
+        //    jumpDelay = true;
+        //    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //    _animator.SetTrigger("jump");
+        //    StartCoroutine(JumpDelayRoutine());
+        //}
     }
+
+    public abstract void SetColor(Color color);
+
+    public abstract void ShowColor();
+
+    public abstract void HideColor();
 
     protected IEnumerator JumpDelayRoutine()
     {
@@ -151,6 +158,7 @@ public class Human : MonoBehaviour, IVisitor
                 currentPositionTime += Time.fixedDeltaTime;
                 if (currentPositionTime >= samePositionTime)
                 {
+                    StartCoroutine(QuestionMarkRoutine());
                     humanState = HumanState.Waiting;
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
@@ -188,6 +196,13 @@ public class Human : MonoBehaviour, IVisitor
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
 
         inFrontOfWall = colliders.Any();
+    }
+
+    protected IEnumerator QuestionMarkRoutine()
+    {
+        quesinMark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        quesinMark.SetActive(false);
     }
 
     private void OnDrawGizmos()

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,31 +11,45 @@ public class GuideManager : BaseManager
     public Transform clickHandPrefab;
 
     private Transform clickHand;
+    private Queue<GuideStep> stepQueue;
 
     public void Awake()
     {
         Instance = this;
+        stepQueue = new Queue<GuideStep>();
     }
 
     private void Start()
     {
+        stepQueue = new Queue<GuideStep>(steps);
         clickHand = Instantiate(clickHandPrefab, transform);
         clickHand.gameObject.SetActive(false);
         if (steps.Any())
         {
-            ShowStep(0);
+            NextStep(0);
         }
     }
 
-    public void ShowStep(int stepNumber)
+    public void NextStep(float delay)
     {
-        waitingStep = true;
-        var step = steps[stepNumber];
-        if (step != null)
+        StartCoroutine(NextStepRoutine(delay));
+    }
+
+    private IEnumerator NextStepRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (stepQueue.Any())
         {
+            waitingStep = true;
+            var step = stepQueue.Dequeue();
             step.gameObject.SetActive(true);
             clickHand.position = step.transform.position;
             clickHand.gameObject.SetActive(true);
+        }
+        else
+        {
+            waitingStep = false;
+            HideHand();
         }
     }
 
@@ -43,13 +58,13 @@ public class GuideManager : BaseManager
         clickHand.gameObject.SetActive(false);
     }
 
-    public void StopGuide()
-    {
-        waitingStep = false;
-    }
-
     public void Select(Human human)
     {
         SelectionMenu.Instance.SetUpNextCharacter(human);
+        SelectionMenu.Instance.OnSelection.AddListener(
+            () => {
+                NextStep(1);
+                SelectionMenu.Instance.OnSelection.RemoveAllListeners();
+            });
     }
 }

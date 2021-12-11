@@ -10,6 +10,7 @@ public class Character : Human, ICharacterVisitor
     public bool isLocked;
     [Space]
     public Vector2 cameraOffset = Vector2.up;
+    public Material colorMaterial;
 
     private float horizontalMove = 0;
 
@@ -93,6 +94,23 @@ public class Character : Human, ICharacterVisitor
             CheckGround();
         }
     }
+
+    public override void SetColor(Color color)
+    {
+        colorMaterial.SetColor("_Color", color);
+        colorMaterial.SetFloat("_Thickness", 0f);
+    }
+
+    public override void ShowColor()
+    {
+        colorMaterial.SetFloat("_Thickness", 1.5f);
+    }
+
+    public override void HideColor()
+    {
+        colorMaterial.SetFloat("_Thickness", 0f);
+    }
+
 
     public void WalkTo(Vector2 position)
     {
