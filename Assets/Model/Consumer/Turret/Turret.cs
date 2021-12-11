@@ -6,7 +6,7 @@ public class Turret : PowerConsumer
 {
     public LineRenderer lazerPrefab;
     public Transform lazerPlace;
-    public GameObject shootingParticles;
+    public ParticleSystem shootingParticles;
     public Animator animator;
 
     private LineRenderer lazer;
@@ -31,13 +31,13 @@ public class Turret : PowerConsumer
             {
                 isShooting = true;
                 animator.SetBool("isShooting", true);
-                shootingParticles.SetActive(true);
+                shootingParticles.Play();
             }
             else if (isShooting && rayCastHit.collider.gameObject.layer != 3)
             {
                 animator.SetBool("isShooting", false);
                 isShooting = false;
-                shootingParticles.SetActive(false);
+                shootingParticles.Stop();
             }
         }
     }
@@ -49,8 +49,8 @@ public class Turret : PowerConsumer
 
     public void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x));
+        var mask = LayerMask.GetMask("Ground", "Door", "Characters");
+        var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x), 200, mask);
         Gizmos.DrawLine(lazerPlace.position, rayCastHit.point);
     }
 }

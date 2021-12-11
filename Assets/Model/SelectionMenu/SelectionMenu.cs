@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class SelectionMenu : BaseManager
 {
     public static SelectionMenu Instance;
     public static bool isSelecting;
+
+    public UnityEvent OnSelection;
+
     public Canvas canvas;
     public float itemGap = 30;
     public SelectionMenuItem selectionMenuItemPrefab;
@@ -58,6 +62,7 @@ public class SelectionMenu : BaseManager
             item.button.onClick.RemoveAllListeners();
             item.button.onClick.AddListener(() =>
             {
+                OnSelection?.Invoke();
                 var complexPositioning = interactableObject as IComplexPositioning;
                 if (complexPositioning != null)
                 {
@@ -74,11 +79,22 @@ public class SelectionMenu : BaseManager
         }
     }
 
+    public void SetUpNextCharacter(Human humanToInteract)
+    {
+        selectionItems.Where(x => x.human != humanToInteract).ToList()
+            .ForEach(x => {
+                x.button.interactable = false;
+                x.faceIcon.color = x.button.colors.disabledColor;
+            });
+    }
+
     public void Hide()
     {
         isSelecting = false;
         foreach (var item in selectionItems)
         {
+            item.faceIcon.color = Color.white;
+            item.button.interactable = true;
             item.gameObject.SetActive(false);
             item.human.HideColor();
         }
