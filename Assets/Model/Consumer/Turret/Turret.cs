@@ -40,6 +40,12 @@ public class Turret : PowerConsumer
                 shootingParticles.Stop();
             }
         }
+        else if (isShooting)
+        {
+            animator.SetBool("isShooting", false);
+            isShooting = false;
+            shootingParticles.Stop();
+        }
     }
     public override void UpdateState()
     {
