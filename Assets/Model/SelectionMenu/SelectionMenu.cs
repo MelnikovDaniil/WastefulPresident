@@ -50,7 +50,7 @@ public class SelectionMenu : BaseManager
         menuCanvas.position = interactableObject.transform.position;
         var activeItems = selectionItems
             .Where(x => 
-            (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow)
+            (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow || x.human.humanState == HumanState.Walking)
             && ((interactableObject.forCharacter && x.human.GetComponent<Character>())
                 || (interactableObject.forAgent && x.human.GetComponent<Agent>())));
 
