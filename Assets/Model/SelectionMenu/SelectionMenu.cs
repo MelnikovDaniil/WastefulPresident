@@ -18,6 +18,7 @@ public class SelectionMenu : BaseManager
     public SelectionMenuItem selectionMenuItemPrefab;
     public Transform menuCanvas;
     public Vector2 padding = new Vector2(4.5f, 1f);
+    public float scalingByOrthiginicSize = 5f;
 
     [NonSerialized]
     public List<SelectionMenuItem> selectionItems;
@@ -33,7 +34,7 @@ public class SelectionMenu : BaseManager
 
     private void Update()
     {
-        menuCanvas.localScale = startLoacalScale * Camera.main.orthographicSize / 9f;
+        menuCanvas.localScale = startLoacalScale * Camera.main.orthographicSize / scalingByOrthiginicSize * Camera.main.aspect;
     }
 
     public override void LoadManager()
@@ -50,8 +51,8 @@ public class SelectionMenu : BaseManager
         selectionItems.ForEach(x => x.human.ShowColor());
 
         var menuPosition = new Vector2(
-            Mathf.Clamp(interactableObject.transform.position.x, -CameraManager.Instance.minSize.x / 2 + padding.x, CameraManager.Instance.minSize.x / 2 - padding.x),
-            Mathf.Clamp(interactableObject.transform.position.y, -CameraManager.Instance.minSize.y / 2 + padding.y, CameraManager.Instance.minSize.y / 2 - padding.y));
+            Mathf.Clamp(interactableObject.transform.position.x, -Camera.main.orthographicSize * Camera.main.aspect + padding.x, Camera.main.orthographicSize * Camera.main.aspect - padding.x),
+            Mathf.Clamp(interactableObject.transform.position.y, -Camera.main.orthographicSize + padding.y, Camera.main.orthographicSize - padding.y));
         menuCanvas.position = menuPosition;
 
         var activeItems = selectionItems
