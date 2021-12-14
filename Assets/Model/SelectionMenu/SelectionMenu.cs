@@ -17,6 +17,7 @@ public class SelectionMenu : BaseManager
     public float itemGap = 30;
     public SelectionMenuItem selectionMenuItemPrefab;
     public Transform menuCanvas;
+    public Vector2 padding = new Vector2(4.5f, 1f);
 
     [NonSerialized]
     public List<SelectionMenuItem> selectionItems;
@@ -47,7 +48,12 @@ public class SelectionMenu : BaseManager
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
         selectionItems.ForEach(x => x.human.ShowColor());
-        menuCanvas.position = interactableObject.transform.position;
+
+        var menuPosition = new Vector2(
+            Mathf.Clamp(interactableObject.transform.position.x, -CameraManager.Instance.minSize.x / 2 + padding.x, CameraManager.Instance.minSize.x / 2 - padding.x),
+            Mathf.Clamp(interactableObject.transform.position.y, -CameraManager.Instance.minSize.y / 2 + padding.y, CameraManager.Instance.minSize.y / 2 - padding.y));
+        menuCanvas.position = menuPosition;
+
         var activeItems = selectionItems
             .Where(x => 
             (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow || x.human.humanState == HumanState.Walking)
