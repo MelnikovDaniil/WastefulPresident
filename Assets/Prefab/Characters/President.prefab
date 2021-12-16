@@ -1435,7 +1435,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: dc629ad1351ab3d40909d0e6b37003f8, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -1476,7 +1476,7 @@ MonoBehaviour:
   checkFroundRadius: 0.2
   interactRadius: 1.5
   checkWallOffset: {x: 0.5, y: 0.5}
-  samePositionTime: 0.1
+  samePositionTime: 0.15
   samePositionDistance: 0.1
   characterColor: {fileID: 8400869070480722793}
   quesinMark: {fileID: 604961166638087976}

@@ -25,9 +25,13 @@ public class Agent : Human
             {
                 var side = Mathf.Sign(target.Value.x - transform.position.x);
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
-                _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
                 var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
                 var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+                if (isGrounded || !inFrontOfWall)
+                {
+                    _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
+                }
 
                 if (humanState == HumanState.Follow)
                 {
@@ -91,7 +95,11 @@ public class Agent : Human
 
     public void FollowPresedent(Vector2 target)
     {
-        currentPositionTime = 0;
-        this.target = target;
+        var targetDistanceX = Mathf.Abs(transform.position.x - target.x);
+        if (targetDistanceX > presidentStopDistance)
+        {
+            currentPositionTime = 0;
+            this.target = target;
+        }
     }
 }

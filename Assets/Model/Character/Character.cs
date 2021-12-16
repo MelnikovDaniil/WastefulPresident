@@ -57,9 +57,13 @@ public class Character : Human, ICharacterVisitor
             {
                 var side = Mathf.Sign(target.Value.x - transform.position.x);
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
-                _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
                 var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
                 var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+                if (isGrounded || !inFrontOfWall)
+                {
+                    _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
+                }
 
                 _animator.SetBool("walk", true);
 
@@ -67,6 +71,7 @@ public class Character : Human, ICharacterVisitor
                 {
                     if (humanState == HumanState.MovingToInteract)
                     {
+                        humanState = HumanState.Waiting;
                         TryInteract();
                     }
                     else
