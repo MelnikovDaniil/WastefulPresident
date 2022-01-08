@@ -89,7 +89,7 @@ public class LevelPanel : MonoBehaviour
                     nextLevelSkip = true;
                     currentChapter = chapter;
                     levelButton = Instantiate(currentButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => LoadLevel(level.name));
+                    levelButton.button.onClick.AddListener(() => GameManager.Load(level.name));
                 }
                 else if (nextLevelSkip)
                 {
@@ -104,7 +104,7 @@ public class LevelPanel : MonoBehaviour
                 else
                 {
                     levelButton = Instantiate(passedButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => LoadLevel(level.name));
+                    levelButton.button.onClick.AddListener(() => GameManager.Load(level.name));
                 }
 
                 levelButton.levelNumber.text = levelNumber.ToString();
@@ -118,10 +118,5 @@ public class LevelPanel : MonoBehaviour
         currentMovementTime = movementTime;
         firstPosition = 1;
         secondPosition = 1.0f - (float)chapters.IndexOf(currentChapter) / (chapters.Count - 1f);
-    }
-
-    public void LoadLevel(string levelName)
-    {
-        SceneManager.LoadScene(levelName);
     }
 }

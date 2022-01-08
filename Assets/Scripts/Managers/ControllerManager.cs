@@ -17,6 +17,8 @@ public class ControllerManager : BaseManager
 
     public Color startColor;
 
+    public bool destroyOnLoad = false;
+
     private float presidentDistance;
     private bool validInput;
     private Color currentHumanColor;
@@ -26,13 +28,23 @@ public class ControllerManager : BaseManager
         // start of new code
         if (Instance != null)
         {
-            Destroy(gameObject);
-            return;
+            if (destroyOnLoad)
+            {
+                Destroy(Instance.gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
         }
         // end of new code
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (!destroyOnLoad)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
     public override void LoadManager()
     {
@@ -42,19 +54,23 @@ public class ControllerManager : BaseManager
         agents = new List<Agent>();
 
         character = FindObjectOfType<Character>();
-        character.icon = characterIcon;
-        character.characterColor.color = startColor;
-        character.SetColor(startColor);
-        SelectionMenu.Instance.AddItem(character);
         AddAgents(FindObjectsOfType<Agent>().ToList());
 
-        StartCoroutine(FollowPreidentRoutine());
+        if (character != null)
+        {
+            character.icon = characterIcon;
+            character.characterColor.color = startColor;
+            character.SetColor(startColor);
+            SelectionMenu.Instance.AddItem(character);
+            StartCoroutine(FollowPreidentRoutine());
+        }
     }
 
     private void Update()
     {
         ValidateInput();
-        if (!DialogueManager.isWorking
+        if (character != null
+            && !DialogueManager.isWorking
             && !CameraManager.Instance.isMovingByTaps
             && character.humanState != HumanState.Dead 
             && Input.GetMouseButtonUp(0) 

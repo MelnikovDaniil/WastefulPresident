@@ -10,6 +10,7 @@ public class GameManager : BaseManager
     public ControllerManager controllerManager;
     public Character character;
     public float reloadDelay = 5;
+    public bool destroyOnLoad = false;
 
     private bool isBusy;
     private void Awake()
@@ -17,20 +18,27 @@ public class GameManager : BaseManager
         // start of new code
         if (Instance != null)
         {
-            GameManager.Instance.LoadManager();
-
-            Destroy(gameObject);
+            if (destroyOnLoad)
+            {
+                Destroy(Instance.gameObject);
+            }
+            else
+            {
+                GameManager.Instance.LoadManager();
+                Destroy(gameObject);
+                return;
+            }
         }
         // end of new code
-        else
+        Instance = this;
+        Instantiate(uiManager);
+        Instantiate(controllerManager);
+        if (!destroyOnLoad)
         {
-            Instance = this;
-            Instantiate(uiManager);
-            Instantiate(controllerManager);
             DontDestroyOnLoad(gameObject);
-
-            LoadManager();
         }
+
+        LoadManager();
     }
 
     public override void LoadManager()
