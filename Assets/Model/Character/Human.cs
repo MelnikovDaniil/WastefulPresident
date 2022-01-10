@@ -77,8 +77,13 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     public virtual void TryInteract()
     {
-        var collider = Physics2D.OverlapCircleAll(transform.position, interactRadius)
-            .FirstOrDefault(x => x.GetComponent<InteractableObject>());
+        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
+            .Where(x => x.GetComponent<InteractableObject>());
+
+        var collider = interactableObjects
+            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
+            .FirstOrDefault();
+
         if (collider != null)
         {
             var interactableObject = collider.GetComponent<InteractableObject>();

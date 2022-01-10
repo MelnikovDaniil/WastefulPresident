@@ -7,5 +7,5 @@ using UnityEngine;
 public class ScriptableChapter : ScriptableObject
 {
     public Sprite backgroundSprite;
-    public List<SceneAsset> levels;
+    public List<string> levelNames;
 }

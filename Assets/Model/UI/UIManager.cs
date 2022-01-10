@@ -8,28 +8,52 @@ public class UIManager : BaseManager
 {
     public static UIManager Instance;
     public Animator effectAnimator;
+
+    [Space]
     public GameObject pausePanel;
+    public Text pauseLvlText;
+
+    [Space]
+    public GameObject finishPanel;
+    public Button nextLevelButton;
+
     public bool isPaused;
     public Text lvlText;
+
+    public bool destroyOnLoad = false;
 
     private void Awake()
     {
         // start of new code
         if (Instance != null)
         {
-            Destroy(gameObject);
-            return;
+            if (destroyOnLoad)
+            {
+                Destroy(Instance.gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
         }
         // end of new code
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (!destroyOnLoad)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public override void LoadManager()
     {
         base.LoadManager();
+        isPaused = false;
+        pausePanel?.SetActive(false);
+        finishPanel?.SetActive(false);
         lvlText.text = SceneManager.GetActiveScene().name.ToUpper();
+        pauseLvlText.text = $"LEVEL - {lvlText.text}";
         effectAnimator.SetTrigger("show");
     }
 
@@ -66,11 +90,28 @@ public class UIManager : BaseManager
         pausePanel?.SetActive(true);
     }
 
+    public void Finish(string nextLevel)
+    {
+        finishPanel?.SetActive(true);
+        nextLevelButton.onClick.RemoveAllListeners();
+        nextLevelButton.onClick.AddListener(() => GameManager.Load(nextLevel));
+    }
+
     public void Continue()
     {
         GameManager.Instance.character.isLocked = false;
         Time.timeScale = 1;
         isPaused = false;
         pausePanel?.SetActive(false);
+    }
+
+    public void LoadMainMenu()
+    {
+        GameManager.Load("LevelMenu");
+    }
+
+    public void ReloadLevel()
+    {
+        GameManager.ReloadLevel();
     }
 }

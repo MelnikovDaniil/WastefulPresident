@@ -8,7 +8,7 @@ public class Exit : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Character>())
         {
-            GameManager.Load(nextLevelName);
+            UIManager.Instance.Finish(nextLevelName);
             if (!LevelMapper.IsOpen(nextLevelName))
             {
                 LevelMapper.SetCurrentLevel(nextLevelName);
