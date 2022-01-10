@@ -10,10 +10,14 @@ public class UIManager : BaseManager
     public Animator effectAnimator;
 
     [Space]
+    public GameObject gamePanel;
+
+    [Space]
     public GameObject pausePanel;
     public Text pauseLvlText;
 
     [Space]
+    public RewardManager rewardManager;
     public GameObject finishPanel;
     public Button nextLevelButton;
 
@@ -50,6 +54,7 @@ public class UIManager : BaseManager
     {
         base.LoadManager();
         isPaused = false;
+        gamePanel?.SetActive(true);
         pausePanel?.SetActive(false);
         finishPanel?.SetActive(false);
         lvlText.text = SceneManager.GetActiveScene().name.ToUpper();
@@ -92,7 +97,9 @@ public class UIManager : BaseManager
 
     public void Finish(string nextLevel)
     {
+        gamePanel?.SetActive(false);
         finishPanel?.SetActive(true);
+        rewardManager.StartRewardCalculation();
         nextLevelButton.onClick.RemoveAllListeners();
         nextLevelButton.onClick.AddListener(() => GameManager.Load(nextLevel));
     }
