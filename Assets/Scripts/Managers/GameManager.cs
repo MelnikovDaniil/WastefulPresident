@@ -65,15 +65,24 @@ public class GameManager : BaseManager
 
     public void LoadLevel(string lvlName)
     {
-        StartCoroutine(LoadLevelRoutine(lvlName));
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            StartCoroutine(LoadLevelRoutine(lvlName));
+        }
     }
 
     private IEnumerator LoadLevelRoutine(string lvlName)
     {
-        yield return new WaitForSecondsRealtime(1);
         UIManager.Instance.Hide();
-        yield return new WaitForSecondsRealtime(reloadDelay - 1);
-        SceneManager.LoadScene(lvlName);
+        yield return new WaitForSecondsRealtime(reloadDelay);
+        SelectionMenu.Instance.Hide();
+        var asyncOperation = SceneManager.LoadSceneAsync(lvlName);
+        while (!asyncOperation.isDone)
+        {
+            Instance.isBusy = false;
+            yield return null;
+        }
     }
 
     public static void ReloadLevel()
@@ -82,16 +91,8 @@ public class GameManager : BaseManager
         {
             Instance.isBusy = true;
             SelectionMenu.Instance.Hide();
-            Instance.StartCoroutine(Instance.ReloadLevelRoutine(0));
+            var currentLevel = SceneManager.GetActiveScene();
+            Instance.StartCoroutine(Instance.LoadLevelRoutine(currentLevel.name));
         }
-    }
-
-    private IEnumerator ReloadLevelRoutine(float delay = 1f)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        UIManager.Instance.Hide();
-        yield return new WaitForSecondsRealtime(reloadDelay - 1);
-        var scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
     }
 }

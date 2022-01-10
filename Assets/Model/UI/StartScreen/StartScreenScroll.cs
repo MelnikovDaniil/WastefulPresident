@@ -10,7 +10,7 @@ public class StartScreenScroll : ScrollRect
 {
     public event Action OnScrollFinished;
     public float movementTime { get; set; } = 0.2f;
-    public float scrollSwitchPosition { get; set; } = 0.7f;
+    public float scrollSwitchPosition { get; set; } = 0.85f;
 
     private float currentMovementTime;
     private float firstPosition;

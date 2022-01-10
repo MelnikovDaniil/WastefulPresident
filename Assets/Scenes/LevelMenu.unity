@@ -1256,7 +1256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 1.2
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -2814,7 +2814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4391513641112040775, guid: c48933c0e38e8f14b8362d1170aa6c18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 950
       objectReference: {fileID: 0}
     - target: {fileID: 7181241136512022528, guid: c48933c0e38e8f14b8362d1170aa6c18, type: 3}
       propertyPath: destroyOnLoad
@@ -2878,7 +2878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9151443666234047327, guid: c48933c0e38e8f14b8362d1170aa6c18, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -950
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c48933c0e38e8f14b8362d1170aa6c18, type: 3}
@@ -3905,7 +3905,6 @@ MonoBehaviour:
   chaptersPlace: {fileID: 62843345}
   chapters:
   - {fileID: 11400000, guid: ba68066f9dc68e54980a4d1051a91b2c, type: 2}
-  - {fileID: 11400000, guid: 53a11e6df8a82c346be808784ea70aad, type: 2}
   - {fileID: 11400000, guid: 3bb8a219d98017c4bb9a8d67b5c21dec, type: 2}
   - {fileID: 11400000, guid: 31c99ee3e46c158408aa41394d7d3d9b, type: 2}
   - {fileID: 11400000, guid: 31c99ee3e46c158408aa41394d7d3d9b, type: 2}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -39,8 +40,8 @@ public class LevelPanel : MonoBehaviour
     {
         if (string.IsNullOrEmpty(LevelMapper.GetCurrentLevel()))
         {
-            var firstLevel = chapters[0].levels[0];
-            LevelMapper.SetCurrentLevel(firstLevel.name);
+            var firstLevel = chapters.First(x => x.levelNames.Any()).levelNames[0];
+            LevelMapper.SetCurrentLevel(firstLevel);
         }
         startScreenScrollRect.OnScrollFinished += ScrollToChapter;
     }
@@ -82,14 +83,14 @@ public class LevelPanel : MonoBehaviour
             var createdChapter = Instantiate(chapterPrefab, chaptersPlace);
             createdChapter.background.sprite = chapter.backgroundSprite;
 
-            foreach (var level in chapter.levels)
+            foreach (var level in chapter.levelNames)
             {
-                if (level.name == currentLevelName)
+                if (level == currentLevelName)
                 {
                     nextLevelSkip = true;
                     currentChapter = chapter;
                     levelButton = Instantiate(currentButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => GameManager.Load(level.name));
+                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
                 }
                 else if (nextLevelSkip)
                 {
@@ -104,7 +105,7 @@ public class LevelPanel : MonoBehaviour
                 else
                 {
                     levelButton = Instantiate(passedButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => GameManager.Load(level.name));
+                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
                 }
 
                 levelButton.levelNumber.text = levelNumber.ToString();
