@@ -9,7 +9,14 @@ public class Pit : InteractableObject, IComplexPositioning
 
     public Collider2D bridgeCollider;
 
+    public Animator timerAnimator;
+
     private bool isBusy;
+
+    private void Start()
+    {
+        timerAnimator.SetFloat("speed", 1.0f / interactionTime);
+    }
 
     public Vector2 GetPositionForInteraction(Human human)
     {
@@ -34,6 +41,7 @@ public class Pit : InteractableObject, IComplexPositioning
             bridgeCollider.enabled = true;
             GetComponent<BoxCollider2D>().enabled = false;
             visitor.VisitPit();
+            timerAnimator.SetTrigger("show");
         }
     }
 
