@@ -6,8 +6,10 @@ public class Exit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Character>())
+        var character = collision.gameObject.GetComponent<Character>();
+        if (character != null)
         {
+            character.isLocked = true;
             UIManager.Instance.Finish(nextLevelName);
             if (!LevelMapper.IsOpen(nextLevelName))
             {
