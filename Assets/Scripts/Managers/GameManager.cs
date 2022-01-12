@@ -52,7 +52,7 @@ public class GameManager : BaseManager
         character = FindObjectOfType<Character>();
         if (character != null)
         {
-            character.OnDeath += ReloadLevel;
+            character.OnDeath += () => ReloadLevel(1);
         }
         SoundManager.PlayMusic("Soundtrack");
         isBusy = false;
@@ -72,8 +72,9 @@ public class GameManager : BaseManager
         }
     }
 
-    private IEnumerator LoadLevelRoutine(string lvlName)
+    private IEnumerator LoadLevelRoutine(string lvlName, float delay = 0)
     {
+        yield return new WaitForSecondsRealtime(delay);
         UIManager.Instance.Hide();
         yield return new WaitForSecondsRealtime(reloadDelay);
         SelectionMenu.Instance.Hide();
@@ -85,14 +86,14 @@ public class GameManager : BaseManager
         }
     }
 
-    public static void ReloadLevel()
+    public static void ReloadLevel(float delay = 0)
     {
         if (!Instance.isBusy)
         {
             Instance.isBusy = true;
             SelectionMenu.Instance.Hide();
             var currentLevel = SceneManager.GetActiveScene();
-            Instance.StartCoroutine(Instance.LoadLevelRoutine(currentLevel.name));
+            Instance.StartCoroutine(Instance.LoadLevelRoutine(currentLevel.name, delay));
         }
     }
 }

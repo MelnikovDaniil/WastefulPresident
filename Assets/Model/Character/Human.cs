@@ -125,6 +125,7 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
         else if (humanState != HumanState.Dead && collision.tag == "DeathCollider")
         {
+            _animator.SetTrigger("bomb");
             Death();
         }
     }

@@ -12,7 +12,7 @@ public class GuideManager : BaseManager
 
     private Transform clickHand;
     private Queue<GuideStep> stepQueue;
-
+    private float nextStepDelay;
     public void Awake()
     {
         Instance = this;
@@ -58,12 +58,17 @@ public class GuideManager : BaseManager
         clickHand.gameObject.SetActive(false);
     }
 
+    public void SetNextStepDelay(float delay)
+    {
+        nextStepDelay = delay;
+    }
+
     public void Select(Human human)
     {
         SelectionMenu.Instance.SetUpNextCharacter(human);
         SelectionMenu.Instance.OnSelection.AddListener(
             () => {
-                NextStep(1);
+                NextStep(nextStepDelay);
                 SelectionMenu.Instance.OnSelection.RemoveAllListeners();
             });
     }
