@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class LevelPanel : MonoBehaviour
 {
     [Space]
+    public Text moneyText;
+
+    [Space]
     public LevelChapter chapterPrefab;
 
     [Space]
@@ -48,8 +51,15 @@ public class LevelPanel : MonoBehaviour
 
     public void Start()
     {
+        UIManager.OnSkipLevel = UpdateMenu;
         buttonsCanvasGroup.alpha = 0;
+        UpdateMenu();
+    }
+
+    public void UpdateMenu()
+    {
         GenerateChapters();
+        UpdateMoney();
     }
 
     private void Update()
@@ -78,6 +88,11 @@ public class LevelPanel : MonoBehaviour
         var levelNumber = 1;
         LevelButton levelButton = null;
 
+        foreach (Transform child in chaptersPlace)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (var chapter in chapters)
         {
             var createdChapter = Instantiate(chapterPrefab, chaptersPlace);
@@ -97,6 +112,7 @@ public class LevelPanel : MonoBehaviour
                     nextLevelSkip = false;
                     lockedLevels = true;
                     levelButton = Instantiate(nextButtonPrefab, createdChapter.transform);
+                    levelButton.button.onClick.AddListener(() => UIManager.Instance.SkipLevel(level));
                 }
                 else if (lockedLevels)
                 {
@@ -119,5 +135,15 @@ public class LevelPanel : MonoBehaviour
         currentMovementTime = movementTime;
         firstPosition = 1;
         secondPosition = 1.0f - (float)chapters.IndexOf(currentChapter) / (chapters.Count - 1f);
+    }
+
+    public void UpdateMoney()
+    {
+        var money = MoneyMapper.Get();
+        moneyText.text = string.Empty;
+        if (money > 0)
+        {
+            moneyText.text = money.ToString() + "$";
+        }
     }
 }

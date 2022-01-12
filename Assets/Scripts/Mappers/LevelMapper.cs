@@ -25,7 +25,7 @@ public static class LevelMapper
         return PlayerPrefs.GetInt(MapperName + "IsOpen" + levelName, 0) == 1;
     }
 
-    public static void Open(string levelName)
+    private static void Open(string levelName)
     {
         PlayerPrefs.SetInt(MapperName + "IsOpen" + levelName, 1);
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,15 @@ public class UIManager : BaseManager
     public RewardManager rewardManager;
     public GameObject finishPanel;
     public Button nextLevelButton;
+
+    [Space]
+    public static Action OnSkipLevel;
+    public GameObject skipLevelPanel;
+    public int skipCost;
+    public Text currentMoneyText;
+    public Text skipCostText;
+    public Button skipButton;
+    public ParticleSystem skipParticles;
 
     public bool isPaused;
     public Text lvlText;
@@ -54,9 +64,15 @@ public class UIManager : BaseManager
     {
         base.LoadManager();
         isPaused = false;
-        gamePanel?.SetActive(true);
         pausePanel?.SetActive(false);
         finishPanel?.SetActive(false);
+        skipLevelPanel?.SetActive(false);
+
+        if (gamePanel != null)
+        {
+            gamePanel.SetActive(true);
+        }
+
         lvlText.text = SceneManager.GetActiveScene().name.ToUpper();
         pauseLvlText.text = $"LEVEL - {lvlText.text}";
         effectAnimator.SetTrigger("show");
@@ -102,6 +118,33 @@ public class UIManager : BaseManager
         rewardManager.StartRewardCalculation();
         nextLevelButton.onClick.RemoveAllListeners();
         nextLevelButton.onClick.AddListener(() => GameManager.Load(nextLevel));
+    }
+
+    public void SkipLevel(string lvlName)
+    {
+        var money = MoneyMapper.Get();
+        skipLevelPanel?.SetActive(true);
+        currentMoneyText.text = $"{money}$";
+        skipCostText.text = $"{skipCost}$";
+        skipButton.interactable = false;
+        skipButton.onClick.RemoveAllListeners();
+
+        if (money >= skipCost)
+        {
+            skipButton.interactable = true;
+            skipButton.onClick.AddListener(() => PurchaseSkipLevel(lvlName));
+        }
+    }
+
+    private void PurchaseSkipLevel(string lvlName)
+    {
+        MoneyMapper.Add(-skipCost);
+        LevelMapper.SetCurrentLevel(lvlName);
+        skipLevelPanel?.SetActive(false);
+        var moneyParticles = Instantiate(skipParticles, Vector2.zero, Quaternion.identity);
+        moneyParticles.Play();
+        OnSkipLevel?.Invoke();
+        Destroy(moneyParticles, 3);
     }
 
     public void Continue()
