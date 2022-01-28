@@ -14,14 +14,23 @@ public class ControllerManager : BaseManager
 
     public float followPeriod = 0.5f;
     public float securityDistacnceGap = 1;
+    public float tapRadius = 0.5f;
 
     public Color startColor;
 
     public bool destroyOnLoad = false;
 
+    [Space]
+    public int iconsPullSize = 3;
+    public Actionicon actionIconPrefab;
+
+    private List<Actionicon> actionIcons;
+
     private float presidentDistance;
     private bool validInput;
     private Color currentHumanColor;
+
+    private Human currentHuman;
 
     private void Awake()
     {
@@ -52,6 +61,13 @@ public class ControllerManager : BaseManager
         base.LoadManager();
         presidentDistance = 2f;
         agents = new List<Agent>();
+        currentHuman = null;
+
+        actionIcons = new List<Actionicon>();
+        for (var i = 0; i < iconsPullSize; i++)
+        {
+            actionIcons.Add(Instantiate(actionIconPrefab));
+        }
 
         character = FindObjectOfType<Character>();
         AddAgents(FindObjectsOfType<Agent>().ToList());
@@ -105,32 +121,58 @@ public class ControllerManager : BaseManager
     public void SetUpTarget()
     {
         var position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var hitObjects = Physics2D.RaycastAll(position, Vector3.forward)
+        var hitObjects = Physics2D.OverlapCircleAll(position, tapRadius)
             .Where(x => x.transform?.gameObject != null )
             .Select(x => x.transform.gameObject)
+            .OrderBy(x => Vector2.Distance(x.transform.position, position))
             .ToList();
 
         var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>())?.GetComponent<InteractableObject>();
         var guideStep = hitObjects.FirstOrDefault(x => x.GetComponent<GuideStep>())?.GetComponent<GuideStep>();
+        var human = hitObjects.FirstOrDefault(x => x.GetComponent<Human>())?.GetComponent<Human>();
 
 
 
         if (!GuideManager.waitingStep || guideStep != null)
         {
-            guideStep?.Interact();
-            if (interactableObject != null)
+            if (human != null && human != currentHuman)
             {
-                SelectionMenu.Instance.Show(interactableObject);
+                if (guideStep?.humanToSelect == human)
+                {
+                    guideStep?.Interact();
+                }
+                currentHuman?.HideColor();
+                currentHuman = human;
+                human.ShowColor();
             }
-            else if (SelectionMenu.isSelecting)
+            else if (currentHuman != null)
             {
-                SelectionMenu.Instance.Hide();
-            }
-            else if (character.humanState == HumanState.Waiting
-                || character.humanState == HumanState.MovingToInteract
-                || character.humanState == HumanState.Walking)
-            {
-                character.WalkTo(position);
+                if (guideStep?.humanToSelect == null)
+                {
+                    guideStep?.Interact();
+                }
+
+                actionIcons.FirstOrDefault(x => x.human == currentHuman)?.Hide();
+                var actionIcon = actionIcons.FirstOrDefault(x => x.human == null) ?? actionIcons.First();
+
+                if (interactableObject != null
+                    && ((currentHuman is Character && interactableObject.forCharacter)
+                        || (currentHuman is Agent && interactableObject.forAgent)))
+                {
+
+                    SendForInteraction(currentHuman, interactableObject);
+                    actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
+                    actionIcon.SetInteraction();
+                }
+                else
+                {
+                    currentHuman.WalkTo(position);
+                    actionIcon.transform.position = (Vector2)position;
+                    actionIcon.SetWaking();
+                }
+
+                actionIcon.Show(currentHuman);
+                currentHuman.OnMovementFinish = actionIcon.Hide;
             }
         }
     }
@@ -152,6 +194,20 @@ public class ControllerManager : BaseManager
             {
                 agent.FollowPresedent(character.transform.position);
             }
+        }
+    }
+
+    public void SendForInteraction(Human human, InteractableObject interactableObject)
+    {
+        var complexPositioning = interactableObject as IComplexPositioning;
+        if (complexPositioning != null)
+        {
+            var position = complexPositioning.GetPositionForInteraction(human);
+            human.SetTarget(position);
+        }
+        else
+        {
+            human.SetTarget(interactableObject.transform.position);
         }
     }
 

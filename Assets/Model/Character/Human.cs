@@ -5,7 +5,8 @@ using UnityEngine;
 
 public abstract class Human : MonoBehaviour, IVisitor
 {
-    public event Action OnDeath;
+    public Action OnDeath;
+    public Action OnMovementFinish;
     public float speed;
     public float jumpForce;
 
@@ -89,21 +90,6 @@ public abstract class Human : MonoBehaviour, IVisitor
             var interactableObject = collider.GetComponent<InteractableObject>();
             humanState = HumanState.Acivating;
             interactableObject.StartInteraction(this);
-
-
-            //else if (collider.TryGetComponent<PitInteractableObject>(out var pit))
-            //{
-            //    _animator.SetTrigger("pit");
-            //    transform.localScale = new Vector3(
-            //        Mathf.Abs(transform.localScale.x) * Mathf.Sign(pit.transform.localScale.x),
-            //        transform.localScale.y,
-            //        transform.localScale.z);
-            //    GetComponent<SpriteRenderer>().sortingOrder += 10;
-            //    _rigidbody.velocity = Vector2.zero;
-            //    _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
-            //    Death();
-            //    _rigidbody.freezeRotation = true;
-            //}
         }
     }
 
@@ -139,9 +125,21 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
+    public void WalkTo(Vector2 position)
+    {
+        if (humanState != HumanState.Dead
+            && humanState != HumanState.Acivating)
+        {
+            currentPositionTime = 0;
+            humanState = HumanState.Walking;
+            this.target = position;
+        }
+    }
+
     public virtual void SetTarget(Vector2 target)
     {
-        if (humanState != HumanState.Dead)
+        if (humanState != HumanState.Dead
+            && humanState != HumanState.Acivating)
         {
             currentPositionTime = 0;
             humanState = HumanState.MovingToInteract;
@@ -164,6 +162,7 @@ public abstract class Human : MonoBehaviour, IVisitor
                 currentPositionTime += Time.fixedDeltaTime;
                 if (currentPositionTime >= samePositionTime)
                 {
+                    OnMovementFinish?.Invoke();
                     StartCoroutine(QuestionMarkRoutine());
                     humanState = HumanState.Waiting;
                     target = null;
