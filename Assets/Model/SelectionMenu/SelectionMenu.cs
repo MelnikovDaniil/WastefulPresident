@@ -72,16 +72,7 @@ public class SelectionMenu : BaseManager
             item.button.onClick.AddListener(() =>
             {
                 OnSelection?.Invoke();
-                var complexPositioning = interactableObject as IComplexPositioning;
-                if (complexPositioning != null)
-                {
-                    var position = complexPositioning.GetPositionForInteraction(item.human);
-                    item.human.SetTarget(position);
-                }
-                else
-                {
-                    item.human.SetTarget(interactableObject.transform.position);
-                }
+                ControllerManager.Instance.SendForInteraction(item.human, interactableObject);
                 Hide();
             });
             item.gameObject.SetActive(true);

@@ -50,14 +50,23 @@ public class Agent : Human
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
                 }
-                else if (targetDistanceX < targetStopDistanceX 
+                else if (targetDistanceX < targetStopDistanceX
                     && targetDistanceY < targetStopDistanceY)
                 {
-                    humanState = HumanState.Waiting;
+                    if (humanState == HumanState.MovingToInteract)
+                    {
+                        humanState = HumanState.Waiting;
+                        TryInteract();
+                    }
+                    else
+                    {
+                        humanState = HumanState.Waiting;
+                    }
+
+                    OnMovementFinish?.Invoke();
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("run", false);
-                    TryInteract();
                 }
 
                 CheckWall();

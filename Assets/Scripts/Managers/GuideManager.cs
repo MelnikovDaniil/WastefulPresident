@@ -43,7 +43,8 @@ public class GuideManager : BaseManager
             waitingStep = true;
             var step = stepQueue.Dequeue();
             step.gameObject.SetActive(true);
-            clickHand.position = step.transform.position;
+            clickHand.parent = step.transform;
+            clickHand.localPosition = Vector2.zero;
             clickHand.gameObject.SetActive(true);
         }
         else

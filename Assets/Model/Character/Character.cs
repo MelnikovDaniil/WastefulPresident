@@ -78,6 +78,7 @@ public class Character : Human, ICharacterVisitor
                     {
                         humanState = HumanState.Waiting;
                     }
+                    OnMovementFinish?.Invoke();
                     target = null;
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
@@ -114,14 +115,6 @@ public class Character : Human, ICharacterVisitor
     public override void HideColor()
     {
         colorMaterial.SetFloat("_Thickness", 0f);
-    }
-
-
-    public void WalkTo(Vector2 position)
-    {
-        currentPositionTime = 0;
-        humanState = HumanState.Walking;
-        this.target = position;
     }
 
     public void SendOrder()
