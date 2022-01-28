@@ -8,9 +8,12 @@ public class Turret : PowerConsumer
     public Transform lazerPlace;
     public ParticleSystem shootingParticles;
     public Animator animator;
+    public float activationDelay = 0.5f;
 
     private LineRenderer lazer;
     private bool isShooting;
+    private bool isReadyForShoot;
+
     public new void Start()
     {
         lazer = Instantiate(lazerPrefab, lazerPlace);
@@ -21,7 +24,7 @@ public class Turret : PowerConsumer
 
     private void Update()
     {
-        if (isActive)
+        if (isReadyForShoot)
         {
             var mask = LayerMask.GetMask("Ground", "Door", "Characters");
             var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x), 200, mask);
@@ -49,8 +52,18 @@ public class Turret : PowerConsumer
     }
     public override void UpdateState()
     {
-        lazer.enabled = isActive;
         animator.SetBool("isActive", isActive);
+        StartCoroutine(UpdateStateRoutine());
+    }
+
+    public IEnumerator UpdateStateRoutine()
+    {
+        if (isActive == true)
+        {
+            yield return new WaitForSeconds(activationDelay);
+        }
+        lazer.enabled = isActive;
+        isReadyForShoot = isActive;
     }
 
     public void OnDrawGizmos()
