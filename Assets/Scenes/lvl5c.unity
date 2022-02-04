@@ -516,6 +516,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2816320674901382435, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474818904137483836, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5499138848408369192, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -567,6 +575,14 @@ PrefabInstance:
     - target: {fileID: 5499138848408369197, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
       propertyPath: m_Name
       value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 5499138849997663383, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485689014720368891, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f49e4e0e4cbb632408b7aa26c45466e5, type: 3}
@@ -2493,8 +2509,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911629101
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
