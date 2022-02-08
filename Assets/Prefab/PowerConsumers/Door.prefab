@@ -68,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911629101
+  m_SortingLayer: 2
   m_SortingOrder: 11
   m_Sprite: {fileID: -8689009931745917929, guid: dda2f83c5aaa6d3408edd6d8846c9cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 646590446589799491}
   - component: {fileID: 2816320674901382435}
-  - component: {fileID: 3858780490181442891}
+  - component: {fileID: 3395870458983513119}
   m_Layer: 7
   m_Name: Part1
   m_TagString: Untagged
@@ -151,8 +151,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911629101
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: 5213229242370633579, guid: dda2f83c5aaa6d3408edd6d8846c9cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -165,8 +165,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!61 &3858780490181442891
-BoxCollider2D:
+--- !u!60 &3395870458983513119
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,7 +178,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.03}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -188,9 +188,13 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
+      - {x: 0, y: -1}
+      - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
 --- !u!1 &5293349643065057794
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,8 +263,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911629101
+  m_SortingLayer: 2
   m_SortingOrder: 11
   m_Sprite: {fileID: -8689009931745917929, guid: dda2f83c5aaa6d3408edd6d8846c9cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -353,6 +357,7 @@ GameObject:
   - component: {fileID: 5499138849997663465}
   - component: {fileID: 5499138849997663383}
   - component: {fileID: 5499138849997663382}
+  - component: {fileID: 2121527874354655505}
   m_Layer: 7
   m_Name: Part2
   m_TagString: Untagged
@@ -411,8 +416,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911629101
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: 436563815456543028, guid: dda2f83c5aaa6d3408edd6d8846c9cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -432,7 +437,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5499138849997663464}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -451,6 +456,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!60 &2121527874354655505
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499138849997663464}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1.03125}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: 0, y: 1}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!1 &7225101802049519364
 GameObject:
   m_ObjectHideFlags: 0

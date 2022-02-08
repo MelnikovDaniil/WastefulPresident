@@ -365,6 +365,7 @@ MonoBehaviour:
   lazerPlace: {fileID: 1306800397285263170}
   shootingParticles: {fileID: 3281226226221534414}
   animator: {fileID: 1108972127878673356}
+  activationDelay: 0.75
 --- !u!1 &3281226226221534411
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +472,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -481,7 +482,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -534,7 +535,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4482,7 +4483,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.8962264, g: 0.6376914, b: 0.021137413, a: 1}
+        key0: {r: 1, g: 0.8835707, b: 0, a: 1}
         key1: {r: 0.9339623, g: 0.27373797, b: 0.022027409, a: 1}
         key2: {r: 0.5377358, g: 0.13416101, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -5197,7 +5198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5418201666393324245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.923, y: 0.054, z: 0}
+  m_LocalPosition: {x: 2.35, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3281226226221534412}
@@ -6037,7 +6038,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       scalar: 10
-      minScalar: 10
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
