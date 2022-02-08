@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Actionicon : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public List<SpriteRenderer> waves;
     public SpriteRenderer icon;
     public Animator animator;
 
@@ -26,6 +28,10 @@ public class Actionicon : MonoBehaviour
         this.human = human;
         animator.SetBool("IsActive", true);
         spriteRenderer.color = human.characterColor.color;
+        foreach (var wave in waves)
+        {
+            wave.color = human.characterColor.color;
+        }
     }
 
     public void Hide()
