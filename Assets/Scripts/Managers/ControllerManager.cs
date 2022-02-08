@@ -224,8 +224,6 @@ public class ControllerManager : BaseManager
     private void DisableActionIconOnDeath(Actionicon actionIcon, Human human)
     {
         actionIcon.Hide();
-        Debug.Log("current human " + currentHuman.name);
-        Debug.Log("previous human " + human.name);
         if (currentHuman == human)
         {
             currentHuman.HideColor();
