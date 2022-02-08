@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,7 +136,9 @@ public class ControllerManager : BaseManager
 
         if (!GuideManager.waitingStep || guideStep != null)
         {
-            if (human != null && human != currentHuman)
+            if (human != null 
+                && human.humanState != HumanState.Dead
+                && human != currentHuman)
             {
                 if (guideStep?.humanToSelect == human)
                 {
@@ -172,7 +175,14 @@ public class ControllerManager : BaseManager
                 }
 
                 actionIcon.Show(currentHuman);
-                currentHuman.OnMovementFinish = actionIcon.Hide;
+
+                var previosHuman = SelectionMenu.Instance.selectionItems.FirstOrDefault(x => x.human == currentHuman).human;
+                currentHuman.OnDeath += () => DisableActionIconOnDeath(actionIcon, previosHuman);
+                currentHuman.OnMovementFinish = () =>
+                {
+                    currentHuman.OnDeath -= () => DisableActionIconOnDeath(actionIcon, previosHuman);
+                    actionIcon.Hide();
+                };
             }
         }
     }
@@ -209,6 +219,18 @@ public class ControllerManager : BaseManager
         {
             human.SetTarget(interactableObject.transform.position);
         }
+    }
+
+    private void DisableActionIconOnDeath(Actionicon actionIcon, Human human)
+    {
+        actionIcon.Hide();
+        Debug.Log("current human " + currentHuman.name);
+        Debug.Log("previous human " + human.name);
+        if (currentHuman == human)
+        {
+            currentHuman.HideColor();
+            currentHuman = null;
+        };
     }
 
     private void ValidateInput()
