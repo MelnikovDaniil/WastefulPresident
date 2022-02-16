@@ -55,8 +55,16 @@ public class Character : Human, ICharacterVisitor
         {
             if (target != null)
             {
-                var side = Mathf.Sign(target.Value.x - transform.position.x);
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
+                var side = previosSide;
+                if (isGrounded)
+                {
+                    previosSide = Mathf.Sign(target.Value.x - transform.position.x);
+                }
+                else
+                {
+                    side = previosSide * 2 / 3;
+                }
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * previosSide, transform.localScale.y, 0);
                 var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
                 var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
@@ -67,7 +75,8 @@ public class Character : Human, ICharacterVisitor
 
                 _animator.SetBool("walk", true);
 
-                if (targetDistanceX < targetStopDistanceX)
+                if (targetDistanceX < targetStopDistanceX
+                    && targetDistanceY < targetStopDistanceY)
                 {
                     if (humanState == HumanState.MovingToInteract)
                     {
@@ -80,7 +89,7 @@ public class Character : Human, ICharacterVisitor
                     }
                     OnMovementFinish?.Invoke();
                     target = null;
-                    _rigidbody.velocity = Vector2.zero;
+                    //_rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("walk", false);
 
                 }

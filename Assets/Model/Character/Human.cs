@@ -44,6 +44,8 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected bool inFrontOfWall;
     protected bool jumpDelay;
 
+    protected float previosSide;
+
     protected void Awake()
     {
         characterColor.gameObject.SetActive(false);
