@@ -7,6 +7,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 {
     public Action OnDeath;
     public Action OnMovementFinish;
+    public Action OnLanding;
     public float speed;
     public float jumpForce;
 
@@ -44,6 +45,7 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected bool inFrontOfWall;
     protected bool jumpDelay;
 
+    protected float movementSide;
     protected float previosSide;
 
     protected void Awake()
@@ -149,6 +151,14 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
+    public void HideTarget()
+    {
+        OnMovementFinish?.Invoke();
+        _rigidbody.velocity = Vector2.zero;
+        movementSide = 0;
+        target = null;
+    }
+
     protected void CheckPositionChanges()
     {
         if (isGrounded)
@@ -190,6 +200,15 @@ public abstract class Human : MonoBehaviour, IVisitor
             if (isGrounded)
             {
                 _rigidbody.velocity = Vector2.zero;
+                OnLanding?.Invoke();
+            }
+            else if (target != null)
+            {
+                previosSide = Mathf.Sign(target.Value.x - transform.position.x);
+            }
+            else
+            {
+                previosSide = 0;
             }
             _animator.SetBool("grounded", isGrounded);
         }

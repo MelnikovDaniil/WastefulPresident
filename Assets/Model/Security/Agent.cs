@@ -71,9 +71,7 @@ public class Agent : Human
                         humanState = HumanState.Waiting;
                     }
 
-                    OnMovementFinish?.Invoke();
-                    target = null;
-                    _rigidbody.velocity = Vector2.zero;
+                    HideTarget();
                     _animator.SetBool("run", false);
                 }
 

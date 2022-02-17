@@ -14,7 +14,10 @@ public class Trampoline : PowerConsumer
     public new void Start()
     {
         base.Start();
-        StartCoroutine(CheckHumanEnterRoutine());
+        var boxCollider = gameObject.AddComponent<BoxCollider2D>();
+        boxCollider.size = pressureSize;
+        boxCollider.offset = pressurePlacePosition;
+        boxCollider.isTrigger = true;
     }
 
     public override void UpdateState()
@@ -29,24 +32,25 @@ public class Trampoline : PowerConsumer
         }
     }
 
-    private IEnumerator CheckHumanEnterRoutine()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        while (isActive)
+        if (isActive && collision.gameObject.layer == LayerMask.NameToLayer("Characters"))
         {
-            yield return new WaitForSeconds(pressureCheckPeriod);
             var colliers = Physics2D.OverlapBoxAll(pressurePlacePosition + transform.position, pressureSize, 0);
             var people = colliers.Where(x => x.GetComponent<Human>() && x.GetComponent<Human>().humanState != HumanState.Dead);
             if (people.Any())
             {
-                foreach (var human in people)
+                foreach (var humanCollider in people)
                 {
-                    human.attachedRigidbody.velocity = Vector2.zero;
-                    human.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                    var human = humanCollider.GetComponent<Human>();
+                    humanCollider.attachedRigidbody.velocity = Vector2.zero;
+                    humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                    human.OnLanding += human.HideTarget;
+                    human.OnLanding += () => { human.OnLanding = null; };
                 }
             }
         }
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
