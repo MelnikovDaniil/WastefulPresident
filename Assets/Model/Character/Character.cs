@@ -86,7 +86,7 @@ public class Character : Human, ICharacterVisitor
             else
             {
                 _animator.SetBool("walk", false);
-                movementSide = previosSide * 2 / 3;
+                movementSide = previosSide; //* 2 / 3;
             }
 
             if (!inFrontOfWall)
@@ -94,7 +94,16 @@ public class Character : Human, ICharacterVisitor
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
 
-            
+            if (_rigidbody.velocity.y < -5f)
+            {
+                _animator.SetBool("fall", true);
+            }
+            else
+            {
+                _animator.SetBool("fall", false);
+            }
+            CheckGround();
+
             //if (target != null)
             //{
             //    var side = previosSide;
@@ -136,17 +145,6 @@ public class Character : Human, ICharacterVisitor
             //    CheckWall();
             //    CheckPositionChanges();
             //}
-
-
-            if (_rigidbody.velocity.y < -5f)
-            {
-                _animator.SetBool("fall", true);
-            }
-            else
-            {
-                _animator.SetBool("fall", false);
-            }
-            CheckGround();
         }
     }
 

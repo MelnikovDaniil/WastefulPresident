@@ -5,18 +5,21 @@ using UnityEngine;
 
 public class Trampoline : PowerConsumer
 {
-    public Vector3 pressurePlacePosition;
-    public Vector2 pressureSize;
-
-    public float pressureCheckPeriod = 0.5f;
+    public Vector3 tossPlaceOffset;
+    public Vector2 tossPlaceSize;
+    public Vector2 discardingSize;
     public float force = 5f;
+    public float discardingForce = 5f;
+
+    private int characterLayer;
     // Start is called before the first frame update
     public new void Start()
     {
         base.Start();
+        characterLayer = LayerMask.NameToLayer("Characters");
         var boxCollider = gameObject.AddComponent<BoxCollider2D>();
-        boxCollider.size = pressureSize;
-        boxCollider.offset = pressurePlacePosition;
+        boxCollider.size = tossPlaceSize;
+        boxCollider.offset = tossPlaceOffset;
         boxCollider.isTrigger = true;
     }
 
@@ -24,6 +27,7 @@ public class Trampoline : PowerConsumer
     {
         if (isActive)
         {
+            TossUp();
             //sprteRenderer.sprite = pressedSprite;
         }
         else
@@ -34,26 +38,58 @@ public class Trampoline : PowerConsumer
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isActive && collision.gameObject.layer == LayerMask.NameToLayer("Characters"))
+        if (isActive && collision.gameObject.layer == characterLayer)
         {
-            var colliers = Physics2D.OverlapBoxAll(pressurePlacePosition + transform.position, pressureSize, 0);
-            var people = colliers.Where(x => x.GetComponent<Human>() && x.GetComponent<Human>().humanState != HumanState.Dead);
-            if (people.Any())
+            TossUp();
+        }
+    }
+
+    private void TossUp()
+    {
+        var bitmask = 1 << characterLayer;
+        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, bitmask);
+        var tossColliders = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
+
+        if (tossColliders.Any())
+        {
+            foreach (var humanCollider in colliers)
             {
-                foreach (var humanCollider in people)
+                var human = humanCollider.GetComponent<Human>();
+                if (human.humanState == HumanState.Dead)
                 {
-                    var human = humanCollider.GetComponent<Human>();
-                    humanCollider.attachedRigidbody.velocity = Vector2.zero;
-                    humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-                    human.OnLanding += human.HideTarget;
-                    human.OnLanding += () => { human.OnLanding = null; };
+                    continue;
                 }
+
+                humanCollider.attachedRigidbody.velocity = Vector2.zero;
+
+                if (tossColliders.Contains(humanCollider))
+                {
+                    humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    var discardingVector = humanCollider.transform.position - transform.position;
+                    humanCollider.attachedRigidbody.AddForce(
+                        new Vector3(5, 1).normalized * discardingForce,
+                        ForceMode2D.Impulse);
+                }
+                human.OnLanding = (IEnumerable<Collider2D> colliders) =>
+                {
+                    if (!colliders.Any(x => x.gameObject.layer == 8))
+                    {
+                        human.HideTarget();
+                        human.OnLanding = null;
+                    }
+                };
             }
         }
     }
+
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(tossPlaceOffset + transform.position, tossPlaceSize);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(pressurePlacePosition + transform.position, pressureSize);
+        Gizmos.DrawWireCube(tossPlaceOffset + transform.position, discardingSize);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 {
     public Action OnDeath;
     public Action OnMovementFinish;
-    public Action OnLanding;
+    public Action<IEnumerable<Collider2D>> OnLanding;
     public float speed;
     public float jumpForce;
 
@@ -174,10 +175,8 @@ public abstract class Human : MonoBehaviour, IVisitor
                 currentPositionTime += Time.fixedDeltaTime;
                 if (currentPositionTime >= samePositionTime)
                 {
-                    OnMovementFinish?.Invoke();
                     StartCoroutine(QuestionMarkRoutine());
-                    humanState = HumanState.Waiting;
-                    target = null;
+                    HideTarget();
                     _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("run", false);
                     _animator.SetBool("walk", false);
@@ -189,9 +188,9 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckGround()
     {
+        var bitmask = (1 << 6) | (1 << 7) | (1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius)
-            .Where(x => x.gameObject.layer == 6 || x.gameObject.layer == 7);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
         var anyCollider = colliders.Any();
         if (isGrounded != anyCollider)
         {
@@ -199,8 +198,11 @@ public abstract class Human : MonoBehaviour, IVisitor
 
             if (isGrounded)
             {
-                _rigidbody.velocity = Vector2.zero;
-                OnLanding?.Invoke();
+                if (!colliders.Any(x => x.gameObject.layer == 8))
+                {
+                    _rigidbody.velocity = Vector2.zero;
+                }
+                OnLanding?.Invoke(colliders);
             }
             else if (target != null)
             {
