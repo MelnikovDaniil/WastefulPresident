@@ -86,10 +86,10 @@ public class Character : Human, ICharacterVisitor
             else
             {
                 _animator.SetBool("walk", false);
-                movementSide = previosSide; //* 2 / 3;
+                movementSide = previosSide;
             }
 
-            if (!inFrontOfWall)
+            if (!inFrontOfWall && movementSide != 0)
             {
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }

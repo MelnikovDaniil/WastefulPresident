@@ -300,7 +300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8989124590530775009, guid: 76fc430d16e04064d8ff63248fdec9a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.8
+      value: -1.11
       objectReference: {fileID: 0}
     - target: {fileID: 8989124590530775009, guid: 76fc430d16e04064d8ff63248fdec9a2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -363,6 +363,22 @@ PrefabInstance:
     - target: {fileID: 1301001192553050913, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301001192553050916, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301001192553050916, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
+      propertyPath: m_Size.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301001192553050916, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301001192553050916, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1301001192553050917, guid: 0e7c872460e83374da3cdb6ded8764d7, type: 3}
       propertyPath: m_RootOrder
@@ -6439,11 +6455,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
-  tossPlaceOffset: {x: 0, y: 1.75, z: 0}
-  tossPlaceSize: {x: 0.75, y: 1.5}
-  discardingSize: {x: 4, y: 1.5}
+  tossPlaceOffset: {x: 0, y: 1.5, z: 0}
+  tossPlaceSize: {x: 0.75, y: 1}
+  discardingSize: {x: 4, y: 1}
   force: 29
-  discardingForce: 5
+  minMaxDiscardingForce: {x: 6, y: 15}
 --- !u!4 &1841299623
 Transform:
   m_ObjectHideFlags: 0

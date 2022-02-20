@@ -9,7 +9,7 @@ public class Trampoline : PowerConsumer
     public Vector2 tossPlaceSize;
     public Vector2 discardingSize;
     public float force = 5f;
-    public float discardingForce = 5f;
+    public Vector2 minMaxDiscardingForce = new Vector2(2f, 7f);
 
     private int characterLayer;
     // Start is called before the first frame update
@@ -61,25 +61,29 @@ public class Trampoline : PowerConsumer
                 }
 
                 humanCollider.attachedRigidbody.velocity = Vector2.zero;
-
+                human.CheckTrampilineSide();
                 if (tossColliders.Contains(humanCollider))
                 {
                     humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
                 }
                 else
                 {
+                    var maxHumanDistance = discardingSize.x / 2;
+                    var forceCoof = 1.0f - Mathf.Clamp01(
+                        Mathf.Abs(humanCollider.transform.position.x - transform.position.x) / maxHumanDistance);
                     var discardingVector = humanCollider.transform.position - transform.position;
+                    var calculatedForce = minMaxDiscardingForce.x
+                        + (minMaxDiscardingForce.y - minMaxDiscardingForce.x) * forceCoof;
+
+
                     humanCollider.attachedRigidbody.AddForce(
-                        new Vector3(5, 1).normalized * discardingForce,
+                        discardingVector.normalized * calculatedForce,
                         ForceMode2D.Impulse);
                 }
                 human.OnLanding = (IEnumerable<Collider2D> colliders) =>
                 {
-                    if (!colliders.Any(x => x.gameObject.layer == 8))
-                    {
-                        human.HideTarget();
-                        human.OnLanding = null;
-                    }
+                    human.HideTarget();
+                    human.OnLanding = null;
                 };
             }
         }

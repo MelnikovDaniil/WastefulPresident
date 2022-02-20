@@ -56,19 +56,6 @@ public abstract class Human : MonoBehaviour, IVisitor
         _animator = GetComponent<Animator>();
     }
 
-
-    private void Update()
-    {
-        //if (humanState != HumanState.Dead && !jumpDelay && inFrontOfWall && isGrounded)
-        //{
-        //    isGrounded = false;
-        //    jumpDelay = true;
-        //    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        //    _animator.SetTrigger("jump");
-        //    StartCoroutine(JumpDelayRoutine());
-        //}
-    }
-
     public abstract void SetColor(Color color);
 
     public abstract void ShowColor();
@@ -177,7 +164,6 @@ public abstract class Human : MonoBehaviour, IVisitor
                 {
                     StartCoroutine(QuestionMarkRoutine());
                     HideTarget();
-                    _rigidbody.velocity = Vector2.zero;
                     _animator.SetBool("run", false);
                     _animator.SetBool("walk", false);
                     currentPositionTime = 0;
@@ -188,7 +174,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckGround()
     {
-        var bitmask = (1 << 6) | (1 << 7) | (1 << 8);
+        var bitmask = ((1 << 6) | (1 << 7)) & ~(1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
         var anyCollider = colliders.Any();
@@ -198,10 +184,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 
             if (isGrounded)
             {
-                if (!colliders.Any(x => x.gameObject.layer == 8))
-                {
-                    _rigidbody.velocity = Vector2.zero;
-                }
+                _rigidbody.velocity = Vector2.zero;
                 OnLanding?.Invoke(colliders);
             }
             else if (target != null)
@@ -213,6 +196,14 @@ public abstract class Human : MonoBehaviour, IVisitor
                 previosSide = 0;
             }
             _animator.SetBool("grounded", isGrounded);
+        }
+    }
+
+    public void CheckTrampilineSide()
+    {
+        if (!isGrounded && target != null && previosSide == 0)
+        {
+            previosSide = Mathf.Sign(target.Value.x - transform.position.x);
         }
     }
 

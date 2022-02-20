@@ -67,14 +67,16 @@ public class Agent : Human
             }
             else
             {
+                _animator.SetBool("run", false);
                 _animator.SetBool("walk", false);
-                movementSide = previosSide; //* 2 / 3;
+                movementSide = previosSide;
             }
 
-            if (!inFrontOfWall)
+            if (!inFrontOfWall && movementSide != 0)
             {
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
+
 
             if (_rigidbody.velocity.y < -5f)
             {
