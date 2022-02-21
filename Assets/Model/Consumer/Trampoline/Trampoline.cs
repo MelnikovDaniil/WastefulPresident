@@ -11,11 +11,16 @@ public class Trampoline : PowerConsumer
     public float force = 5f;
     public Vector2 minMaxDiscardingForce = new Vector2(2f, 7f);
 
+    [Space]
+    public GameObject arrow;
+
+    private Animator _animator;
     private int characterLayer;
     // Start is called before the first frame update
     public new void Start()
     {
         base.Start();
+        _animator = GetComponent<Animator>();
         characterLayer = LayerMask.NameToLayer("Characters");
         var boxCollider = gameObject.AddComponent<BoxCollider2D>();
         boxCollider.size = tossPlaceSize;
@@ -28,11 +33,11 @@ public class Trampoline : PowerConsumer
         if (isActive)
         {
             TossUp();
-            //sprteRenderer.sprite = pressedSprite;
+            arrow.SetActive(true);
         }
         else
         {
-            //sprteRenderer.sprite = releasedSprite;
+            arrow.SetActive(false);
         }
     }
 
@@ -52,6 +57,7 @@ public class Trampoline : PowerConsumer
 
         if (tossColliders.Any())
         {
+            _animator.SetTrigger("push");
             foreach (var humanCollider in colliers)
             {
                 var human = humanCollider.GetComponent<Human>();
