@@ -209,10 +209,11 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckWall()
     {
+        var bitmask = (1 << 6) | (1 << 7);
         var position = new Vector2(
             transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
             transform.position.y + checkWallOffset.y);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
 
         inFrontOfWall = colliders.Any();
     }
