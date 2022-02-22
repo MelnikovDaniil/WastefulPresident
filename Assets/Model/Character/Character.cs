@@ -103,48 +103,6 @@ public class Character : Human, ICharacterVisitor
                 _animator.SetBool("fall", false);
             }
             CheckGround();
-
-            //if (target != null)
-            //{
-            //    var side = previosSide;
-            //    if (isGrounded)
-            //    {
-            //        previosSide = Mathf.Sign(target.Value.x - transform.position.x);
-            //    }
-            //    else
-            //    {
-            //        side = previosSide * 2 / 3;
-            //    }
-            //    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * previosSide, transform.localScale.y, 0);
-            //    var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-            //    var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-            //    if (isGrounded || !inFrontOfWall)
-            //    {
-            //        _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-            //    }
-
-            //    _animator.SetBool("walk", true);
-
-            //    if (targetDistanceX < targetStopDistanceX
-            //        && targetDistanceY < targetStopDistanceY)
-            //    {
-            //        if (humanState == HumanState.MovingToInteract)
-            //        {
-            //            humanState = HumanState.Waiting;
-            //            TryInteract();
-            //        }
-            //        else
-            //        {
-            //            humanState = HumanState.Waiting;
-            //        }
-            //        HideTarget();
-            //        _animator.SetBool("walk", false);
-
-            //    }
-            //    CheckWall();
-            //    CheckPositionChanges();
-            //}
         }
     }
 
