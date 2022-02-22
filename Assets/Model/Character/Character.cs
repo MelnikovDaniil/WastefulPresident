@@ -53,41 +53,46 @@ public class Character : Human, ICharacterVisitor
     {
         if (humanState != HumanState.Dead)
         {
-            if (target != null)
+            if (isGrounded)
             {
-                var side = Mathf.Sign(target.Value.x - transform.position.x);
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
-                var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                if (isGrounded || !inFrontOfWall)
+                if (target != null)
                 {
-                    _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-                }
+                    movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
+                    var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+                    var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
-                _animator.SetBool("walk", true);
+                    _animator.SetBool("walk", true);
 
-                if (targetDistanceX < targetStopDistanceX)
-                {
-                    if (humanState == HumanState.MovingToInteract)
+                    if (targetDistanceX < targetStopDistanceX
+                        && targetDistanceY < targetStopDistanceY)
                     {
-                        humanState = HumanState.Waiting;
-                        TryInteract();
+                        if (humanState == HumanState.MovingToInteract)
+                        {
+                            humanState = HumanState.Waiting;
+                            TryInteract();
+                        }
+                        else
+                        {
+                            humanState = HumanState.Waiting;
+                        }
+                        HideTarget();
+                        _animator.SetBool("walk", false);
                     }
-                    else
-                    {
-                        humanState = HumanState.Waiting;
-                    }
-                    OnMovementFinish?.Invoke();
-                    target = null;
-                    _rigidbody.velocity = Vector2.zero;
-                    _animator.SetBool("walk", false);
-
+                    CheckWall();
+                    CheckPositionChanges();
                 }
-                CheckWall();
-                CheckPositionChanges();
+            }
+            else
+            {
+                _animator.SetBool("walk", false);
+                movementSide = previosSide;
             }
 
+            if (!inFrontOfWall && movementSide != 0)
+            {
+                _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
+            }
 
             if (_rigidbody.velocity.y < -5f)
             {
@@ -98,6 +103,48 @@ public class Character : Human, ICharacterVisitor
                 _animator.SetBool("fall", false);
             }
             CheckGround();
+
+            //if (target != null)
+            //{
+            //    var side = previosSide;
+            //    if (isGrounded)
+            //    {
+            //        previosSide = Mathf.Sign(target.Value.x - transform.position.x);
+            //    }
+            //    else
+            //    {
+            //        side = previosSide * 2 / 3;
+            //    }
+            //    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * previosSide, transform.localScale.y, 0);
+            //    var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+            //    var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+            //    if (isGrounded || !inFrontOfWall)
+            //    {
+            //        _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
+            //    }
+
+            //    _animator.SetBool("walk", true);
+
+            //    if (targetDistanceX < targetStopDistanceX
+            //        && targetDistanceY < targetStopDistanceY)
+            //    {
+            //        if (humanState == HumanState.MovingToInteract)
+            //        {
+            //            humanState = HumanState.Waiting;
+            //            TryInteract();
+            //        }
+            //        else
+            //        {
+            //            humanState = HumanState.Waiting;
+            //        }
+            //        HideTarget();
+            //        _animator.SetBool("walk", false);
+
+            //    }
+            //    CheckWall();
+            //    CheckPositionChanges();
+            //}
         }
     }
 
