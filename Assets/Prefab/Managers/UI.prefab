@@ -6418,6 +6418,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7531606104734891418}
     m_Modifications:
     - target: {fileID: 9196432875932252244, guid: 5b3e3497050bfbc45bf852439f22b8b1, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196432875932252244, guid: 5b3e3497050bfbc45bf852439f22b8b1, type: 3}
       propertyPath: m_SortingOrder
       value: 60
       objectReference: {fileID: 0}
@@ -6480,6 +6484,10 @@ PrefabInstance:
     - target: {fileID: 9196432875932252246, guid: 5b3e3497050bfbc45bf852439f22b8b1, type: 3}
       propertyPath: m_Name
       value: MoneyParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196432875932252246, guid: 5b3e3497050bfbc45bf852439f22b8b1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b3e3497050bfbc45bf852439f22b8b1, type: 3}

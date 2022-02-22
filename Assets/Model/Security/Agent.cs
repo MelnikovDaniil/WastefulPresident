@@ -21,56 +21,60 @@ public class Agent : Human
     {
         if (humanState != HumanState.Dead)
         {
-            if (target != null)
+            if (isGrounded)
             {
-                var side = Mathf.Sign(target.Value.x - transform.position.x);
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * side, transform.localScale.y, 0);
-                var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+                if (target != null)
+                {
+                    movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
+                    var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+                    var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
-                if (isGrounded || !inFrontOfWall)
-                {
-                    _rigidbody.velocity = new Vector2(side * speed, _rigidbody.velocity.y);
-                }
-
-                if (humanState == HumanState.Follow)
-                {
-                    _animator.SetBool("run", false);
-                    _animator.SetBool("walk", true);
-                }
-                else
-                {
-                    _animator.SetBool("run", true);
-                    _animator.SetBool("walk", false);
-                }
-
-                if (humanState == HumanState.Follow && targetDistanceX < presidentStopDistance)
-                {
-                    target = null;
-                    _rigidbody.velocity = Vector2.zero;
-                    _animator.SetBool("walk", false);
-                }
-                else if (targetDistanceX < targetStopDistanceX
-                    && targetDistanceY < targetStopDistanceY)
-                {
-                    if (humanState == HumanState.MovingToInteract)
+                    if (humanState == HumanState.Follow)
                     {
-                        humanState = HumanState.Waiting;
-                        TryInteract();
+                        _animator.SetBool("run", false);
+                        _animator.SetBool("walk", true);
                     }
                     else
                     {
-                        humanState = HumanState.Waiting;
+                        _animator.SetBool("run", true);
+                        _animator.SetBool("walk", false);
                     }
 
-                    OnMovementFinish?.Invoke();
-                    target = null;
-                    _rigidbody.velocity = Vector2.zero;
-                    _animator.SetBool("run", false);
+                    if (humanState == HumanState.Follow && targetDistanceX < presidentStopDistance)
+                    {
+                        HideTarget();
+                        _animator.SetBool("walk", false);
+                    }
+                    else if (targetDistanceX < targetStopDistanceX
+                        && targetDistanceY < targetStopDistanceY)
+                    {
+                        if (humanState == HumanState.MovingToInteract)
+                        {
+                            humanState = HumanState.Waiting;
+                            TryInteract();
+                        }
+                        else
+                        {
+                            humanState = HumanState.Waiting;
+                        }
+                        HideTarget();
+                        _animator.SetBool("run", false);
+                    }
+                    CheckWall();
+                    CheckPositionChanges();
                 }
+            }
+            else
+            {
+                _animator.SetBool("run", false);
+                _animator.SetBool("walk", false);
+                movementSide = previosSide;
+            }
 
-                CheckWall();
-                CheckPositionChanges();
+            if (!inFrontOfWall && movementSide != 0)
+            {
+                _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
 
 

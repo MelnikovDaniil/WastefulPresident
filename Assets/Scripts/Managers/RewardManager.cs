@@ -18,6 +18,7 @@ public class RewardManager : BaseManager
         var currentLevel = SceneManager.GetActiveScene();
         GetComponent<Animator>().SetBool("reward", LevelMapper.GetCurrentLevel() == currentLevel.name);
         GetComponent<Canvas>().worldCamera = Camera.main;
+        GetComponent<Canvas>().sortingLayerName = "SelectionMenu";
         rewardText.text = string.Empty;
         currentMoneyText.text = MoneyMapper.Get().ToString() + "$";
         reward = 0;

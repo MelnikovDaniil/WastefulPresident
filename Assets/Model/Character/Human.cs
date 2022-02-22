@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 {
     public Action OnDeath;
     public Action OnMovementFinish;
+    public Action<IEnumerable<Collider2D>> OnLanding;
     public float speed;
     public float jumpForce;
 
@@ -44,24 +46,14 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected bool inFrontOfWall;
     protected bool jumpDelay;
 
+    protected float movementSide;
+    protected float previosSide;
+
     protected void Awake()
     {
         characterColor.gameObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-    }
-
-
-    private void Update()
-    {
-        //if (humanState != HumanState.Dead && !jumpDelay && inFrontOfWall && isGrounded)
-        //{
-        //    isGrounded = false;
-        //    jumpDelay = true;
-        //    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        //    _animator.SetTrigger("jump");
-        //    StartCoroutine(JumpDelayRoutine());
-        //}
     }
 
     public abstract void SetColor(Color color);
@@ -146,6 +138,14 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
+    public void HideTarget()
+    {
+        OnMovementFinish?.Invoke();
+        _rigidbody.velocity = Vector2.zero;
+        movementSide = 0;
+        target = null;
+    }
+
     protected void CheckPositionChanges()
     {
         if (isGrounded)
@@ -161,11 +161,8 @@ public abstract class Human : MonoBehaviour, IVisitor
                 currentPositionTime += Time.fixedDeltaTime;
                 if (currentPositionTime >= samePositionTime)
                 {
-                    OnMovementFinish?.Invoke();
                     StartCoroutine(QuestionMarkRoutine());
-                    humanState = HumanState.Waiting;
-                    target = null;
-                    _rigidbody.velocity = Vector2.zero;
+                    HideTarget();
                     _animator.SetBool("run", false);
                     _animator.SetBool("walk", false);
                     currentPositionTime = 0;
@@ -176,9 +173,9 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckGround()
     {
+        var bitmask = ((1 << 6) | (1 << 7)) & ~(1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius)
-            .Where(x => x.gameObject.layer == 6 || x.gameObject.layer == 7);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
         var anyCollider = colliders.Any();
         if (isGrounded != anyCollider)
         {
@@ -187,17 +184,35 @@ public abstract class Human : MonoBehaviour, IVisitor
             if (isGrounded)
             {
                 _rigidbody.velocity = Vector2.zero;
+                OnLanding?.Invoke(colliders);
+            }
+            else if (target != null)
+            {
+                previosSide = Mathf.Sign(target.Value.x - transform.position.x);
+            }
+            else
+            {
+                previosSide = 0;
             }
             _animator.SetBool("grounded", isGrounded);
         }
     }
 
+    public void CheckTrampilineSide()
+    {
+        if (!isGrounded && target != null && previosSide == 0)
+        {
+            previosSide = Mathf.Sign(target.Value.x - transform.position.x);
+        }
+    }
+
     protected void CheckWall()
     {
+        var bitmask = (1 << 6) | (1 << 7);
         var position = new Vector2(
             transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
             transform.position.y + checkWallOffset.y);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius).Where(x => x.gameObject.layer == 6);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
 
         inFrontOfWall = colliders.Any();
     }
