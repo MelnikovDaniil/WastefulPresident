@@ -86,6 +86,12 @@ public class Agent : Human
         }
     }
 
+    public override void Death()
+    {
+        base.Death();
+        _rigidbody.freezeRotation = false;
+    }
+
     public override void SetColor(Color color)
     {
         spriteRenderer.material.SetColor("_Color", color);

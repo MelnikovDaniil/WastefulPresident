@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Character : Human, ICharacterVisitor
 {
     [NonSerialized]
     public bool isLocked;
+    [Space]
+    [Range(0f, 1f)]
+    public float sendOrderChanse = 1;
+
     [Space]
     public Vector2 cameraOffset = Vector2.up;
     public Material colorMaterial;
@@ -119,7 +124,10 @@ public class Character : Human, ICharacterVisitor
 
     public void SendOrder()
     {
-        _animator.SetTrigger("order");
+        if (sendOrderChanse > Random.value)
+        {
+            _animator.SetTrigger("order");
+        }
     }
 
     public void PlayAnimation(string animName)
