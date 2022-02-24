@@ -166,6 +166,11 @@ public class ControllerManager : BaseManager
                     SendForInteraction(currentHuman, interactableObject);
                     actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
                     actionIcon.SetInteraction();
+
+                    if (currentHuman is Agent)
+                    {
+                        character.SendOrder();
+                    }
                 }
                 else
                 {

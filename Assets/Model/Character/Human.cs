@@ -90,7 +90,6 @@ public abstract class Human : MonoBehaviour, IVisitor
         humanState = HumanState.Dead;
         OnDeath?.Invoke();
         _rigidbody.sharedMaterial = null;
-        _rigidbody.freezeRotation = false;
         target = null;
     }
 
