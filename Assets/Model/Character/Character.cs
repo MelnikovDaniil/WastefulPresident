@@ -17,8 +17,11 @@ public class Character : Human, ICharacterVisitor
     public Vector2 cameraOffset = Vector2.up;
     public Material colorMaterial;
 
-    private float horizontalMove = 0;
+    [Space]
+    public float watchingClockFromTime = 15f;
 
+    private float horizontalMove = 0;
+    private float currentIdleTime = 0;
 
     public void Update()
     {
@@ -44,6 +47,11 @@ public class Character : Human, ICharacterVisitor
             }
             else if (humanState == HumanState.Waiting)
             {
+                currentIdleTime += Time.deltaTime;
+                if (currentIdleTime >= watchingClockFromTime)
+                {
+                    WatchClock();
+                }
                 _animator.SetBool("walk", false);
             }
         }
@@ -62,6 +70,7 @@ public class Character : Human, ICharacterVisitor
             {
                 if (target != null)
                 {
+                    currentIdleTime = 0;
                     movementSide = Mathf.Sign(target.Value.x - transform.position.x);
                     transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
                     var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
@@ -147,5 +156,11 @@ public class Character : Human, ICharacterVisitor
         {
             dialogueTrigger.TriggerDialogue();
         }
+    }
+
+    private void WatchClock()
+    {
+        _animator.SetTrigger("clock");
+        currentIdleTime = 0;
     }
 }
