@@ -11,6 +11,11 @@ public class Agent : Human
     public SpriteRenderer spriteRenderer;
     public SpriteRenderer skinRenderer;
 
+    [Space]
+    public Transform backTransform;
+
+    private Battery currentBattery;
+
     public new void Awake()
     {
         base.Awake();
@@ -120,5 +125,33 @@ public class Agent : Human
             currentPositionTime = 0;
             this.target = target;
         }
+    }
+
+    public override Battery GetBattery()
+    {
+        return currentBattery;
+    }
+
+    public override bool TryTakeBattery(Battery battery)
+    {
+        if (currentBattery == null)
+        {
+            currentBattery = battery;
+            currentBattery.transform.parent = backTransform;
+            currentBattery.transform.localPosition = Vector2.zero;
+            currentBattery.transform.localRotation = Quaternion.identity;
+            currentBattery.Hold();
+        }
+        else
+        {
+            battery.transform.parent = null;
+            battery.Throw();
+        }
+        return true;
+    }
+
+    public override void RemoveBattery()
+    {
+        currentBattery = null;
     }
 }

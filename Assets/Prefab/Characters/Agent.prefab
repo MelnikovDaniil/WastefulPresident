@@ -301,6 +301,7 @@ MonoBehaviour:
   presidentStopDistance: 0.1
   spriteRenderer: {fileID: 1301001192553050914}
   skinRenderer: {fileID: 1932705602747337162}
+  backTransform: {fileID: 845715587767543363}
 --- !u!50 &1301001192553050919
 Rigidbody2D:
   serializedVersion: 4
@@ -368,6 +369,7 @@ Transform:
   - {fileID: 1301001194088128115}
   - {fileID: 1301001192367368186}
   - {fileID: 1301001194386798326}
+  - {fileID: 845715587767543363}
   m_Father: {fileID: 1301001193880335722}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -678,6 +680,36 @@ Transform:
   m_Father: {fileID: 1301001192962303396}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7333300897425304322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 845715587767543363}
+  m_Layer: 3
+  m_Name: BackTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &845715587767543363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333300897425304322}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.28, y: -2.9, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_Children: []
+  m_Father: {fileID: 1301001192962303396}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &8159808075762603975
 GameObject:
   m_ObjectHideFlags: 0
