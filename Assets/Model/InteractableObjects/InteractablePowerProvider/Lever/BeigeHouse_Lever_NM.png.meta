@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 82898376f82b3cb4fb7ec660b9715d13
+guid: 871602274e5662f45bd4afc19c391437
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -217034946909342246
-    second: BeigeHouse_PressurePlate_Pressed
+      213: 5697525745454231902
+    second: BeigeHouse_Lever_Head
   - first:
-      213: -4236022473696837153
-    second: BeigeHouse_PressurePlate_Released
+      213: 1235165239491199690
+    second: BeigeHouse_Lever_Body
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
-    sRGBTexture: 1
+    enableMipMap: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -22,9 +22,9 @@ TextureImporter:
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
-    convertToNormalMap: 0
+    convertToNormalMap: 1
     externalNormalMap: 0
-    heightScale: 0.25
+    heightScale: 0.243
     normalMapFilter: 0
   isReadable: 0
   streamingMipmaps: 0
@@ -56,9 +56,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 1
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -97,43 +97,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BeigeHouse_PressurePlate_Pressed
+      name: BeigeHouse_Lever_Head
       rect:
         serializedVersion: 2
-        x: 3
-        y: 69
-        width: 151
-        height: 27
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 54
+        y: 121
+        width: 43
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad57f9d9ddfecfcf0800000000000000
-      internalID: -217034946909342246
+      spriteID: e51317c8a7da11f40800000000000000
+      internalID: 5697525745454231902
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BeigeHouse_PressurePlate_Released
+      name: BeigeHouse_Lever_Body
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 151
-        height: 41
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 152
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd18abae000a635c0800000000000000
-      internalID: -4236022473696837153
+      spriteID: ac288cabd30342110800000000000000
+      internalID: 1235165239491199690
       vertices: []
       indices: 
       edges: []
@@ -147,9 +147,7 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {fileID: 2800000, guid: fc4dec2246013324abb7dcb459a9febf, type: 3}
-      name: _NormalMap
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
