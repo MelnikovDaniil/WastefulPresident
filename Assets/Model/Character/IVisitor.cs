@@ -11,5 +11,9 @@
     void VisitTimer(float timeSpeed);
     void FinishVisitTimer();
 
+    Battery GetBattery();
+    bool TryTakeBattery(Battery battery);
+    void RemoveBattery();
+
     void FinishVisiting();
 }
