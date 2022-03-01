@@ -284,4 +284,18 @@ public abstract class Human : MonoBehaviour, IVisitor
     {
         _animator.SetTrigger("timerOff");
     }
+
+    public virtual Battery GetBattery()
+    {
+        return null;
+    }
+
+    public virtual bool TryTakeBattery(Battery battery)
+    {
+        return false;
+    }
+
+    public virtual void RemoveBattery()
+    {
+    }
 }
