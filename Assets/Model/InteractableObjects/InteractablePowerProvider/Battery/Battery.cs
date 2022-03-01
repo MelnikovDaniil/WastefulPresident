@@ -43,6 +43,7 @@ public class Battery : InteractableObject
     {
         spriteRenderer.sortingLayerName = "Item";
         colliders.ForEach(x => x.enabled = true);
+        transform.localScale = Vector3.one;
         transform.rotation = Quaternion.identity;
         rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         rigidbody2D.freezeRotation = true;
@@ -51,6 +52,7 @@ public class Battery : InteractableObject
 
     public void Hold()
     {
+        transform.localScale = Vector3.one;
         spriteRenderer.sortingLayerName = "Default";
         colliders.ForEach(x => x.enabled = false);
         rigidbody2D.bodyType = RigidbodyType2D.Kinematic;

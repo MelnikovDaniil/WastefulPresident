@@ -3,6 +3,7 @@ using UnityEngine;
 public class BatterySlot : InteractrablePowerProvider
 {
     public Transform batteryTransform;
+    public GameObject light;
 
     private Battery storedBattery;
     public override void StartInteraction(IVisitor visitor)
@@ -21,9 +22,7 @@ public class BatterySlot : InteractrablePowerProvider
 
     public override void UpdateState()
     {
-        if (isActive)
-        {
-        }
+        light.SetActive(isActive);
     }
 
     public override void SuccessInteraction(IVisitor visitor)
@@ -36,6 +35,7 @@ public class BatterySlot : InteractrablePowerProvider
             storedBattery.transform.localPosition = Vector3.zero;
             storedBattery.transform.localRotation = Quaternion.identity;
             visitor.RemoveBattery();
+            storedBattery.Hold();
             base.SuccessInteraction(visitor);
         }
         else if (visitor.TryTakeBattery(storedBattery))

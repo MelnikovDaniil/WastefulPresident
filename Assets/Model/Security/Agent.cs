@@ -99,6 +99,12 @@ public class Agent : Human
     {
         base.Death();
         _rigidbody.freezeRotation = false;
+        if (currentBattery != null)
+        {
+            currentBattery.Throw();
+            currentBattery.transform.parent = null;
+            currentBattery = null;
+        }
     }
 
     public override void SetColor(Color color)
