@@ -7,6 +7,7 @@ public class BatteryHolder : InteractableObject
     public Battery batteryPrefab;
     public GameObject batteryTransform;
     public Animator _holderAnimator;
+    public GameObject light;
 
     private Battery battery;
 
@@ -35,6 +36,7 @@ public class BatteryHolder : InteractableObject
     {
         if (visitor.TryTakeBattery(battery))
         {
+            light.SetActive(false);
             GetComponent<Collider2D>().enabled = false;
             battery = null;
             batteryTransform.SetActive(false);
