@@ -49,6 +49,8 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected float movementSide;
     protected float previosSide;
 
+    protected float disableTime;
+
     protected void Awake()
     {
         characterColor.gameObject.SetActive(false);
@@ -144,6 +146,11 @@ public abstract class Human : MonoBehaviour, IVisitor
         _rigidbody.velocity = Vector2.zero;
         movementSide = 0;
         target = null;
+    }
+
+    public void Disable(float time)
+    {
+        disableTime = time;
     }
 
     protected void CheckPositionChanges()

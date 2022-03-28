@@ -9,6 +9,7 @@ public class Trampoline : PowerConsumer
     public Vector2 tossPlaceSize;
     public Vector2 discardingSize;
     public float force = 5f;
+    public float disableTime = 1.5f;
     public Vector2 minMaxDiscardingForce = new Vector2(2f, 7f);
 
     [Space]
@@ -71,6 +72,7 @@ public class Trampoline : PowerConsumer
                 if (tossColliders.Contains(humanCollider))
                 {
                     humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                    human.GetComponent<Animator>().SetTrigger("trampolineJump");
                 }
                 else
                 {
@@ -89,6 +91,7 @@ public class Trampoline : PowerConsumer
                 human.OnLanding = (IEnumerable<Collider2D> colliders) =>
                 {
                     human.HideTarget();
+                    human.Disable(disableTime);
                     human.OnLanding = null;
                 };
             }

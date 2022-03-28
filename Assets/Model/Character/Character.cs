@@ -68,33 +68,40 @@ public class Character : Human, ICharacterVisitor
         {
             if (isGrounded)
             {
-                if (target != null)
+                if (disableTime <= 0)
                 {
-                    currentIdleTime = 0;
-                    movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
-                    var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                    var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                    _animator.SetBool("walk", true);
-
-                    if (targetDistanceX < targetStopDistanceX
-                        && targetDistanceY < targetStopDistanceY)
+                    if (target != null)
                     {
-                        if (humanState == HumanState.MovingToInteract)
+                        currentIdleTime = 0;
+                        movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
+                        var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+                        var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+                        _animator.SetBool("walk", true);
+
+                        if (targetDistanceX < targetStopDistanceX
+                            && targetDistanceY < targetStopDistanceY)
                         {
-                            humanState = HumanState.Waiting;
-                            TryInteract();
+                            if (humanState == HumanState.MovingToInteract)
+                            {
+                                humanState = HumanState.Waiting;
+                                TryInteract();
+                            }
+                            else
+                            {
+                                humanState = HumanState.Waiting;
+                            }
+                            HideTarget();
+                            _animator.SetBool("walk", false);
                         }
-                        else
-                        {
-                            humanState = HumanState.Waiting;
-                        }
-                        HideTarget();
-                        _animator.SetBool("walk", false);
+                        CheckWall();
+                        CheckPositionChanges();
                     }
-                    CheckWall();
-                    CheckPositionChanges();
+                }
+                else
+                {
+                    disableTime -= Time.deltaTime;
                 }
             }
             else
