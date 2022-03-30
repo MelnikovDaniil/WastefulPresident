@@ -13,6 +13,7 @@
 
     Battery GetBattery();
     void StartTakingBattery(Battery battery);
+    void PutBattery();
     bool TryTakeBattery(Battery battery);
     void RemoveBattery();
 

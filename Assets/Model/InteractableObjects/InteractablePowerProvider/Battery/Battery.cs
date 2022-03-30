@@ -54,6 +54,7 @@ public class Battery : InteractableObject
     public void Hold()
     {
         transform.localScale = Vector3.one;
+        spriteRenderer.enabled = true;
         spriteRenderer.sortingLayerName = "Default";
         colliders.ForEach(x => x.enabled = false);
         rigidbody2D.bodyType = RigidbodyType2D.Kinematic;

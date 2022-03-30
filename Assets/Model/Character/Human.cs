@@ -266,20 +266,12 @@ public abstract class Human : MonoBehaviour, IVisitor
         Death();
     }
 
-    public void VisitPit()
+    public virtual void VisitPit()
     {
-        _animator.SetTrigger("pit");
-        GetComponent<SpriteRenderer>().sortingOrder += 10;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
-    public void FinishVisitPit()
+    public virtual void FinishVisitPit()
     {
-        _animator.SetBool("fall", true);
-        GetComponent<SpriteRenderer>().sortingOrder -= 10;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void VisitTimer(float animationSpeed)
@@ -301,6 +293,10 @@ public abstract class Human : MonoBehaviour, IVisitor
     public virtual void StartTakingBattery(Battery battery)
     {
         _animator.SetTrigger("batteryTake");
+    }
+
+    public virtual void PutBattery()
+    {
     }
 
     public virtual bool TryTakeBattery(Battery battery)

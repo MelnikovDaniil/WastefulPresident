@@ -40,7 +40,6 @@ public class Pit : InteractableObject, IComplexPositioning
             visitor.VisitPit();
             bridgeCollider.enabled = true;
             GetComponent<BoxCollider2D>().enabled = false;
-            visitor.VisitPit();
             timerAnimator.SetTrigger("show");
         }
     }

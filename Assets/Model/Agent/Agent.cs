@@ -105,7 +105,6 @@ public class Agent : Human
     public override void Death()
     {
         base.Death();
-        _rigidbody.freezeRotation = false;
         if (currentBattery != null)
         {
             currentBattery.Throw();
@@ -140,6 +139,23 @@ public class Agent : Human
         }
     }
 
+    public override void VisitPit()
+    {
+        _animator.SetTrigger("pit");
+        spriteRenderer.sortingOrder += 10;
+        skinRenderer.sortingOrder += 10;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    public override void FinishVisitPit()
+    {
+        spriteRenderer.sortingOrder -= 10;
+        skinRenderer.sortingOrder -= 10;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
     public override Battery GetBattery()
     {
         return currentBattery;
@@ -149,6 +165,13 @@ public class Agent : Human
     {
         battery.spriteRenderer.enabled = false;
         base.StartTakingBattery(battery);
+    }
+
+    public override void PutBattery()
+    {
+        currentBattery.spriteRenderer.enabled = false;
+        _animator.SetTrigger("batteryPut");
+        base.StartTakingBattery(currentBattery);
     }
 
     public override bool TryTakeBattery(Battery battery)
