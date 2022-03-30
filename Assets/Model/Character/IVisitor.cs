@@ -12,6 +12,7 @@
     void FinishVisitTimer();
 
     Battery GetBattery();
+    void StartTakingBattery(Battery battery);
     bool TryTakeBattery(Battery battery);
     void RemoveBattery();
 

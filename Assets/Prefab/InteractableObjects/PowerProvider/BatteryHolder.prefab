@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3995d370bbb71934dae23e6c56942947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionTime: 0
+  interactionTime: 1
   forCharacter: 1
   forAgent: 1
   batteryPrefab: {fileID: 2923509460750785245, guid: 28c1b396351d02a4f9d3e02bf8c52b8c, type: 3}
@@ -338,6 +338,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2923509460750785235, guid: 28c1b396351d02a4f9d3e02bf8c52b8c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5675774094961026336, guid: 28c1b396351d02a4f9d3e02bf8c52b8c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916023316571314499, guid: 28c1b396351d02a4f9d3e02bf8c52b8c, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

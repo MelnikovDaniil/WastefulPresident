@@ -31,6 +31,7 @@ public class Battery : InteractableObject
 
     public override void StartInteraction(IVisitor visitor)
     {
+        visitor.StartTakingBattery(this);
         base.StartInteraction(visitor);
     }
 

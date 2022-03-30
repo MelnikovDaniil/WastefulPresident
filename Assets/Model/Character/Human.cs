@@ -298,6 +298,11 @@ public abstract class Human : MonoBehaviour, IVisitor
         return null;
     }
 
+    public virtual void StartTakingBattery(Battery battery)
+    {
+        _animator.SetTrigger("batteryTake");
+    }
+
     public virtual bool TryTakeBattery(Battery battery)
     {
         return false;

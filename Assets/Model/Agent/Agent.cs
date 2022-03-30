@@ -145,8 +145,15 @@ public class Agent : Human
         return currentBattery;
     }
 
+    public override void StartTakingBattery(Battery battery)
+    {
+        battery.spriteRenderer.enabled = false;
+        base.StartTakingBattery(battery);
+    }
+
     public override bool TryTakeBattery(Battery battery)
     {
+        battery.spriteRenderer.enabled = true;
         if (currentBattery == null)
         {
             currentBattery = battery;
@@ -160,6 +167,7 @@ public class Agent : Human
             battery.transform.parent = null;
             battery.Throw();
         }
+
         return true;
     }
 
