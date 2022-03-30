@@ -33,7 +33,7 @@ public class Agent : Human
                     if (target != null)
                     {
                         movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide, transform.localScale.y, 0);
+                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1), transform.localScale.y, 0);
                         var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
                         var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
