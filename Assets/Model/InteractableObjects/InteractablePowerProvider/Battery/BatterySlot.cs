@@ -12,6 +12,14 @@ public class BatterySlot : InteractrablePowerProvider
         if ((storedBattery == null && battery != null)
             || storedBattery != null)
         {
+            if (storedBattery != null)
+            {
+                visitor.StartTakingBattery(storedBattery);
+            }
+            else
+            {
+                visitor.PutBattery();
+            }
             base.StartInteraction(visitor);
         }
         else

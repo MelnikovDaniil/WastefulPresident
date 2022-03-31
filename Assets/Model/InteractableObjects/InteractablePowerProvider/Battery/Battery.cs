@@ -31,6 +31,7 @@ public class Battery : InteractableObject
 
     public override void StartInteraction(IVisitor visitor)
     {
+        visitor.StartTakingBattery(this);
         base.StartInteraction(visitor);
     }
 
@@ -53,6 +54,7 @@ public class Battery : InteractableObject
     public void Hold()
     {
         transform.localScale = Vector3.one;
+        spriteRenderer.enabled = true;
         spriteRenderer.sortingLayerName = "Default";
         colliders.ForEach(x => x.enabled = false);
         rigidbody2D.bodyType = RigidbodyType2D.Kinematic;

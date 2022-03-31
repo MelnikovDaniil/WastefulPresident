@@ -11,6 +11,7 @@ public abstract class Human : MonoBehaviour, IVisitor
     public Action<IEnumerable<Collider2D>> OnLanding;
     public float speed;
     public float jumpForce;
+    public bool reversed = false;
 
     [Space]
     public float targetStopDistanceX = 0.1f;
@@ -48,6 +49,8 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected float movementSide;
     protected float previosSide;
+
+    protected float disableTime;
 
     protected void Awake()
     {
@@ -146,6 +149,11 @@ public abstract class Human : MonoBehaviour, IVisitor
         target = null;
     }
 
+    public void Disable(float time)
+    {
+        disableTime = time;
+    }
+
     protected void CheckPositionChanges()
     {
         if (isGrounded)
@@ -210,7 +218,7 @@ public abstract class Human : MonoBehaviour, IVisitor
     {
         var bitmask = (1 << 6) | (1 << 7);
         var position = new Vector2(
-            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1),
             transform.position.y + checkWallOffset.y);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
 
@@ -231,7 +239,7 @@ public abstract class Human : MonoBehaviour, IVisitor
         Gizmos.DrawWireSphere(groundPosition, checkFroundRadius);
 
         var wallPosition = new Vector2(
-            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x),
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1),
             transform.position.y + checkWallOffset.y);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
@@ -258,20 +266,12 @@ public abstract class Human : MonoBehaviour, IVisitor
         Death();
     }
 
-    public void VisitPit()
+    public virtual void VisitPit()
     {
-        _animator.SetTrigger("pit");
-        GetComponent<SpriteRenderer>().sortingOrder += 10;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
-    public void FinishVisitPit()
+    public virtual void FinishVisitPit()
     {
-        _animator.SetBool("fall", true);
-        GetComponent<SpriteRenderer>().sortingOrder -= 10;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void VisitTimer(float animationSpeed)
@@ -288,6 +288,15 @@ public abstract class Human : MonoBehaviour, IVisitor
     public virtual Battery GetBattery()
     {
         return null;
+    }
+
+    public virtual void StartTakingBattery(Battery battery)
+    {
+        _animator.SetTrigger("batteryTake");
+    }
+
+    public virtual void PutBattery()
+    {
     }
 
     public virtual bool TryTakeBattery(Battery battery)
