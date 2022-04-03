@@ -19,6 +19,6 @@ public class StartScreen : MonoBehaviour
 
     private void PresidentIdle()
     {
-        presidentAnimator.SetTrigger("longIdle");
+        presidentAnimator.SetTrigger("clock");
     }
 }
