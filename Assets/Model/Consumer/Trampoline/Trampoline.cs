@@ -17,9 +17,9 @@ public class Trampoline : PowerConsumer
     private Animator _animator;
     private int characterLayer;
     // Start is called before the first frame update
-    public new void Start()
+    public new void Awake()
     {
-        base.Start();
+        //base.Start();
         _animator = GetComponent<Animator>();
         characterLayer = LayerMask.NameToLayer("Characters");
         var boxCollider = gameObject.AddComponent<BoxCollider2D>();
