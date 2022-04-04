@@ -3,19 +3,16 @@ using UnityEngine.UI;
 
 public class SettingPanel : MonoBehaviour
 {
-    public Slider volumeSlider;
+    public Toggle volumeToggle;
     public Toggle vibrationToggle;
-    public Toggle postProcessToggle;
 
     public void Start()
     {
-        volumeSlider.value = SettingsMapper.GetVolume();
+        volumeToggle.isOn = SettingsMapper.GetVolume();
         vibrationToggle.isOn = SettingsMapper.GetVibration();
-        postProcessToggle.isOn = SettingsMapper.GetPostProcess();
 
-        volumeSlider.onValueChanged.AddListener(ChangeVolume);
+        volumeToggle.onValueChanged.AddListener(ChangeVolume);
         vibrationToggle.onValueChanged.AddListener(ChangeVibration);
-        postProcessToggle.onValueChanged.AddListener(ChangePostProcess);
     }
 
     public void Exit()
@@ -23,25 +20,19 @@ public class SettingPanel : MonoBehaviour
         Application.Quit();
     }
 
-    private void ChangeVolume(float value)
+    private void ChangeVolume(bool isOn)
     {
-        SettingsMapper.SetVolume(value);
-        SoundManager.SetSoundVolume(value);
-        SoundManager.SetMusicVolume(value);
+        SettingsMapper.SetVolume(isOn);
+        SoundManager.SetSoundVolume(isOn ? 1 : 0);
+        SoundManager.SetMusicVolume(isOn ? 1 : 0);
 
-        SoundManager.PlaySound("volumeSlider2");
+        SoundManager.PlaySound("checkBox");
     }
 
     private void ChangeVibration(bool isOn)
     {
         SettingsMapper.SetVibration(isOn);
         Vibration.VibrateIfOn();
-        SoundManager.PlaySound("checkBox");
-    }
-
-    private void ChangePostProcess(bool isOn)
-    {
-        SettingsMapper.SetPostProcess(isOn);
         SoundManager.PlaySound("checkBox");
     }
 }
