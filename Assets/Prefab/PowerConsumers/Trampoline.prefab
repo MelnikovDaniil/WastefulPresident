@@ -52,6 +52,7 @@ MonoBehaviour:
   tossPlaceSize: {x: 1, y: 1}
   discardingSize: {x: 4, y: 1}
   force: 29
+  disableTime: 1.5
   minMaxDiscardingForce: {x: 6, y: 15}
   arrow: {fileID: 5940861645785418429}
 --- !u!95 &6045149738899054265
@@ -142,7 +143,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -911629101
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 20
   m_Sprite: {fileID: -9002796060696111139, guid: c7130f8f0dda9824b92887555b0fa1d1, type: 3}
   m_Color: {r: 0.2971698, g: 1, b: 0.93945724, a: 1}
@@ -206,7 +207,7 @@ MonoBehaviour:
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 000000004599722ad3a4a9c9edde2dacffa80090
   m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 1
+  m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
   m_ShadowIntensity: 0
@@ -297,7 +298,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -911629101
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 22
   m_Sprite: {fileID: -5502576156199612403, guid: c7130f8f0dda9824b92887555b0fa1d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -379,7 +380,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -911629101
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 21
   m_Sprite: {fileID: 8115390058758211599, guid: c7130f8f0dda9824b92887555b0fa1d1, type: 3}
   m_Color: {r: 0.2971698, g: 1, b: 0.93945724, a: 1}
