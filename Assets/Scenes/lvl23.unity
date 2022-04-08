@@ -501,12 +501,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].powerConsumer
       value: 
       objectReference: {fileID: 1926409209}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].points.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[0].points.Array.data[0].y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[1].y

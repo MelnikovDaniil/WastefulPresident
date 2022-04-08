@@ -520,12 +520,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].powerConsumer
+      value: 
+      objectReference: {fileID: 2097452629}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[1].powerConsumer
       value: 
       objectReference: {fileID: 2097452629}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].points.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[1].points.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[1].y
@@ -537,6 +549,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
       propertyPath: wires.Array.data[0].points.Array.data[2].y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[1].points.Array.data[1].y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[1].points.Array.data[2].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505140265783129849, guid: 2ade484116e23934ea0eca4395c63a34, type: 3}
+      propertyPath: wires.Array.data[1].points.Array.data[2].y
       value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
