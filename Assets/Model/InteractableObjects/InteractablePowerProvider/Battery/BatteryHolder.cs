@@ -25,6 +25,7 @@ public class BatteryHolder : InteractableObject
     {
         if (battery != null)
         {
+            visitor.StartTakingBattery(battery);
             base.StartInteraction(visitor);
         }
         else

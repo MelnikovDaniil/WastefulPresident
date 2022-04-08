@@ -9,7 +9,6 @@ public class Exit : MonoBehaviour
         var character = collision.gameObject.GetComponent<Character>();
         if (character != null)
         {
-            character.isLocked = true;
             UIManager.Instance.Finish(nextLevelName);
             if (!LevelMapper.IsOpen(nextLevelName))
             {
