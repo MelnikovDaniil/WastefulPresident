@@ -79,7 +79,7 @@ public class ControllerManager : BaseManager
             character.characterColor.color = startColor;
             character.SetColor(startColor);
             SelectionMenu.Instance.AddItem(character);
-            StartCoroutine(FollowPreidentRoutine());
+            // StartCoroutine(FollowPreidentRoutine());
         }
     }
 

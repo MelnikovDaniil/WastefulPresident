@@ -101,14 +101,8 @@ public class Trampoline : PowerConsumer
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        var tossPlacePosition = (Vector2)transform.position + RotateVector2(tossPlaceOffset, transform.eulerAngles.z);
-        Gizmos.DrawWireCube(tossPlacePosition, tossPlaceSize, transform.localRotation);
+        Gizmos.DrawWireCube(tossPlaceOffset + transform.position, tossPlaceSize);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(tossPlacePosition, discardingSize, transform.localRotation);
-    }
-
-    private Vector2 RotateVector2(Vector2 vector, float angle)
-    {
-        return Quaternion.Euler(0, 0, angle) * vector;
+        Gizmos.DrawWireCube(tossPlaceOffset + transform.position, discardingSize);
     }
 }
