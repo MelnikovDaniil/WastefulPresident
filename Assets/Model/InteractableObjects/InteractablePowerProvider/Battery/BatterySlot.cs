@@ -4,8 +4,20 @@ public class BatterySlot : InteractrablePowerProvider
 {
     public Transform batteryTransform;
     public GameObject light;
+    public Battery batteryPrefab;
 
     private Battery storedBattery;
+
+    private void Start()
+    {
+        base.Start();
+        if (isActive)
+        {
+            storedBattery = Instantiate(batteryPrefab, batteryTransform.transform);
+            storedBattery.Hold();
+        }
+    }
+
     public override void StartInteraction(IVisitor visitor)
     {
         var battery = visitor.GetBattery();
