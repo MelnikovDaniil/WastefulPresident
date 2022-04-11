@@ -1,41 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class SettingsMapper
 {
     private const string MapperName = "Settings";
 
-    public static float GetVolume()
+    public static bool GetVolume()
     {
-        return PlayerPrefs.GetFloat(MapperName + "Volume", 1);
+        return PlayerPrefs.GetInt(MapperName + "Volume", 1) == 1;
     }
 
-    public static void SetVolume(float value)
+    public static void SetVolume(bool value)
     {
-        PlayerPrefs.SetFloat(MapperName + "Volume", value);
+        PlayerPrefs.SetInt(MapperName + "Volume", value ? 1 : 0);
     }
 
     public static bool GetVibration()
     {
-        return PlayerPrefs.GetFloat(MapperName + "Vibration", 1) == 1;
+        return PlayerPrefs.GetInt(MapperName + "Vibration", 1) == 1;
     }
 
     public static void SetVibration(bool value)
     {
-        PlayerPrefs.SetFloat(MapperName + "Vibration", value ? 1 : 0);
-    }
-
-    public static bool GetPostProcess()
-    {
-        return PlayerPrefs.GetFloat(MapperName + "PostProcess", 1) == 1;
+        PlayerPrefs.SetInt(MapperName + "Vibration", value ? 1 : 0);
     }
 
     public static void SetPostProcess(bool value)
     {
-        PlayerPrefs.SetFloat(MapperName + "PostProcess", value ? 1 : 0);
+        PlayerPrefs.SetInt(MapperName + "PostProcess", value ? 1 : 0);
     }
 }
