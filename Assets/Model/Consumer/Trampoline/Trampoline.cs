@@ -42,6 +42,13 @@ public class Trampoline : PowerConsumer
         }
     }
 
+    public bool InTossPosition(Human human)
+    {
+        var bitmask = 1 << characterLayer;
+        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, bitmask);
+        return colliers.Any(x => x.gameObject == human.gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isActive && collision.gameObject.layer == characterLayer)
@@ -68,9 +75,9 @@ public class Trampoline : PowerConsumer
                 }
 
                 humanCollider.attachedRigidbody.velocity = Vector2.zero;
-                human.CheckTrampilineSide();
                 if (tossColliders.Contains(humanCollider))
                 {
+                    human.transform.position = tossPlaceOffset + transform.position + new Vector3(0, Mathf.Abs(human.checkGroundOffsetY));
                     humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
                     human.GetComponent<Animator>().SetTrigger("trampolineJump");
                 }
@@ -90,9 +97,14 @@ public class Trampoline : PowerConsumer
                 }
                 human.OnLanding = (IEnumerable<Collider2D> colliders) =>
                 {
-                    human.HideTarget();
-                    human.Disable(disableTime);
-                    human.OnLanding = null;
+                    var trampoline = colliders.FirstOrDefault(x => x.gameObject.layer == 8)?
+                        .GetComponent<Trampoline>();
+                    if (!trampoline || !trampoline.InTossPosition(human))
+                    {
+                        human.HideTarget();
+                        human.Disable(disableTime);
+                        human.OnLanding = null;
+                    }
                 };
             }
         }

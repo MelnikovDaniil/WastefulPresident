@@ -81,7 +81,6 @@ public class Agent : Human
             {
                 _animator.SetBool("run", false);
                 _animator.SetBool("walk", false);
-                movementSide = previosSide;
             }
 
             if (!inFrontOfWall && movementSide != 0)
@@ -89,15 +88,7 @@ public class Agent : Human
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
 
-
-            if (_rigidbody.velocity.y < -5f)
-            {
-                _animator.SetBool("fall", true);
-            }
-            else
-            {
-                _animator.SetBool("fall", false);
-            }
+            CheckFalling();
             CheckGround();
         }
     }

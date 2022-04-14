@@ -27,38 +27,14 @@ public class Character : Human, ICharacterVisitor
     {
         if (!isLocked && !DialogueManager.isWorking && humanState != HumanState.Dead)
         {
-            if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-            {
-                isGrounded = false;
-                _animator.SetTrigger("jump");
-                _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            }
-
-            if (isGrounded && Input.GetKeyDown(KeyCode.E))
-            {
-                TryInteract();
-            }
-
-            horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
-            if (Mathf.Abs(horizontalMove) > 0)
-            {
-                _animator.SetBool("walk", true);
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Input.GetAxisRaw("Horizontal"), transform.localScale.y, 0);
-            }
-            else if (humanState == HumanState.Waiting)
+            if (humanState == HumanState.Waiting)
             {
                 currentIdleTime += Time.deltaTime;
                 if (currentIdleTime >= watchingClockFromTime)
                 {
                     WatchClock();
                 }
-                _animator.SetBool("walk", false);
             }
-        }
-        else
-        {
-            _animator.SetBool("walk", false);
-            horizontalMove = 0;
         }
     }
 
@@ -109,22 +85,13 @@ public class Character : Human, ICharacterVisitor
             else
             {
                 _animator.SetBool("walk", false);
-                movementSide = previosSide;
             }
 
             if (!inFrontOfWall && movementSide != 0)
             {
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
-
-            if (_rigidbody.velocity.y < -5f)
-            {
-                _animator.SetBool("fall", true);
-            }
-            else
-            {
-                _animator.SetBool("fall", false);
-            }
+            CheckFalling();
             CheckGround();
         }
     }

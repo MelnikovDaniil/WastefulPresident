@@ -48,7 +48,6 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected bool jumpDelay;
 
     protected float movementSide;
-    protected float previosSide;
 
     protected float disableTime;
 
@@ -181,7 +180,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckGround()
     {
-        var bitmask = ((1 << 6) | (1 << 7)) & ~(1 << 8);
+        var bitmask = (1 << 6) | (1 << 7) | (1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
         var anyCollider = colliders.Any();
@@ -191,27 +190,17 @@ public abstract class Human : MonoBehaviour, IVisitor
 
             if (isGrounded)
             {
-                _rigidbody.velocity = Vector2.zero;
+                //_rigidbody.velocity = Vector2.zero;
                 OnLanding?.Invoke(colliders);
-            }
-            else if (target != null)
-            {
-                previosSide = Mathf.Sign(target.Value.x - transform.position.x);
-            }
-            else
-            {
-                previosSide = 0;
             }
             _animator.SetBool("grounded", isGrounded);
         }
     }
 
-    public void CheckTrampilineSide()
+    protected void CheckFalling()
     {
-        if (!isGrounded && target != null && previosSide == 0)
-        {
-            previosSide = Mathf.Sign(target.Value.x - transform.position.x);
-        }
+        var isFalling = _rigidbody.velocity.y < -5f;
+        _animator.SetBool("fall", isFalling);
     }
 
     protected void CheckWall()
