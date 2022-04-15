@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -85,6 +82,7 @@ public class Character : Human, ICharacterVisitor
                         if (targetDistanceX < targetStopDistanceX
                             && targetDistanceY < targetStopDistanceY)
                         {
+                            HideTarget();
                             if (humanState == HumanState.MovingToInteract)
                             {
                                 humanState = HumanState.Waiting;
@@ -94,7 +92,6 @@ public class Character : Human, ICharacterVisitor
                             {
                                 humanState = HumanState.Waiting;
                             }
-                            HideTarget();
                             _animator.SetBool("walk", false);
                         }
                         CheckWall();
