@@ -132,7 +132,7 @@ public class Agent : Human
 
     public override void VisitPit()
     {
-        _animator.SetTrigger("pit");
+        _animator.SetBool("pit", true);
         spriteRenderer.sortingOrder += 10;
         skinRenderer.sortingOrder += 10;
         _rigidbody.velocity = Vector2.zero;
@@ -141,6 +141,7 @@ public class Agent : Human
 
     public override void FinishVisitPit()
     {
+        _animator.SetBool("pit", false);
         spriteRenderer.sortingOrder -= 10;
         skinRenderer.sortingOrder -= 10;
         _rigidbody.velocity = Vector2.zero;

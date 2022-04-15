@@ -17,12 +17,19 @@ public class Trampoline : PowerConsumer
 
     private Animator _animator;
     private int characterLayer;
+    private int bitmask;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        characterLayer = LayerMask.NameToLayer("Characters");
+        bitmask = LayerMask.GetMask("Characters");
+        _animator = GetComponent<Animator>();
+    }
+
     public new void Start()
     {
         base.Start();
-        _animator = GetComponent<Animator>();
-        characterLayer = LayerMask.NameToLayer("Characters");
         var boxCollider = gameObject.AddComponent<BoxCollider2D>();
         boxCollider.size = tossPlaceSize;
         boxCollider.offset = tossPlaceOffset;
@@ -44,8 +51,7 @@ public class Trampoline : PowerConsumer
 
     public bool InTossPosition(Human human)
     {
-        var bitmask = 1 << characterLayer;
-        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, bitmask);
+        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
         return colliers.Any(x => x.gameObject == human.gameObject);
     }
 
@@ -59,7 +65,6 @@ public class Trampoline : PowerConsumer
 
     private void TossUp()
     {
-        var bitmask = 1 << characterLayer;
         var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, bitmask);
         var tossColliders = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
 
@@ -104,6 +109,10 @@ public class Trampoline : PowerConsumer
                         human.HideTarget();
                         human.Disable(disableTime);
                         human.OnLanding = null;
+                    }
+                    else
+                    {
+                        human.CheckTrampoline();
                     }
                 };
             }

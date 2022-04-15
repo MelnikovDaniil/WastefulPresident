@@ -197,6 +197,15 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
+    public void CheckTrampoline()
+    {
+        if (movementSide == 0 && target.HasValue)
+        {
+            movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+        }
+        isGrounded = false;
+    }
+
     protected void CheckFalling()
     {
         var isFalling = _rigidbody.velocity.y < -5f;

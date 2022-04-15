@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,7 +17,6 @@ public class Character : Human, ICharacterVisitor
     [Space]
     public float watchingClockFromTime = 15f;
 
-    private float horizontalMove = 0;
     private float currentIdleTime = 0;
 
     public void Update()
