@@ -183,7 +183,7 @@ public abstract class Human : MonoBehaviour, IVisitor
         var bitmask = (1 << 6) | (1 << 7) | (1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
-        var anyCollider = colliders.Any();
+        var anyCollider = colliders.Any(x => !x.isTrigger);
         if (isGrounded != anyCollider)
         {
             isGrounded = anyCollider;
