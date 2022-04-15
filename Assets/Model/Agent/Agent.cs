@@ -56,6 +56,7 @@ public class Agent : Human
                         else if (targetDistanceX < targetStopDistanceX
                             && targetDistanceY < targetStopDistanceY)
                         {
+                            HideTarget();
                             if (humanState == HumanState.MovingToInteract)
                             {
                                 humanState = HumanState.Waiting;
@@ -65,7 +66,6 @@ public class Agent : Human
                             {
                                 humanState = HumanState.Waiting;
                             }
-                            HideTarget();
                             _animator.SetBool("run", false);
                         }
                         CheckWall();

@@ -180,12 +180,11 @@ public class ControllerManager : BaseManager
                 }
 
                 actionIcon.Show(currentHuman);
-
-                var previosHuman = SelectionMenu.Instance.selectionItems.FirstOrDefault(x => x.human == currentHuman).human;
-                currentHuman.OnDeath += () => DisableActionIconOnDeath(actionIcon, previosHuman);
+                var deathInfo = new { actionIcon, currentHuman };
+                currentHuman.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentHuman);
                 currentHuman.OnMovementFinish = () =>
                 {
-                    currentHuman.OnDeath -= () => DisableActionIconOnDeath(actionIcon, previosHuman);
+                    deathInfo.currentHuman.OnDeath -= () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentHuman);
                     actionIcon.Hide();
                 };
             }
