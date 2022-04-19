@@ -56,6 +56,7 @@ public class Agent : Human
                         else if (targetDistanceX < targetStopDistanceX
                             && targetDistanceY < targetStopDistanceY)
                         {
+                            HideTarget();
                             if (humanState == HumanState.MovingToInteract)
                             {
                                 humanState = HumanState.Waiting;
@@ -65,7 +66,6 @@ public class Agent : Human
                             {
                                 humanState = HumanState.Waiting;
                             }
-                            HideTarget();
                             _animator.SetBool("run", false);
                         }
                         CheckWall();
@@ -81,7 +81,6 @@ public class Agent : Human
             {
                 _animator.SetBool("run", false);
                 _animator.SetBool("walk", false);
-                movementSide = previosSide;
             }
 
             if (!inFrontOfWall && movementSide != 0)
@@ -89,15 +88,7 @@ public class Agent : Human
                 _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
             }
 
-
-            if (_rigidbody.velocity.y < -5f)
-            {
-                _animator.SetBool("fall", true);
-            }
-            else
-            {
-                _animator.SetBool("fall", false);
-            }
+            CheckFalling();
             CheckGround();
         }
     }
@@ -141,7 +132,7 @@ public class Agent : Human
 
     public override void VisitPit()
     {
-        _animator.SetTrigger("pit");
+        _animator.SetBool("pit", true);
         spriteRenderer.sortingOrder += 10;
         skinRenderer.sortingOrder += 10;
         _rigidbody.velocity = Vector2.zero;
@@ -150,6 +141,7 @@ public class Agent : Human
 
     public override void FinishVisitPit()
     {
+        _animator.SetBool("pit", false);
         spriteRenderer.sortingOrder -= 10;
         skinRenderer.sortingOrder -= 10;
         _rigidbody.velocity = Vector2.zero;
