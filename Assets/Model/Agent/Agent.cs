@@ -26,12 +26,14 @@ public class Agent : Human
     {
         if (humanState != HumanState.Dead)
         {
+            _rigidbody.sharedMaterial = fullFriction;
             if (isGrounded)
             {
                 if (disableTime <= 0)
                 {
                     if (target != null)
                     {
+                        _rigidbody.sharedMaterial = zeroFriction;
                         movementSide = Mathf.Sign(target.Value.x - transform.position.x);
                         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1), transform.localScale.y, 0);
                         var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
@@ -83,9 +85,17 @@ public class Agent : Human
                 _animator.SetBool("walk", false);
             }
 
-            if (!inFrontOfWall && movementSide != 0)
+            if (!inFrontOfWall)
             {
-                _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
+                if (IsOnSlope())
+                {
+                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
+                }
+                else
+                {
+                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
+
+                }
             }
 
             CheckFalling();

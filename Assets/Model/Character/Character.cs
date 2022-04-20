@@ -38,12 +38,14 @@ public class Character : Human, ICharacterVisitor
     {
         if (humanState != HumanState.Dead)
         {
+            _rigidbody.sharedMaterial = fullFriction;
             if (isGrounded)
             {
                 if (disableTime <= 0)
                 {
                     if (target != null)
                     {
+                        _rigidbody.sharedMaterial = zeroFriction;
                         currentIdleTime = 0;
                         movementSide = Mathf.Sign(target.Value.x - transform.position.x);
                         transform.localScale = new Vector3(
@@ -83,10 +85,19 @@ public class Character : Human, ICharacterVisitor
                 _animator.SetBool("walk", false);
             }
 
-            if (!inFrontOfWall && movementSide != 0)
+            if (!inFrontOfWall)
             {
-                _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
+                if (IsOnSlope())
+                {
+                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
+                }
+                else
+                {
+                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
+
+                }
             }
+
             CheckFalling();
             CheckGround();
         }
