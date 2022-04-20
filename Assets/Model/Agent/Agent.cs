@@ -26,9 +26,9 @@ public class Agent : Human
     {
         if (humanState != HumanState.Dead)
         {
-            _rigidbody.sharedMaterial = fullFriction;
             if (isGrounded)
             {
+                _rigidbody.sharedMaterial = fullFriction;
                 if (disableTime <= 0)
                 {
                     if (target != null)
