@@ -22,6 +22,10 @@ public abstract class Human : MonoBehaviour, IVisitor
     public Vector2 checkWallOffset = new Vector2(1.2f, 0.5f);
 
     [Space]
+    public PhysicsMaterial2D fullFriction;
+    public PhysicsMaterial2D zeroFriction;
+
+    [Space]
     public float samePositionTime = 0.1f;
     public float samePositionDistance = 0.05f;
 
@@ -48,8 +52,11 @@ public abstract class Human : MonoBehaviour, IVisitor
     protected bool jumpDelay;
 
     protected float movementSide;
+    protected Vector2 slopeVectorPerp;
 
     protected float disableTime;
+
+    private int groundMask = (1 << 6) | (1 << 7) | (1 << 8);
 
     protected void Awake()
     {
@@ -178,11 +185,23 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
+    protected bool IsOnSlope()
+    {
+        var hit = Physics2D.Raycast(transform.position, Vector2.down, 2.5f, groundMask);
+
+        if (isGrounded && hit && hit.normal != Vector2.up)
+        {
+            slopeVectorPerp = Vector2.Perpendicular(hit.normal).normalized;
+            return true;
+        }
+
+        return false;
+    }
+
     protected void CheckGround()
     {
-        var bitmask = (1 << 6) | (1 << 7) | (1 << 8);
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, groundMask);
         var anyCollider = colliders.Any(x => !x.isTrigger);
         if (isGrounded != anyCollider)
         {
@@ -214,11 +233,10 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckWall()
     {
-        var bitmask = (1 << 6) | (1 << 7);
         var position = new Vector2(
             transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1),
             transform.position.y + checkWallOffset.y);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, bitmask);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, groundMask);
 
         inFrontOfWall = colliders.Any();
     }
