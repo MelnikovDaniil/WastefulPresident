@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class ControllerManager : BaseManager
 {
@@ -32,6 +33,7 @@ public class ControllerManager : BaseManager
     private Color currentHumanColor;
 
     private Human currentHuman;
+    private Queue<AgentSkin> unUsedSkins;
 
     private void Awake()
     {
@@ -111,7 +113,7 @@ public class ControllerManager : BaseManager
             agent.presidentStopDistance = presidentDistance;
             presidentDistance += securityDistacnceGap;
 
-            var skin = skins.GetRandom();
+            var skin = GetAgentSkin();
             agent.spriteRenderer.sprite = skin.skin;
             agent.skinRenderer.sprite = skin.skin;
             agent.icon = skin.icon;
@@ -223,6 +225,15 @@ public class ControllerManager : BaseManager
         {
             human.SetTarget(interactableObject.transform.position);
         }
+    }
+
+    private AgentSkin GetAgentSkin()
+    {
+        if (unUsedSkins == null || !unUsedSkins.Any())
+        {
+            unUsedSkins = new Queue<AgentSkin>(skins.OrderBy(a => Random.value));
+        }
+        return unUsedSkins.Dequeue();
     }
 
     private void DisableActionIconOnDeath(Actionicon actionIcon, Human human)
