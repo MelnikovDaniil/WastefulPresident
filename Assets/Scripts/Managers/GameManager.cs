@@ -11,6 +11,7 @@ public class GameManager : BaseManager
     public Character character;
     public float reloadDelay = 5;
     public bool destroyOnLoad = false;
+    public string soundtrackName = "Soundtrack";
 
     private bool isBusy;
     private void Awake()
@@ -54,7 +55,7 @@ public class GameManager : BaseManager
         {
             character.OnDeath += () => ReloadLevel(1);
         }
-        SoundManager.PlayMusic("Soundtrack");
+        SoundManager.PlayMusic(soundtrackName);
         isBusy = false;
     }
 
