@@ -18,6 +18,8 @@ public class Trampoline : PowerConsumer
     private Animator _animator;
     private int characterLayer;
     private int bitmask;
+
+    private BoxCollider2D _collider;
     // Start is called before the first frame update
 
     private void Awake()
@@ -25,15 +27,15 @@ public class Trampoline : PowerConsumer
         characterLayer = LayerMask.NameToLayer("Characters");
         bitmask = LayerMask.GetMask("Characters");
         _animator = GetComponent<Animator>();
+        _collider = gameObject.AddComponent<BoxCollider2D>();
+        _collider.size = tossPlaceSize;
+        _collider.offset = tossPlaceOffset;
+        _collider.isTrigger = true;
     }
 
     public new void Start()
     {
         base.Start();
-        var boxCollider = gameObject.AddComponent<BoxCollider2D>();
-        boxCollider.size = tossPlaceSize;
-        boxCollider.offset = tossPlaceOffset;
-        boxCollider.isTrigger = true;
     }
 
     public override void UpdateState()
@@ -41,10 +43,12 @@ public class Trampoline : PowerConsumer
         if (isActive)
         {
             TossUp();
+            _collider.enabled = true;
             arrow.SetActive(true);
         }
         else
         {
+            _collider.enabled = false;
             arrow.SetActive(false);
         }
     }
