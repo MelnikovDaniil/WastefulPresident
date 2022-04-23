@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
+
+public enum LevelStatus
+{
+    Locked,
+    Avaliable,
+    Complete,
+}
 
 public static class LevelMapper
 {
     private const string MapperName = "Level";
 
-    public static string GetCurrentLevel()
+    public static LevelStatus GetStatus(string levelName)
     {
-        return PlayerPrefs.GetString(MapperName + "Current", null);
+        return (LevelStatus)PlayerPrefs.GetInt(MapperName + "Status" + levelName, 0);
     }
 
-    public static void SetCurrentLevel(string levelName)
+    public static void Open(string levelName)
     {
-        PlayerPrefs.SetString(MapperName + "Current", levelName);
-        Open(levelName);
+        PlayerPrefs.SetInt(MapperName + "Status" + levelName, (int)LevelStatus.Avaliable);
     }
-
-    public static bool IsOpen(string levelName)
+    public static void Complete(string levelName)
     {
-        return PlayerPrefs.GetInt(MapperName + "IsOpen" + levelName, 0) == 1;
-    }
-
-    private static void Open(string levelName)
-    {
-        PlayerPrefs.SetInt(MapperName + "IsOpen" + levelName, 1);
+        PlayerPrefs.SetInt(MapperName + "Status" + levelName, (int)LevelStatus.Complete);
     }
 }

@@ -41,10 +41,10 @@ public class LevelPanel : MonoBehaviour
 
     public void Awake()
     {
-        if (string.IsNullOrEmpty(LevelMapper.GetCurrentLevel()))
+        var firstLevel = chapters.First(x => x.levelNames.Any()).levelNames[0];
+        if (LevelMapper.GetStatus(firstLevel) == LevelStatus.Locked)
         {
-            var firstLevel = chapters.First(x => x.levelNames.Any()).levelNames[0];
-            LevelMapper.SetCurrentLevel(firstLevel);
+            LevelMapper.Open(firstLevel);
         }
         startScreenScrollRect.OnScrollFinished += ScrollToChapter;
     }
@@ -82,9 +82,7 @@ public class LevelPanel : MonoBehaviour
 
     public void GenerateChapters()
     {
-        var currentLevelName = LevelMapper.GetCurrentLevel();
         var nextLevelSkip = false;
-        var lockedLevels = false;
         var levelNumber = 1;
         LevelButton levelButton = null;
 
@@ -100,7 +98,13 @@ public class LevelPanel : MonoBehaviour
 
             foreach (var level in chapter.levelNames)
             {
-                if (level == currentLevelName)
+                var status = LevelMapper.GetStatus(level);
+                if (status == LevelStatus.Complete)
+                {
+                    levelButton = Instantiate(passedButtonPrefab, createdChapter.transform);
+                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
+                }
+                else if (status == LevelStatus.Avaliable)
                 {
                     nextLevelSkip = true;
                     currentChapter = chapter;
@@ -110,18 +114,12 @@ public class LevelPanel : MonoBehaviour
                 else if (nextLevelSkip)
                 {
                     nextLevelSkip = false;
-                    lockedLevels = true;
                     levelButton = Instantiate(nextButtonPrefab, createdChapter.transform);
                     levelButton.button.onClick.AddListener(() => UIManager.Instance.SkipLevel(level));
                 }
-                else if (lockedLevels)
-                {
-                    levelButton = Instantiate(futureButtonPrefab, createdChapter.transform);
-                }
                 else
                 {
-                    levelButton = Instantiate(passedButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
+                    levelButton = Instantiate(futureButtonPrefab, createdChapter.transform);
                 }
 
                 levelButton.levelNumber.text = levelNumber.ToString();

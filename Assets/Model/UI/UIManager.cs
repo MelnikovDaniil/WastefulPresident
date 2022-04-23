@@ -22,14 +22,16 @@ public class UIManager : BaseManager
     public GameObject finishPanel;
     public Button nextLevelButton;
 
-    [Space]
     public static Action OnSkipLevel;
+    [Space]
     public GameObject skipLevelPanel;
+    public GameObject skipDescriptionPanel;
+    public Animator lockedLevelAnimator;
     public int skipCost;
+    public Text skipLevelNumberText;
     public Text currentMoneyText;
     public Text skipCostText;
     public Button skipButton;
-    public ParticleSystem skipParticles;
 
     public bool isPaused;
     public Text lvlText;
@@ -139,12 +141,19 @@ public class UIManager : BaseManager
     private void PurchaseSkipLevel(string lvlName)
     {
         MoneyMapper.Add(-skipCost);
-        LevelMapper.SetCurrentLevel(lvlName);
-        skipLevelPanel?.SetActive(false);
-        var moneyParticles = Instantiate(skipParticles, Vector2.zero, Quaternion.identity);
-        moneyParticles.Play();
+        LevelMapper.Open(lvlName);
+        skipLevelNumberText.text = lvlName;
+        lockedLevelAnimator.SetTrigger("unlock");
+        skipDescriptionPanel?.SetActive(false);
+        StartCoroutine(HidePanelRoutine());
+    }
+
+    private IEnumerator HidePanelRoutine()
+    {
+        yield return new WaitForSecondsRealtime(1.91f);
         OnSkipLevel?.Invoke();
-        Destroy(moneyParticles, 3);
+        skipDescriptionPanel?.SetActive(true);
+        skipLevelPanel?.SetActive(false);
     }
 
     public void Continue()
