@@ -21,6 +21,7 @@ public class GuideManager : BaseManager
 
     private void Start()
     {
+        steps.ForEach(x => x.gameObject.SetActive(false));
         stepQueue = new Queue<GuideStep>(steps);
         clickHand = Instantiate(clickHandPrefab, transform);
         clickHand.gameObject.SetActive(false);
