@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7839570904884001567}
   - component: {fileID: 3090634091750271768}
   - component: {fileID: 6017976082820316656}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GuideStep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f214872ba287b7f488c21e54c17333fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  humanToSelect: {fileID: 0}
   action:
     m_PersistentCalls:
       m_Calls: []
