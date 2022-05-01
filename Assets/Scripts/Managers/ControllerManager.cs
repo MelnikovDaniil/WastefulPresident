@@ -60,6 +60,7 @@ public class ControllerManager : BaseManager
     }
     public override void LoadManager()
     {
+        GuideManager.waitingStep = false;
         currentHumanColor = startColor;
         base.LoadManager();
         presidentDistance = 2f;
