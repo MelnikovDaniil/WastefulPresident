@@ -34,6 +34,16 @@ public class GameManager : BaseManager
         Instance = this;
         Instantiate(uiManager);
         Instantiate(controllerManager);
+
+        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
+            // AppLovin SDK is initialized, start loading ads
+            //MaxSdk.ShowMediationDebugger();
+        };
+        MaxSdk.SetSdkKey("CgG1BtqwUb8gNyhBVM-6AoTTU-yyGD9UyFS4QZzB7qdKR94hTICWTvRbNbGfmkw9VEQ8cUSDZFXLFELip15EZB");
+        MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
+        MaxSdk.SetVerboseLogging(true);
+        MaxSdk.InitializeSdk();
+
         if (!destroyOnLoad)
         {
             DontDestroyOnLoad(gameObject);
