@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using com.adjust.sdk;
+using GameAnalyticsSDK;
 
 public class GameManager : BaseManager
 {
@@ -44,7 +45,7 @@ public class GameManager : BaseManager
         MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
         MaxSdk.SetVerboseLogging(true);
         MaxSdk.InitializeSdk();
-
+        GameAnalytics.Initialize();
         // import this package into the project:
         // https://github.com/adjust/unity_sdk/releases
 #if UNITY_IOS
