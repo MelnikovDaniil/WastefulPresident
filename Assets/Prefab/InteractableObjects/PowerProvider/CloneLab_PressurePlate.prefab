@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5842089203385580718}
   - component: {fileID: 5842089203385580719}
   m_Layer: 0
-  m_Name: PressurePlate
+  m_Name: CloneLab_PressurePlate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,8 +55,8 @@ MonoBehaviour:
   pressurePlacePosition: {x: 0, y: 0.4, z: 0}
   pressureSize: {x: 0.7, y: 0.2}
   sprteRenderer: {fileID: 5842089204502253507}
-  pressedSprite: {fileID: 3155088654588756143, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
-  releasedSprite: {fileID: 8944011322215776670, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
+  pressedSprite: {fileID: -1028076458, guid: 127d2962bfd5e6f4e89cd0f3aacae77b, type: 3}
+  releasedSprite: {fileID: 1737912332, guid: 127d2962bfd5e6f4e89cd0f3aacae77b, type: 3}
   pressureCheckPeriod: 0.5
 --- !u!61 &5842089203385580719
 BoxCollider2D:
@@ -158,12 +158,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 8944011322215776670, guid: cdce163f5e6541349aa5393784edeb7d, type: 3}
+  m_Sprite: {fileID: -1028076458, guid: 127d2962bfd5e6f4e89cd0f3aacae77b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.52, y: 0.41}
+  m_Size: {x: 1.51, y: 0.27}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -186,8 +186,8 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.52, y: 0.41}
-    newSize: {x: 1.52, y: 0.41}
+    oldSize: {x: 1.51, y: 0.27}
+    newSize: {x: 1.51, y: 0.27}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
