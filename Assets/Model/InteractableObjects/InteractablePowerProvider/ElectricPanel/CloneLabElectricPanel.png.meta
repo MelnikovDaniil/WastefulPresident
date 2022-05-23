@@ -1,16 +1,7 @@
 fileFormatVersion: 2
-guid: 4260542bbf47a294a841f08e963f7903
+guid: dcf05ae3cbe8f534ba85cb8900ac21fd
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 1237621886802642399
-    second: BeigeHouse_ElectricPanel_Column
-  - first:
-      213: 9160306286392937146
-    second: BeigeHouse_ElectricPanel_Open
-  - first:
-      213: 2989160885609273284
-    second: BeigeHouse_ElectricPanel_Close
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,16 +88,40 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BeigeHouse_ElectricPanel_Column
+      name: CloneLabElectricPanel_0
       rect:
         serializedVersion: 2
         x: 0
         y: 27
-        width: 77
+        width: 76
         height: 193
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -115,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd5ce118c8aec2110800000000000000
-      internalID: 1237621886802642399
+      spriteID: 7923e9fabc152344ca8eacdf8721a360
+      internalID: 8884772
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BeigeHouse_ElectricPanel_Open
+      name: CloneLabElectricPanel_1
       rect:
         serializedVersion: 2
         x: 92
@@ -136,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aba8a3ab802ff1f70800000000000000
-      internalID: 9160306286392937146
+      spriteID: f74c9fd7b2e9b6b46a223487b5e1d7a1
+      internalID: -1876883043
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BeigeHouse_ElectricPanel_Close
+      name: CloneLabElectricPanel_2
       rect:
         serializedVersion: 2
         x: 355
@@ -157,8 +172,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c79b3bfcf1ab7920800000000000000
-      internalID: 2989160885609273284
+      spriteID: 7e178b662831df94f84dbcf6032a7a5a
+      internalID: 1910314066
       vertices: []
       indices: 
       edges: []
@@ -172,13 +187,11 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {instanceID: 0}
-      name: _NormalMap
+    secondaryTextures: []
     nameFileIdTable:
-      BeigeHouse_ElectricPanel_Column: 1237621886802642399
-      BeigeHouse_ElectricPanel_Open: 9160306286392937146
-      BeigeHouse_ElectricPanel_Close: 2989160885609273284
+      CloneLabElectricPanel_1: -1876883043
+      CloneLabElectricPanel_0: 8884772
+      CloneLabElectricPanel_2: 1910314066
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
