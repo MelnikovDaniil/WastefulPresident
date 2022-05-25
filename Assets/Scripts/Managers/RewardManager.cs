@@ -6,12 +6,20 @@ using UnityEngine.UI;
 
 public class RewardManager : BaseManager
 {
+    public static int rewardSum = 250;
     public Text currentMoneyText;
     public Text rewardText;
     public ParticleSystem moneyParticles;
-    public int tickMoneySum = 50;
+
+    private const int TickCount = 5;
+    private int tickMoneySum;
 
     private int reward;
+
+    private void Awake()
+    {
+        tickMoneySum = rewardSum / TickCount;
+    }
 
     public void StartRewardCalculation()
     {

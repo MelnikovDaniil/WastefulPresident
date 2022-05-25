@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using com.adjust.sdk;
 using GameAnalyticsSDK;
+using LionStudios.Suite.Analytics;
+using LionStudios.Suite.Analytics.Events;
+using LionStudios.Suite.Debugging;
 
 public class GameManager : BaseManager
 {
@@ -46,6 +49,8 @@ public class GameManager : BaseManager
         MaxSdk.SetVerboseLogging(true);
         MaxSdk.InitializeSdk();
         GameAnalytics.Initialize();
+        LionAnalytics.GameStart();
+        LionDebugger.Hide();
         // import this package into the project:
         // https://github.com/adjust/unity_sdk/releases
 #if UNITY_IOS
@@ -58,7 +63,7 @@ public class GameManager : BaseManager
 
         if (!destroyOnLoad)
         {
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);                                                
         }
 
         LoadManager();
@@ -75,23 +80,98 @@ public class GameManager : BaseManager
         character = FindObjectOfType<Character>();
         if (character != null)
         {
-            character.OnDeath += () => ReloadLevel(1);
+            character.OnDeath += () => LevelFail();
         }
         SoundManager.PlayMusic(soundtrackName);
         isBusy = false;
     }
 
-    public static void Load(string lvlName)
+    public static void LoadLevel(string lvlName)
     {
-        GameManager.Instance.LoadLevel(lvlName);
+
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            Instance.LoadLevelInternal(lvlName);
+        }
     }
 
-    public void LoadLevel(string lvlName)
+    public static void LoadMainMenu()
     {
         if (!Instance.isBusy)
         {
             Instance.isBusy = true;
-            StartCoroutine(LoadLevelRoutine(lvlName));
+            Instance.LoadMainMenuInternal();
+        }
+    }
+
+    public static void LevelFail()
+    {
+        var restartDelay = 1f;
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            SelectionMenu.Instance.Hide();
+            var currentLevel = SceneManager.GetActiveScene().name;
+            if (int.TryParse(currentLevel, out int intLevel))
+            {
+                var attemptNum = LevelMapper.GetAttempts(currentLevel);
+                LionAnalytics.LevelFail(intLevel, attemptNum);
+            }
+            else
+            {
+                var message = $"Level can't be parsed. Level name: {currentLevel}";
+                LionAnalytics.ErrorEvent(ErrorEventType.Critical, message);
+                Debug.LogError(message);
+            }
+
+            Instance.LoadLevelInternal(currentLevel, restartDelay);
+        }
+    }
+
+    public static void CompleteLevel()
+    {
+        var currentLevel = SceneManager.GetActiveScene().name;
+        if (int.TryParse(currentLevel, out int intLevel))
+        {
+            if (LevelMapper.GetStatus(currentLevel) != LevelStatus.Complete)
+            {
+                var attemptNum = LevelMapper.GetAttempts(currentLevel);
+                var reward = new Reward("Dollar", "Main", RewardManager.rewardSum);
+                LionAnalytics.LevelComplete(intLevel, attemptNum, reward: reward);
+                LevelMapper.Complete(currentLevel);
+                LevelMapper.ResetAttempt(currentLevel);
+            }
+        }
+        else
+        {
+            var message = $"Level can't be parsed. Level name: {currentLevel}";
+            LionAnalytics.ErrorEvent(ErrorEventType.Critical, message);
+            Debug.LogError(message);
+        }
+    }
+
+    public static void LevelRestart()
+    {
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            SelectionMenu.Instance.Hide();
+            var currentLevel = SceneManager.GetActiveScene().name;
+
+            if (int.TryParse(currentLevel, out int intLevel))
+            {
+                var attemptNum = LevelMapper.GetAttempts(currentLevel);
+                LionAnalytics.LevelRestart(intLevel, attemptNum);
+            }
+            else
+            {
+                var message = $"Level can't be parsed. Level name: {currentLevel}";
+                LionAnalytics.ErrorEvent(ErrorEventType.Critical, message);
+                Debug.LogError(message);
+            }
+
+            Instance.LoadLevelInternal(currentLevel);
         }
     }
 
@@ -102,6 +182,7 @@ public class GameManager : BaseManager
         yield return new WaitForSecondsRealtime(reloadDelay);
         SelectionMenu.Instance.Hide();
         var asyncOperation = SceneManager.LoadSceneAsync(lvlName);
+
         while (!asyncOperation.isDone)
         {
             Instance.isBusy = false;
@@ -109,14 +190,26 @@ public class GameManager : BaseManager
         }
     }
 
-    public static void ReloadLevel(float delay = 0)
+
+    private void LoadMainMenuInternal()
     {
-        if (!Instance.isBusy)
+        StartCoroutine(LoadLevelRoutine("LevelMenu"));
+    }
+
+    private void LoadLevelInternal(string lvlName, float delay = 0)
+    {
+        StartCoroutine(LoadLevelRoutine(lvlName, delay));
+        if (int.TryParse(lvlName, out int intLevel))
         {
-            Instance.isBusy = true;
-            SelectionMenu.Instance.Hide();
-            var currentLevel = SceneManager.GetActiveScene();
-            Instance.StartCoroutine(Instance.LoadLevelRoutine(currentLevel.name, delay));
+            LevelMapper.AddAttempt(lvlName);
+            var attemptNum = LevelMapper.GetAttempts(lvlName);
+            LionAnalytics.LevelStart(intLevel, attemptNum);
+        }
+        else
+        {
+            var message = $"Level can't be parsed. Level name: {lvlName}";
+            LionAnalytics.ErrorEvent(ErrorEventType.Critical, message);
+            Debug.LogError(message);
         }
     }
 

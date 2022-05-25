@@ -24,4 +24,20 @@ public static class LevelMapper
     {
         PlayerPrefs.SetInt(MapperName + "Status" + levelName, (int)LevelStatus.Complete);
     }
+
+    public static int GetAttempts(string levelName)
+    {
+        return PlayerPrefs.GetInt(MapperName + "Attempts" + levelName, 0);
+    }
+
+    public static void AddAttempt(string levelName)
+    {
+        var attempts = PlayerPrefs.GetInt(MapperName + "Attempts" + levelName, 0);
+        PlayerPrefs.SetInt(MapperName + "Attempts" + levelName, attempts);
+    }
+
+    public static void ResetAttempt(string levelName)
+    {
+        PlayerPrefs.SetInt(MapperName + "Attempts" + levelName, 0);
+    }
 }

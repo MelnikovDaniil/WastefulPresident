@@ -102,14 +102,14 @@ public class LevelPanel : MonoBehaviour
                 if (status == LevelStatus.Complete)
                 {
                     levelButton = Instantiate(passedButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
+                    levelButton.button.onClick.AddListener(() => GameManager.LoadLevel(level));
                 }
                 else if (status == LevelStatus.Avaliable)
                 {
                     nextLevelSkip = true;
                     currentChapter = chapter;
                     levelButton = Instantiate(currentButtonPrefab, createdChapter.transform);
-                    levelButton.button.onClick.AddListener(() => GameManager.Load(level));
+                    levelButton.button.onClick.AddListener(() => GameManager.LoadLevel(level));
                 }
                 else if (nextLevelSkip)
                 {
