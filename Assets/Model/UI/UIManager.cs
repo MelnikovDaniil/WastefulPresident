@@ -1,3 +1,4 @@
+using LionStudios.Suite.Analytics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -119,7 +120,7 @@ public class UIManager : BaseManager
         finishPanel?.SetActive(true);
         rewardManager.StartRewardCalculation();
         nextLevelButton.onClick.RemoveAllListeners();
-        nextLevelButton.onClick.AddListener(() => GameManager.Load(nextLevel));
+        nextLevelButton.onClick.AddListener(() => GameManager.LoadLevel(nextLevel));
     }
 
     public void SkipLevel(string lvlName)
@@ -142,6 +143,15 @@ public class UIManager : BaseManager
     {
         MoneyMapper.Add(-skipCost);
         LevelMapper.Open(lvlName);
+        var productSpend = new Product 
+        {
+            virtualCurrencies = new List<VirtualCurrency> { new VirtualCurrency("Dollar", "Main", skipCost) },
+        };
+        var productRecieved = new Product
+        {
+            items = new List<Item> { new Item($"lvl-{lvlName}", 1) },
+        };
+        LionAnalytics.EconomyEvent($"level-skip", productSpend, productRecieved);
         skipLevelNumberText.text = lvlName;
         lockedLevelAnimator.SetTrigger("unlock");
         skipDescriptionPanel?.SetActive(false);
@@ -166,11 +176,11 @@ public class UIManager : BaseManager
 
     public void LoadMainMenu()
     {
-        GameManager.Load("LevelMenu");
+        GameManager.LoadMainMenu();
     }
 
     public void ReloadLevel()
     {
-        GameManager.ReloadLevel();
+        GameManager.LevelRestart();
     }
 }

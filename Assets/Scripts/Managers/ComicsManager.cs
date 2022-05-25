@@ -29,7 +29,7 @@ public class ComicsManager : BaseManager
         }
         else
         {
-            GameManager.Instance.LoadLevel("Prologue");
+            GameManager.LoadLevel("Prologue");
         }
     }
 }
