@@ -13,12 +13,10 @@ public class Portal : InteractableObject
     private bool afterTeleport;
     private bool isClosed;
 
-    //private Vector3 internalWallCheckSize;
     private Vector3 internalWallCheckOffset;
 
     private void Awake()
     {
-        //internalWallCheckSize = transform.localRotation * wallCheckSize;
         internalWallCheckOffset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x) * wallCheckOffset.x, 0);
         _animator = GetComponent<Animator>();
         _portalZone = GetComponent<Collider2D>();
@@ -66,11 +64,37 @@ public class Portal : InteractableObject
     {
     }
 
-    public void Teleport(IVisitor visitor)
+    public void TeleportHuman(IVisitor visitor)
     {
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);
+
+        _portalZone.enabled = false;
+        afterTeleport = true;
+        StartCoroutine(EnableProtalZoneRoutine());
+    }
+
+    public void TeleportObject(GameObject obj)
+    {
+        var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
+        var secondPortalOffset = secondPortal.transform.localRotation 
+            * new Vector3(Mathf.Sign(secondPortal.transform.localScale.x), 0);
+        var rotationDifference = Quaternion.Euler(0, 0, Vector2.SignedAngle(offset, secondPortalOffset));
+
+        var newPosition = transform.position + offset;
+        obj.transform.position = newPosition;
+        obj.transform.localRotation = obj.transform.localRotation * rotationDifference;
+        obj.transform.localScale = new Vector3(
+            Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
+            obj.transform.localScale.y,
+            obj.transform.localScale.z);
+        obj.SetActive(true);
+
+        if (obj.TryGetComponent(out Rigidbody2D rigidbody))
+        {
+            rigidbody.velocity = rotationDifference * rigidbody.velocity;
+        }
 
         _portalZone.enabled = false;
         afterTeleport = true;
@@ -86,10 +110,20 @@ public class Portal : InteractableObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isClosed && !afterTeleport && collision.gameObject.TryGetComponent(out IVisitor visitor))
+        if (!isClosed)
         {
-            afterTeleport = false;
-            secondPortal.Teleport(visitor);
+            if (!afterTeleport && collision.gameObject.TryGetComponent(out IVisitor visitor))
+            {
+                afterTeleport = false;
+                secondPortal.TeleportHuman(visitor);
+            }
+            else if (!collision.isTrigger && 
+                (collision.gameObject.layer == LayerMask.NameToLayer("Item")
+                || collision.gameObject.layer == LayerMask.NameToLayer("Default")))
+            {
+                afterTeleport = false;
+                secondPortal.TeleportObject(collision.gameObject);
+            }
         }
     }
 
