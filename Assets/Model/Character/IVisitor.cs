@@ -1,4 +1,6 @@
-﻿public interface IVisitor
+﻿using UnityEngine;
+
+public interface IVisitor
 {
     void VisitLever();
 
@@ -16,6 +18,8 @@
     void PutBattery();
     bool TryTakeBattery(Battery battery);
     void RemoveBattery();
+
+    void Teleport(Vector3 position, Vector3 direction);
 
     void FinishVisiting();
 }
