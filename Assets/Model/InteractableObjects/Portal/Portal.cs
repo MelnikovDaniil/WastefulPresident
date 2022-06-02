@@ -7,6 +7,7 @@ public class Portal : InteractableObject
     public Vector3 wallCheckSize;
     public Vector3 wallCheckOffset;
     public LayerMask wallCheckLayers;
+    public LayerMask portableObjectsLayers;
 
     private Animator _animator;
     private Collider2D _portalZone;
@@ -117,9 +118,8 @@ public class Portal : InteractableObject
                 afterTeleport = false;
                 secondPortal.TeleportHuman(visitor);
             }
-            else if (!collision.isTrigger && 
-                (collision.gameObject.layer == LayerMask.NameToLayer("Item")
-                || collision.gameObject.layer == LayerMask.NameToLayer("Default")))
+            else if ((portableObjectsLayers & (1 << collision.gameObject.layer)) > 0
+                && !(collision.isTrigger && collision.GetComponent<InteractableObject>()))
             {
                 afterTeleport = false;
                 secondPortal.TeleportObject(collision.gameObject);

@@ -2,18 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Bullet : MonoBehaviour
 {
     [NonSerialized]
     public float speed;
 
-    private LayerMask layermask;
+    private LayerMask characterMask;
+    private LayerMask wallMask;
     private int bulletSide;
 
     private void Start()
     {
-        layermask = LayerMask.GetMask("Ground", "Doors", "Characters");
+        characterMask = LayerMask.GetMask("Characters");
+        wallMask = LayerMask.GetMask("Door", "Ground");
     }
 
     private void Update()
@@ -24,15 +27,15 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((layermask & (1 << collision.gameObject.layer)) != 0)
+        if ((characterMask & (1 << collision.gameObject.layer)) > 0)
         {
             gameObject.SetActive(false);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if ((layermask & (1 << collision.gameObject.layer)) != 0)
+        if ((wallMask & (1 << collision.gameObject.layer)) > 0)
         {
             gameObject.SetActive(false);
         }

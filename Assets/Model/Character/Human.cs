@@ -116,20 +116,6 @@ public abstract class Human : MonoBehaviour, IVisitor
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (humanState != HumanState.Dead && collision.gameObject.tag == "Bomb")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
-        else if (humanState != HumanState.Dead && collision.gameObject.tag == "DeathCollider")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
-    }
-
     private void OnParticleCollision(GameObject other)
     {
         if (humanState != HumanState.Dead && other.tag == "DeathCollider")
