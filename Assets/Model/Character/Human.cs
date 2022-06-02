@@ -248,7 +248,7 @@ public abstract class Human : MonoBehaviour, IVisitor
         quesinMark.SetActive(false);
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         var groundPosition = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         Gizmos.color = Color.yellow;
