@@ -136,8 +136,8 @@ public class CameraManager : BaseManager
 
     public void CharacterCamera()
     {
-        var caracter = FindObjectOfType<Character>();
-        SetTarget(caracter.gameObject, characterCameraSize, -1, characterCameraShift);
+        var president = FindObjectOfType<President>();
+        SetTarget(president.gameObject, characterCameraSize, -1, characterCameraShift);
     }
 
     public void SetTarget(GameObject target, float time, Vector3 cameraShift)

@@ -18,12 +18,12 @@ public class Pit : InteractableObject, IComplexPositioning
         timerAnimator.SetFloat("speed", 1.0f / interactionTime);
     }
 
-    public Vector2 GetPositionForInteraction(Human human)
+    public Vector2 GetPositionForInteraction(Character character)
     {
         var firstPos = (Vector2)transform.position + centerInteractionPosition;
         var secondPos = (Vector2)transform.position + centerInteractionPosition * new Vector2(-1, 1);
 
-        if (Vector2.Distance(human.transform.position, firstPos) < Vector2.Distance(human.transform.position, secondPos))
+        if (Vector2.Distance(character.transform.position, firstPos) < Vector2.Distance(character.transform.position, secondPos))
         {
             return firstPos;
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Level1Scenario : MonoBehaviour
 {
-    public Character character;
+    public President character;
     public GameObject turrel;
     public BombInteractableObject turrelBomb;
     public GameObject donut;

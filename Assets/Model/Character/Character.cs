@@ -1,149 +1,139 @@
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class Character : Human, ICharacterVisitor
+public abstract class Character : Creature, IVisitor
 {
+    [Space]
+    public SpriteRenderer characterColor;
+    public GameObject quesinMark;
+
     [NonSerialized]
-    public bool isLocked;
-    [Space]
-    [Range(0f, 1f)]
-    public float sendOrderChanse = 1;
+    public Sprite icon;
 
-    [Space]
-    public Vector2 cameraOffset = Vector2.up;
-    public Material colorMaterial;
-
-    [Space]
-    public float watchingClockFromTime = 15f;
-
-    private float currentIdleTime = 0;
-
-    public void Update()
+    protected new void Awake()
     {
-        if (!isLocked && !DialogueManager.isWorking && humanState != HumanState.Dead)
-        {
-            if (humanState == HumanState.Waiting)
-            {
-                currentIdleTime += Time.deltaTime;
-                if (currentIdleTime >= watchingClockFromTime)
-                {
-                    WatchClock();
-                }
-            }
-        }
+        base.Awake();
+        characterColor.gameObject.SetActive(false);
     }
 
-    public void FixedUpdate()
+    protected void CheckPositionChanges()
     {
-        if (humanState != HumanState.Dead)
+        if (isGrounded)
         {
-            if (isGrounded)
+            if (transform.position.x >= previosPositionX + samePositionDistance
+                || transform.position.x <= previosPositionX - samePositionDistance)
             {
-                _rigidbody.sharedMaterial = fullFriction;
-                if (disableTime <= 0)
-                {
-                    if (target != null)
-                    {
-                        _rigidbody.sharedMaterial = zeroFriction;
-                        currentIdleTime = 0;
-                        movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                        transform.localScale = new Vector3(
-                            Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1),
-                            transform.localScale.y, 0);
-                        var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                        var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                        _animator.SetBool("walk", true);
-
-                        if (targetDistanceX < targetStopDistanceX
-                            && targetDistanceY < targetStopDistanceY)
-                        {
-                            HideTarget();
-                            if (humanState == HumanState.MovingToInteract)
-                            {
-                                humanState = HumanState.Waiting;
-                                TryInteract();
-                            }
-                            else
-                            {
-                                humanState = HumanState.Waiting;
-                            }
-                            _animator.SetBool("walk", false);
-                        }
-                        CheckWall();
-                        CheckPositionChanges();
-                    }
-                }
-                else
-                {
-                    disableTime -= Time.deltaTime;
-                }
+                previosPositionX = transform.position.x;
+                currentPositionTime = 0;
             }
             else
             {
-                _animator.SetBool("walk", false);
-            }
-
-            if (!inFrontOfWall)
-            {
-                if (IsOnSlope())
+                currentPositionTime += Time.fixedDeltaTime;
+                if (currentPositionTime >= samePositionTime)
                 {
-                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
-                }
-                else
-                {
-                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
-
+                    StartCoroutine(QuestionMarkRoutine());
+                    HideTarget();
+                    _animator.SetBool("run", false);
+                    _animator.SetBool("walk", false);
+                    currentPositionTime = 0;
                 }
             }
-
-            CheckFalling();
-            CheckGround();
         }
     }
 
-    public override void SetColor(Color color)
-    {
-        colorMaterial.SetColor("_Color", color);
-        colorMaterial.SetFloat("_Thickness", 0f);
-    }
+    public abstract void SetColor(Color color);
 
-    public override void ShowColor()
-    {
-        colorMaterial.SetFloat("_Thickness", 1.5f);
-    }
+    public abstract void ShowColor();
 
-    public override void HideColor()
-    {
-        colorMaterial.SetFloat("_Thickness", 0f);
-    }
+    public abstract void HideColor();
 
-    public void SendOrder()
+    public virtual void TryInteract()
     {
-        if (sendOrderChanse > Random.value)
+        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
+            .Where(x => x.GetComponent<InteractableObject>());
+
+        var collider = interactableObjects
+            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
+            .FirstOrDefault();
+
+        if (collider != null)
         {
-            _animator.SetTrigger("order");
+            var interactableObject = collider.GetComponent<InteractableObject>();
+            characterState = CharacterState.Acivating;
+            interactableObject.StartInteraction(this);
         }
     }
 
-    public void PlayAnimation(string animName)
+    protected IEnumerator QuestionMarkRoutine()
     {
-        _animator.Play(animName);
+        quesinMark.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        quesinMark.SetActive(false);
     }
 
-    public new void OnTriggerEnter2D(Collider2D collision)
+    public void VisitLever()
     {
-        base.OnTriggerEnter2D(collision);
-        if (collision.TryGetComponent<ColliderDialogueTrigger>(out var dialogueTrigger))
-        {
-            dialogueTrigger.TriggerDialogue();
-        }
+        _animator.SetTrigger("lever");
     }
 
-    private void WatchClock()
+    public void FinishVisiting()
     {
-        _animator.SetTrigger("clock");
-        currentIdleTime = 0;
+        characterState = CharacterState.Waiting;
+    }
+
+    public void VisitElectricPanel()
+    {
+        _animator.SetTrigger("electricPanel");
+    }
+
+    public void ElectricPanelDeath()
+    {
+        _animator.SetTrigger("electricity");
+        Death();
+    }
+
+    public virtual void VisitPit()
+    {
+    }
+
+    public virtual void FinishVisitPit()
+    {
+    }
+
+    public void VisitTimer(float animationSpeed)
+    {
+        _animator.SetTrigger("timerOn");
+        _animator.SetFloat("timerSpeed", animationSpeed);
+    }
+
+    public void FinishVisitTimer()
+    {
+        _animator.SetTrigger("timerOff");
+    }
+
+    public virtual Battery GetBattery()
+    {
+        return null;
+    }
+
+    public virtual void StartTakingBattery(Battery battery)
+    {
+        _animator.SetTrigger("batteryTake");
+    }
+
+    public virtual void PutBattery()
+    {
+    }
+
+    public virtual bool TryTakeBattery(Battery battery)
+    {
+        return false;
+    }
+
+    public virtual void RemoveBattery()
+    {
     }
 }

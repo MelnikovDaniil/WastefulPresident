@@ -7,5 +7,5 @@ using UnityEngine;
 
 public interface IComplexPositioning
 {
-    Vector2 GetPositionForInteraction(Human human);
+    Vector2 GetPositionForInteraction(Character character);
 }

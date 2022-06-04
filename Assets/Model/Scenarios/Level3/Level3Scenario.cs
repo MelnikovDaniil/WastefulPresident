@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Level3Scenario : MonoBehaviour
 {
-    public Character character;
+    public President character;
 
     public DialogueTrigger dialogue1;
 

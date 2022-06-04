@@ -11,7 +11,7 @@ public class ControllerManager : BaseManager
     public static ControllerManager Instance;
     public List<AgentSkin> skins;
     public List<Agent> agents;
-    public Character character;
+    public President president;
     public Sprite characterIcon;
 
     public float followPeriod = 0.5f;
@@ -32,7 +32,7 @@ public class ControllerManager : BaseManager
     private bool validInput;
     private Color currentHumanColor;
 
-    private Human currentHuman;
+    private Character currentCharacter;
     private Queue<AgentSkin> unUsedSkins;
 
     private void Awake()
@@ -65,7 +65,7 @@ public class ControllerManager : BaseManager
         base.LoadManager();
         presidentDistance = 2f;
         agents = new List<Agent>();
-        currentHuman = null;
+        currentCharacter = null;
 
         actionIcons = new List<Actionicon>();
         for (var i = 0; i < iconsPullSize; i++)
@@ -73,15 +73,15 @@ public class ControllerManager : BaseManager
             actionIcons.Add(Instantiate(actionIconPrefab));
         }
 
-        character = FindObjectOfType<Character>();
+        president = FindObjectOfType<President>();
         AddAgents(FindObjectsOfType<Agent>().ToList());
 
-        if (character != null)
+        if (president != null)
         {
-            character.icon = characterIcon;
-            character.characterColor.color = startColor;
-            character.SetColor(startColor);
-            SelectionMenu.Instance.AddItem(character);
+            president.icon = characterIcon;
+            president.characterColor.color = startColor;
+            president.SetColor(startColor);
+            SelectionMenu.Instance.AddItem(president);
             // StartCoroutine(FollowPreidentRoutine());
         }
     }
@@ -89,10 +89,10 @@ public class ControllerManager : BaseManager
     private void Update()
     {
         ValidateInput();
-        if (character != null
+        if (president != null
             && !DialogueManager.isWorking
             && !CameraManager.Instance.isMovingByTaps
-            && character.humanState != HumanState.Dead 
+            && president.characterState != CharacterState.Dead 
             && Input.GetMouseButtonUp(0) 
             && validInput)
         {
@@ -107,7 +107,7 @@ public class ControllerManager : BaseManager
             Color.RGBToHSV(currentHumanColor, out var H, out var S, out var V);
             currentHumanColor = Color.HSVToRGB((H + SelectionMenu.Instance.itemGap / 360.0f) % 1, S, V);
 
-            agent.humanState = HumanState.Follow;
+            agent.characterState = CharacterState.Follow;
 
             agent.SetColor(currentHumanColor);
             agent.characterColor.color = currentHumanColor;
@@ -133,61 +133,61 @@ public class ControllerManager : BaseManager
 
         var interactableObject = hitObjects.FirstOrDefault(x => x.GetComponent<InteractableObject>())?.GetComponent<InteractableObject>();
         var guideStep = hitObjects.FirstOrDefault(x => x.GetComponent<GuideStep>())?.GetComponent<GuideStep>();
-        var human = hitObjects.FirstOrDefault(x => x.GetComponent<Human>())?.GetComponent<Human>();
+        var character = hitObjects.FirstOrDefault(x => x.GetComponent<Character>())?.GetComponent<Character>();
 
 
 
         if (!GuideManager.waitingStep || guideStep != null)
         {
-            if (human != null 
-                && human.humanState != HumanState.Dead
-                && human != currentHuman)
+            if (character != null 
+                && character.characterState != CharacterState.Dead
+                && character != currentCharacter)
             {
-                if (guideStep?.humanToSelect == human)
+                if (guideStep?.characterToSelect == character)
                 {
                     guideStep?.Interact();
                 }
-                currentHuman?.HideColor();
-                currentHuman = human;
-                human.ShowColor();
+                currentCharacter?.HideColor();
+                currentCharacter = character;
+                character.ShowColor();
             }
-            else if (currentHuman != null)
+            else if (currentCharacter != null)
             {
-                if (guideStep?.humanToSelect == null)
+                if (guideStep?.characterToSelect == null)
                 {
                     guideStep?.Interact();
                 }
 
-                actionIcons.FirstOrDefault(x => x.human == currentHuman)?.Hide();
-                var actionIcon = actionIcons.FirstOrDefault(x => x.human == null) ?? actionIcons.First();
+                actionIcons.FirstOrDefault(x => x.character == currentCharacter)?.Hide();
+                var actionIcon = actionIcons.FirstOrDefault(x => x.character == null) ?? actionIcons.First();
 
                 if (interactableObject != null
-                    && ((currentHuman is Character && interactableObject.forCharacter)
-                        || (currentHuman is Agent && interactableObject.forAgent)))
+                    && ((currentCharacter is President && interactableObject.forCharacter)
+                        || (currentCharacter is Agent && interactableObject.forAgent)))
                 {
 
-                    SendForInteraction(currentHuman, interactableObject);
+                    SendForInteraction(currentCharacter, interactableObject);
                     actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
                     actionIcon.SetInteraction();
 
-                    if (currentHuman is Agent)
+                    if (currentCharacter is Agent)
                     {
-                        character.SendOrder();
+                        president.SendOrder();
                     }
                 }
                 else
                 {
-                    currentHuman.WalkTo(position);
+                    currentCharacter.WalkTo(position);
                     actionIcon.transform.position = (Vector2)position;
                     actionIcon.SetWaking();
                 }
 
-                actionIcon.Show(currentHuman);
-                var deathInfo = new { actionIcon, currentHuman };
-                currentHuman.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentHuman);
-                currentHuman.OnMovementFinish = () =>
+                actionIcon.Show(currentCharacter);
+                var deathInfo = new { actionIcon, currentCharacter };
+                currentCharacter.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
+                currentCharacter.OnMovementFinish = () =>
                 {
-                    deathInfo.currentHuman.OnDeath -= () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentHuman);
+                    deathInfo.currentCharacter.OnDeath -= () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
                     actionIcon.Hide();
                 };
             }
@@ -207,24 +207,24 @@ public class ControllerManager : BaseManager
     {
         foreach (var agent in agents)
         {
-            if (agent.humanState == HumanState.Follow)
+            if (agent.characterState == CharacterState.Follow)
             {
-                agent.FollowPresedent(character.transform.position);
+                agent.FollowPresedent(president.transform.position);
             }
         }
     }
 
-    public void SendForInteraction(Human human, InteractableObject interactableObject)
+    public void SendForInteraction(Character character, InteractableObject interactableObject)
     {
         var complexPositioning = interactableObject as IComplexPositioning;
         if (complexPositioning != null)
         {
-            var position = complexPositioning.GetPositionForInteraction(human);
-            human.SetTarget(position);
+            var position = complexPositioning.GetPositionForInteraction(character);
+            character.SetTarget(position);
         }
         else
         {
-            human.SetTarget(interactableObject.transform.position);
+            character.SetTarget(interactableObject.transform.position);
         }
     }
 
@@ -237,13 +237,13 @@ public class ControllerManager : BaseManager
         return unUsedSkins.Dequeue();
     }
 
-    private void DisableActionIconOnDeath(Actionicon actionIcon, Human human)
+    private void DisableActionIconOnDeath(Actionicon actionIcon, Character character)
     {
         actionIcon.Hide();
-        if (currentHuman == human)
+        if (currentCharacter == character)
         {
-            currentHuman.HideColor();
-            currentHuman = null;
+            currentCharacter.HideColor();
+            currentCharacter = null;
         };
     }
 

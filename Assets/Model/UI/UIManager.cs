@@ -83,7 +83,7 @@ public class UIManager : BaseManager
 
     private void Update()
     {
-        if (GameManager.Instance.character != null && Input.GetKeyDown(KeyCode.Escape))
+        if (GameManager.Instance.president != null && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
@@ -108,7 +108,7 @@ public class UIManager : BaseManager
 
     public void Pause()
     {
-        GameManager.Instance.character.isLocked = true;
+        GameManager.Instance.president.isLocked = true;
         Time.timeScale = 0;
         isPaused = true;
         pausePanel?.SetActive(true);
@@ -168,7 +168,7 @@ public class UIManager : BaseManager
 
     public void Continue()
     {
-        GameManager.Instance.character.isLocked = false;
+        GameManager.Instance.president.isLocked = false;
         Time.timeScale = 1;
         isPaused = false;
         pausePanel?.SetActive(false);

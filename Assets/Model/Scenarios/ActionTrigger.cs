@@ -11,7 +11,7 @@ public class ActionTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((allowForPresident && collision.gameObject.GetComponent<Character>())
+        if ((allowForPresident && collision.gameObject.GetComponent<President>())
             || (allowForSecurity && collision.gameObject.GetComponent<Agent>()))
         {
             unityEvent?.Invoke();

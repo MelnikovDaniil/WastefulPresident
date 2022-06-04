@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Zombie : Human
+public class Zombie : Creature
 {
     [Space]
     public float attackDistance = 2;
@@ -11,16 +11,20 @@ public class Zombie : Human
     public float attackRate = 1.5f;
 
     private LayerMask searchingMask;
-    private bool isAttacking;
+    private Collider2D attackTransform;
 
     private void Start()
     {
         searchingMask = LayerMask.GetMask("Characters");
+        var attack = new GameObject("attack");
+        var attackCollider = attack.AddComponent<CircleCollider2D>();
+        attack.tag = "DeathCollider";
+        attackTransform = attackCollider;
     }
 
     private void FixedUpdate()
     {
-        if (humanState != HumanState.Dead)
+        if (characterState != CharacterState.Dead)
         {
             if (isGrounded)
             {
@@ -42,20 +46,12 @@ public class Zombie : Human
                             && targetDistanceY < targetStopDistanceY)
                         {
                             HideTarget();
-                            if (humanState == HumanState.MovingToInteract)
-                            {
-                                humanState = HumanState.Waiting;
-                                TryInteract();
-                            }
-                            else
-                            {
-                                humanState = HumanState.Waiting;
-                            }
+                            characterState = CharacterState.Waiting;
                             _animator.SetBool("walk", false);
                         }
                         CheckViores();
                         CheckWall();
-                        CheckPositionChanges();
+                        //CheckPositionChanges();
                     }
                 }
                 else
@@ -88,32 +84,36 @@ public class Zombie : Human
 
     private void CheckViores()
     {
-        //if (!isAttacking)
-        //{
-            var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1);
-            var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, searchingMask);
+        var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1);
+        var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, searchingMask);
 
-            if (hit != null)
-            {
-                Attack();
-            }
-        //}
+        if (hit != null)
+        {
+            Attack();
+        }
     }
 
     private void Attack()
     {
-        //isAttacking = true;
         _animator.SetTrigger("electricPanel");
         disableTime = attackRate;
-        //yield return new WaitForSeconds(attackRate);
+        StartCoroutine(AttackRoutine());
     }
 
-    //private IEnumerator AttackRouting()
-    //{
-    //    isAttacking = true;
-    //    _animator.SetTrigger("electricPanel");
-    //    yield return new WaitForSeconds(attackRate);
-    //}
+    private IEnumerator AttackRoutine()
+    {
+        var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1);
+        yield return new WaitForSeconds(attackRate);
+        var hitedColliders = Physics2D.OverlapCircleAll(attackPosition, attackRadius + 1, searchingMask);
+        foreach (var collider in hitedColliders)
+        {
+            if (collider.gameObject != gameObject)
+            {
+                var character = collider.GetComponent<Character>();
+                character.OnTriggerEnter2D(attackTransform);
+            }
+        }
+    }
 
     private void SearchTarget()
     {
@@ -137,21 +137,6 @@ public class Zombie : Human
         {
             WalkTo(hit.point);
         }
-    }
-
-    public override void HideColor()
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public override void SetColor(Color color)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public override void ShowColor()
-    {
-        //throw new System.NotImplementedException();
     }
 
     private new void OnDrawGizmos()

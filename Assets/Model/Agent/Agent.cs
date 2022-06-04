@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Agent : Human
+public class Agent : Character
 {
     public float presidentStopDistance = 0.1f;
 
@@ -24,7 +24,7 @@ public class Agent : Human
 
     private void FixedUpdate()
     {
-        if (humanState != HumanState.Dead)
+        if (characterState != CharacterState.Dead)
         {
             if (isGrounded)
             {
@@ -39,7 +39,7 @@ public class Agent : Human
                         var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
                         var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
 
-                        if (humanState == HumanState.Follow)
+                        if (characterState == CharacterState.Follow)
                         {
                             _animator.SetBool("run", false);
                             _animator.SetBool("walk", true);
@@ -50,7 +50,7 @@ public class Agent : Human
                             _animator.SetBool("walk", false);
                         }
 
-                        if (humanState == HumanState.Follow && targetDistanceX < presidentStopDistance)
+                        if (characterState == CharacterState.Follow && targetDistanceX < presidentStopDistance)
                         {
                             HideTarget();
                             _animator.SetBool("walk", false);
@@ -59,14 +59,14 @@ public class Agent : Human
                             && targetDistanceY < targetStopDistanceY)
                         {
                             HideTarget();
-                            if (humanState == HumanState.MovingToInteract)
+                            if (characterState == CharacterState.MovingToInteract)
                             {
-                                humanState = HumanState.Waiting;
+                                characterState = CharacterState.Waiting;
                                 TryInteract();
                             }
                             else
                             {
-                                humanState = HumanState.Waiting;
+                                characterState = CharacterState.Waiting;
                             }
                             _animator.SetBool("run", false);
                         }

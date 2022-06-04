@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class Human : MonoBehaviour, IVisitor
+public class Creature : MonoBehaviour
 {
     public Action OnDeath;
     public Action OnMovementFinish;
@@ -29,14 +28,10 @@ public abstract class Human : MonoBehaviour, IVisitor
     public float samePositionTime = 0.1f;
     public float samePositionDistance = 0.05f;
 
-    [Space]
-    public SpriteRenderer characterColor;
-    public GameObject quesinMark;
+    [NonSerialized]
+    public CharacterState characterState;
 
-    [NonSerialized]
-    public HumanState humanState;
-    [NonSerialized]
-    public Sprite icon;
+
 
     protected Rigidbody2D _rigidbody;
     protected Animator _animator;
@@ -60,89 +55,36 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void Awake()
     {
-        characterColor.gameObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
 
-    public abstract void SetColor(Color color);
-
-    public abstract void ShowColor();
-
-    public abstract void HideColor();
-
-    protected IEnumerator JumpDelayRoutine()
-    {
-        yield return new WaitForSeconds(0.5f);
-        jumpDelay = false;
-    }
-
-    public virtual void TryInteract()
-    {
-        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
-            .Where(x => x.GetComponent<InteractableObject>());
-
-        var collider = interactableObjects
-            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
-            .FirstOrDefault();
-
-        if (collider != null)
-        {
-            var interactableObject = collider.GetComponent<InteractableObject>();
-            humanState = HumanState.Acivating;
-            interactableObject.StartInteraction(this);
-        }
-    }
-
     public virtual void Death()
     {
-        humanState = HumanState.Dead;
+        characterState = CharacterState.Dead;
         OnDeath?.Invoke();
         _rigidbody.sharedMaterial = null;
         target = null;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (humanState != HumanState.Dead && collision.tag == "Bomb")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
-        else if (humanState != HumanState.Dead && collision.tag == "DeathCollider")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
-    }
-
-    private void OnParticleCollision(GameObject other)
-    {
-        if (humanState != HumanState.Dead && other.tag == "DeathCollider")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
-    }
-
     public void WalkTo(Vector2 position)
     {
-        if (humanState != HumanState.Dead
-            && humanState != HumanState.Acivating)
+        if (characterState != CharacterState.Dead
+            && characterState != CharacterState.Acivating)
         {
             currentPositionTime = 0;
-            humanState = HumanState.Walking;
+            characterState = CharacterState.Walking;
             this.target = position;
         }
     }
 
     public virtual void SetTarget(Vector2 target)
     {
-        if (humanState != HumanState.Dead
-            && humanState != HumanState.Acivating)
+        if (characterState != CharacterState.Dead
+            && characterState != CharacterState.Acivating)
         {
             currentPositionTime = 0;
-            humanState = HumanState.MovingToInteract;
+            characterState = CharacterState.MovingToInteract;
             this.target = target;
         }
     }
@@ -158,31 +100,6 @@ public abstract class Human : MonoBehaviour, IVisitor
     public void Disable(float time)
     {
         disableTime = time;
-    }
-
-    protected void CheckPositionChanges()
-    {
-        if (isGrounded)
-        {
-            if (transform.position.x >= previosPositionX + samePositionDistance
-                || transform.position.x <= previosPositionX - samePositionDistance)
-            {
-                previosPositionX = transform.position.x;
-                currentPositionTime = 0;
-            }
-            else
-            {
-                currentPositionTime += Time.fixedDeltaTime;
-                if (currentPositionTime >= samePositionTime)
-                {
-                    StartCoroutine(QuestionMarkRoutine());
-                    HideTarget();
-                    _animator.SetBool("run", false);
-                    _animator.SetBool("walk", false);
-                    currentPositionTime = 0;
-                }
-            }
-        }
     }
 
     protected bool IsOnSlope()
@@ -241,13 +158,6 @@ public abstract class Human : MonoBehaviour, IVisitor
         inFrontOfWall = colliders.Any();
     }
 
-    protected IEnumerator QuestionMarkRoutine()
-    {
-        quesinMark.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        quesinMark.SetActive(false);
-    }
-
     protected void OnDrawGizmos()
     {
         var groundPosition = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
@@ -261,66 +171,26 @@ public abstract class Human : MonoBehaviour, IVisitor
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
     }
 
-    public void VisitLever()
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        _animator.SetTrigger("lever");
+        if (characterState != CharacterState.Dead && collision.tag == "Bomb")
+        {
+            _animator.SetTrigger("bomb");
+            Death();
+        }
+        else if (characterState != CharacterState.Dead && collision.tag == "DeathCollider")
+        {
+            _animator.SetTrigger("bomb");
+            Death();
+        }
     }
 
-    public void FinishVisiting()
+    private void OnParticleCollision(GameObject other)
     {
-        humanState = HumanState.Waiting;
-    }
-
-    public void VisitElectricPanel()
-    {
-        _animator.SetTrigger("electricPanel");
-    }
-
-    public void ElectricPanelDeath()
-    {
-        _animator.SetTrigger("electricity");
-        Death();
-    }
-
-    public virtual void VisitPit()
-    {
-    }
-
-    public virtual void FinishVisitPit()
-    {
-    }
-
-    public void VisitTimer(float animationSpeed)
-    {
-        _animator.SetTrigger("timerOn");
-        _animator.SetFloat("timerSpeed", animationSpeed);
-    }
-
-    public void FinishVisitTimer()
-    {
-        _animator.SetTrigger("timerOff");
-    }
-
-    public virtual Battery GetBattery()
-    {
-        return null;
-    }
-
-    public virtual void StartTakingBattery(Battery battery)
-    {
-        _animator.SetTrigger("batteryTake");
-    }
-
-    public virtual void PutBattery()
-    {
-    }
-
-    public virtual bool TryTakeBattery(Battery battery)
-    {
-        return false;
-    }
-
-    public virtual void RemoveBattery()
-    {
+        if (characterState != CharacterState.Dead && other.tag == "DeathCollider")
+        {
+            _animator.SetTrigger("bomb");
+            Death();
+        }
     }
 }

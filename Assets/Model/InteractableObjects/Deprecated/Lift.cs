@@ -12,12 +12,12 @@ public class Lift : DeprecatedInteractableObject
     public Transform humanPlace;
 
     public float currentTIme = -1;
-    private List<Human> humans;
-    private Character character;
+    private List<Character> characters;
+    private President president;
 
     private void Awake()
     {
-        humans = new List<Human>();
+        characters = new List<Character>();
     }
 
     public void Update()
@@ -63,28 +63,28 @@ public class Lift : DeprecatedInteractableObject
     {
         var boxCollider = GetComponent<BoxCollider2D>();
         var colliders = Physics2D.OverlapBoxAll(boxCollider.offset + (Vector2)transform.position, boxCollider.size, 0);
-        humans = colliders.Where(x => x.gameObject.GetComponent<Human>()).Select(x => x.gameObject.GetComponent<Human>()).ToList();
-        humans.ForEach(x =>
+        characters = colliders.Where(x => x.gameObject.GetComponent<Character>()).Select(x => x.gameObject.GetComponent<Character>()).ToList();
+        characters.ForEach(x =>
         {
             x.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             x.transform.parent = humanPlace;
         });
-        character = humans.FirstOrDefault(x => x.GetComponent<Character>())?.GetComponent<Character>();
-        if (character != null)
+        president = characters.FirstOrDefault(x => x.GetComponent<President>())?.GetComponent<President>();
+        if (president != null)
         {
-            character.isLocked = true;
+            president.isLocked = true;
         }
     }
 
     public void GetOutLift()
     {
-        character.isLocked = false;
-        humans.ForEach(x =>
+        president.isLocked = false;
+        characters.ForEach(x =>
         {
             x.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             x.transform.parent = null;
         });
 
-        humans.Clear();
+        characters.Clear();
     }
 }

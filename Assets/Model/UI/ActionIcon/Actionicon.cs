@@ -11,7 +11,7 @@ public class Actionicon : MonoBehaviour
     public Sprite walkingSprite;
     public Sprite interactionSprite;
 
-    public Human human;
+    public Character character;
 
     public void SetWaking()
     {
@@ -23,20 +23,20 @@ public class Actionicon : MonoBehaviour
         icon.sprite = interactionSprite;
     }
 
-    public void Show(Human human)
+    public void Show(Character character)
     {
-        this.human = human;
+        this.character = character;
         animator.SetBool("IsActive", true);
-        spriteRenderer.color = human.characterColor.color;
+        spriteRenderer.color = character.characterColor.color;
         foreach (var wave in waves)
         {
-            wave.color = human.characterColor.color;
+            wave.color = character.characterColor.color;
         }
     }
 
     public void Hide()
     {
-        human = null;
+        character = null;
         animator.SetBool("IsActive", false);
     }
 }
