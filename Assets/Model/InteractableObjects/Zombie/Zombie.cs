@@ -10,12 +10,12 @@ public class Zombie : Creature
     public float attackRadius = 1;
     public float attackRate = 1.5f;
 
-    private LayerMask searchingMask;
+    public LayerMask searchingMask;
+    public LayerMask targetMask;
     private Collider2D attackTransform;
 
     private void Start()
     {
-        searchingMask = LayerMask.GetMask("Characters");
         var attack = new GameObject("attack");
         var attackCollider = attack.AddComponent<CircleCollider2D>();
         attack.tag = "DeathCollider";
@@ -85,7 +85,7 @@ public class Zombie : Creature
     private void CheckViores()
     {
         var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1);
-        var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, searchingMask);
+        var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, targetMask);
 
         if (hit != null)
         {
@@ -104,7 +104,7 @@ public class Zombie : Creature
     {
         var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1);
         yield return new WaitForSeconds(attackRate);
-        var hitedColliders = Physics2D.OverlapCircleAll(attackPosition, attackRadius + 1, searchingMask);
+        var hitedColliders = Physics2D.OverlapCircleAll(attackPosition, attackRadius + 1, targetMask);
         foreach (var collider in hitedColliders)
         {
             if (collider.gameObject != gameObject)
@@ -117,25 +117,26 @@ public class Zombie : Creature
 
     private void SearchTarget()
     {
+        var currentDirection = Vector2.right* Mathf.Sign(transform.localScale.x) * (reversed ? -1f : 1f);
         var raycasts = new List<RaycastHit2D>();
         var frontRaycastHit = Physics2D.Raycast(
             transform.position,
-            Vector2.right * Mathf.Sign(transform.localScale.x) * (reversed ? -1f : 1f),
+            currentDirection,
             200, searchingMask);
         raycasts.Add(frontRaycastHit);
         if (target == null)
         {
             var backRaycast = Physics2D.Raycast(
                 transform.position,
-                Vector2.left * Mathf.Sign(transform.localScale.x) * (reversed ? -1f : 1f),
+                -currentDirection,
                 200, searchingMask);
             raycasts.Add(backRaycast);
         }
 
-        var hit = raycasts.FirstOrDefault(x => x.collider != null);
+        var hit = raycasts.FirstOrDefault(x => (targetMask & (1 << x.collider.gameObject.layer)) > 0);
         if (hit.collider != null)
         {
-            WalkTo(hit.point);
+            WalkTo(hit.point + currentDirection);
         }
     }
 

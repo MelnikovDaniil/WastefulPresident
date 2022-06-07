@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Creature : MonoBehaviour
+public class Creature : MonoBehaviour, IPortalVisitor
 {
     public Action OnDeath;
     public Action OnMovementFinish;
@@ -126,7 +126,6 @@ public class Creature : MonoBehaviour
 
             if (isGrounded)
             {
-                //_rigidbody.velocity = Vector2.zero;
                 OnLanding?.Invoke(colliders);
             }
             _animator.SetBool("grounded", isGrounded);
@@ -142,10 +141,22 @@ public class Creature : MonoBehaviour
         isGrounded = false;
     }
 
+    public void Teleport(Vector3 position, Vector3 direction)
+    {
+        WalkTo(position + direction);
+        transform.position = position;
+    }
+
     protected void CheckFalling()
     {
+        var maxFallVelocity = -20f;
         var isFalling = _rigidbody.velocity.y < -5f;
         _animator.SetBool("fall", isFalling);
+
+        if (_rigidbody.velocity.y < maxFallVelocity)
+        {
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, maxFallVelocity);
+        }
     }
 
     protected void CheckWall()

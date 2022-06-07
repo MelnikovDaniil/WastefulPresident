@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class Character : Creature, IVisitor
+public abstract class Character : Creature, ICharacterVisitor
 {
     [Space]
     public SpriteRenderer characterColor;

@@ -15,7 +15,7 @@ public abstract class InteractrablePowerProvider : InteractableObject
         CreateWires();
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         isActive = !isActive;
         TurnEnergy();

@@ -9,7 +9,7 @@ public class ElectricPanel : InteractrablePowerProvider
 
     private bool isBroken;
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         if (!isBroken)
         {
@@ -18,7 +18,7 @@ public class ElectricPanel : InteractrablePowerProvider
         }
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         if (!isBroken)
         {

@@ -53,10 +53,10 @@ public class Trampoline : PowerConsumer
         }
     }
 
-    public bool InTossPosition(Character character)
+    public bool InTossPosition(Creature creature)
     {
         var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
-        return colliers.Any(x => x.gameObject == character.gameObject);
+        return colliers.Any(x => x.gameObject == creature.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,8 +77,8 @@ public class Trampoline : PowerConsumer
             _animator.SetTrigger("push");
             foreach (var humanCollider in colliers)
             {
-                var character = humanCollider.GetComponent<Character>();
-                if (character.characterState == CharacterState.Dead)
+                var creature = humanCollider.GetComponent<Creature>();
+                if (creature.characterState == CharacterState.Dead)
                 {
                     continue;
                 }
@@ -86,9 +86,9 @@ public class Trampoline : PowerConsumer
                 humanCollider.attachedRigidbody.velocity = Vector2.zero;
                 if (tossColliders.Contains(humanCollider))
                 {
-                    character.transform.position = tossPlaceOffset + transform.position + new Vector3(0, Mathf.Abs(character.checkGroundOffsetY));
+                    creature.transform.position = tossPlaceOffset + transform.position + new Vector3(0, Mathf.Abs(creature.checkGroundOffsetY));
                     humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-                    character.GetComponent<Animator>().SetTrigger("trampolineJump");
+                    creature.GetComponent<Animator>().SetTrigger("trampolineJump");
                 }
                 else
                 {
@@ -104,19 +104,19 @@ public class Trampoline : PowerConsumer
                         discardingVector.normalized * calculatedForce,
                         ForceMode2D.Impulse);
                 }
-                character.OnLanding = (IEnumerable<Collider2D> colliders) =>
+                creature.OnLanding = (IEnumerable<Collider2D> colliders) =>
                 {
                     var trampoline = colliders.FirstOrDefault(x => x.gameObject.layer == 8)?
                         .GetComponent<Trampoline>();
-                    if (!trampoline || !trampoline.InTossPosition(character))
+                    if (!trampoline || !trampoline.InTossPosition(creature))
                     {
-                        character.HideTarget();
-                        character.Disable(disableTime);
-                        character.OnLanding = null;
+                        creature.HideTarget();
+                        creature.Disable(disableTime);
+                        creature.OnLanding = null;
                     }
                     else
                     {
-                        character.CheckTrampoline();
+                        creature.CheckTrampoline();
                     }
                 };
             }

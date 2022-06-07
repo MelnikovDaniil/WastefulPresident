@@ -31,7 +31,7 @@ public class Pit : InteractableObject, IComplexPositioning
         return secondPos;
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         if (!isBusy)
         {
@@ -44,7 +44,7 @@ public class Pit : InteractableObject, IComplexPositioning
         }
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         bridgeCollider.enabled = false;
         isBusy = false;

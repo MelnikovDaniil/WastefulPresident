@@ -21,7 +21,7 @@ public class BatteryHolder : InteractableObject
         battery.Hold();
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         if (battery != null)
         {
@@ -33,7 +33,7 @@ public class BatteryHolder : InteractableObject
             visitor.FinishVisiting();
         }
     }
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         if (visitor.TryTakeBattery(battery))
         {

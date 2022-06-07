@@ -18,7 +18,7 @@ public class BatterySlot : InteractrablePowerProvider
         }
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         var battery = visitor.GetBattery();
         if ((storedBattery == null && battery != null)
@@ -45,7 +45,7 @@ public class BatterySlot : InteractrablePowerProvider
         light.SetActive(isActive);
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         var battery = visitor.GetBattery();
         if (!isActive)
