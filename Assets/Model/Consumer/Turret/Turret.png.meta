@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -82,35 +83,59 @@ TextureImporter:
     physicsShape: []
     bones:
     - name: bone_1
+      guid: 
       position: {x: 115.150276, y: 12.266419, z: 5}
       rotation: {x: 0, y: 0, z: 0.70710677, w: 0.7071068}
       length: 35.25253
       parentId: -1
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_2
+      guid: 
       position: {x: -0.7194325, y: -115.1103, z: 4}
       rotation: {x: 0, y: 0, z: -0.220075, w: 0.97548294}
       length: 97.185585
       parentId: 0
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_3
+      guid: 
       position: {x: 85.35161, y: 68.4581, z: 2}
       rotation: {x: 0, y: -0, z: 0.75211704, w: 0.6590296}
       length: 117.171486
       parentId: 1
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_4
+      guid: 
       position: {x: 159.79936, y: 8.4593, z: 3}
       rotation: {x: 0, y: -0, z: -0.72760415, w: 0.6859973}
       length: 41.68404
       parentId: 2
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_5
+      guid: 
       position: {x: 56.770767, y: 54.498455, z: 7}
       rotation: {x: 0, y: 0, z: -0.56460327, w: 0.82536244}
       length: 258.9981
       parentId: 3
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_6
+      guid: 
       position: {x: -4.3166685, y: 114.39084, z: 6}
       rotation: {x: 0, y: 0, z: -0.0041432045, w: 0.9999914}
       length: 260.44592
       parentId: 4
+      color:
+        serializedVersion: 2
+        rgba: 0
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices:
@@ -1018,6 +1043,7 @@ TextureImporter:
       boneIndex[2]: 0
       boneIndex[3]: 0
     secondaryTextures: []
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

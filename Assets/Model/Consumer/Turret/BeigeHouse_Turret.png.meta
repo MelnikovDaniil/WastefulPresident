@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -82,35 +83,59 @@ TextureImporter:
     physicsShape: []
     bones:
     - name: bone_1
+      guid: 
       position: {x: 115.150276, y: 12.266419, z: 5}
       rotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
       length: 35.25253
       parentId: -1
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_2
+      guid: 
       position: {x: -0.7194531, y: -115.11029, z: 4}
       rotation: {x: 0, y: 0, z: -0.18094817, w: 0.9834927}
       length: 115.97256
       parentId: 0
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_3
+      guid: 
       position: {x: 90.54204, y: 61.428986, z: 2}
       rotation: {x: 0, y: 0, z: 0.7252019, w: 0.68853635}
       length: 117.171486
       parentId: 1
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_4
+      guid: 
       position: {x: 159.79933, y: 8.459295, z: 3}
       rotation: {x: 0, y: 0, z: -0.7276041, w: 0.68599737}
       length: 41.68404
       parentId: 2
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_5
+      guid: 
       position: {x: 56.77077, y: 54.49845, z: 7}
       rotation: {x: 0, y: 0, z: -0.5646033, w: 0.82536244}
       length: 258.9981
       parentId: 3
+      color:
+        serializedVersion: 2
+        rgba: 0
     - name: bone_6
+      guid: 
       position: {x: -4.316663, y: 114.39081, z: 6}
       rotation: {x: 0, y: 0, z: 0.0041432693, w: -0.9999914}
       length: 260.44592
       parentId: 4
+      color:
+        serializedVersion: 2
+        rgba: 0
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices:
@@ -930,6 +955,7 @@ TextureImporter:
     secondaryTextures:
     - texture: {fileID: 2800000, guid: d847a6ca74b165f4eaa3f5a8812ecffa, type: 3}
       name: _NormalMap
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
