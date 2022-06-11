@@ -248,7 +248,10 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected IEnumerator QuestionMarkRoutine()
     {
+        quesinMark.transform.parent = null;
         quesinMark.SetActive(true);
+        quesinMark.transform.localScale = Vector3.one;
+        quesinMark.transform.position = transform.position + Vector3.up * 3f;
         yield return new WaitForSeconds(1f);
         quesinMark.SetActive(false);
     }
