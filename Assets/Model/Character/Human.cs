@@ -209,6 +209,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 
             if (isGrounded)
             {
+                disableTime = 0.5f;
                 OnLanding?.Invoke(colliders);
             }
             _animator.SetBool("grounded", isGrounded);
