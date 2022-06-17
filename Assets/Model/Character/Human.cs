@@ -209,7 +209,7 @@ public abstract class Human : MonoBehaviour, IVisitor
 
             if (isGrounded)
             {
-                //_rigidbody.velocity = Vector2.zero;
+                disableTime = 0.5f;
                 OnLanding?.Invoke(colliders);
             }
             _animator.SetBool("grounded", isGrounded);
@@ -227,8 +227,14 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected void CheckFalling()
     {
+        var maxFallVelocity = -20f;
         var isFalling = _rigidbody.velocity.y < -5f;
         _animator.SetBool("fall", isFalling);
+
+        if (_rigidbody.velocity.y < maxFallVelocity)
+        {
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, maxFallVelocity);
+        }
     }
 
     protected void CheckWall()
@@ -243,7 +249,10 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     protected IEnumerator QuestionMarkRoutine()
     {
+        quesinMark.transform.parent = null;
         quesinMark.SetActive(true);
+        quesinMark.transform.localScale = Vector3.one;
+        quesinMark.transform.position = transform.position + Vector3.up * 3f;
         yield return new WaitForSeconds(1f);
         quesinMark.SetActive(false);
     }
@@ -322,5 +331,11 @@ public abstract class Human : MonoBehaviour, IVisitor
 
     public virtual void RemoveBattery()
     {
+    }
+
+    public void Teleport(Vector3 position, Vector3 direction)
+    {
+        WalkTo(position + direction);
+        transform.position = position;
     }
 }
