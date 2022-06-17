@@ -76,94 +76,16 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: SurveillanceCamera_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 6
-        width: 196
-        height: 105
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5616680d63c8064394427d3517a1fc8
-      internalID: 2101021092
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SurveillanceCamera_1
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 0
-        width: 70
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d03d41a7105f8324b8300eee02c84c3b
-      internalID: 1311017479
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones:
     - name: bone_1
       guid: 30c1a84245759554c8d1a83f8c6e5b4f
       position: {x: 241.3801, y: 126.467316, z: 0}
-      rotation: {x: 0, y: 0, z: -0.6999293, w: 0.7142121}
+      rotation: {x: 0, y: 0, z: 0.6999293, w: -0.7142121}
       length: 122.00248
       parentId: -1
       color:
@@ -171,8 +93,8 @@ TextureImporter:
         rgba: 4278190335
     - name: bone_2
       guid: 3caab44befddc2246a3e280e8099cbdc
-      position: {x: 64.59597, y: -59.96475, z: 1}
-      rotation: {x: 0, y: -0, z: -0.7104389, w: 0.7037589}
+      position: {x: 64.59596, y: -59.96475, z: 1}
+      rotation: {x: 0, y: 0, z: -0.7104389, w: 0.7037589}
       length: 160.4283
       parentId: 0
       color:
@@ -555,9 +477,7 @@ TextureImporter:
       boneIndex[2]: 0
       boneIndex[3]: 0
     secondaryTextures: []
-    nameFileIdTable:
-      SurveillanceCamera_1: 1311017479
-      SurveillanceCamera_0: 2101021092
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
