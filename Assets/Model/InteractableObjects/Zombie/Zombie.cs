@@ -95,7 +95,7 @@ public class Zombie : Creature
 
     private void Attack()
     {
-        _animator.SetTrigger("electricPanel");
+        _animator.SetTrigger("attack");
         disableTime = attackRate;
         StartCoroutine(AttackRoutine());
     }
