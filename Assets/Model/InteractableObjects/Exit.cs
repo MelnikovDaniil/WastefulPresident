@@ -8,8 +8,8 @@ public class Exit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var character = collision.gameObject.GetComponent<Character>();
-        if (character != null)
+        var president = collision.gameObject.GetComponent<President>();
+        if (president != null)
         {
             UIManager.Instance.Finish(nextLevelName);
 

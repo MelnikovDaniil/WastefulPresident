@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class PrologueScenario : MonoBehaviour
 {
-    public Character character;
+    public President character;
     public GameObject cityPlace;
     public GameObject destroedCity;
     public GameObject meteorit;

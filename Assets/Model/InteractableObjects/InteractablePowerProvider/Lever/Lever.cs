@@ -9,7 +9,7 @@ public class Lever : InteractrablePowerProvider
         _animator = GetComponent<Animator>();
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         base.StartInteraction(visitor);
         visitor.VisitLever();

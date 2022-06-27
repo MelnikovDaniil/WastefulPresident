@@ -29,13 +29,13 @@ public class Battery : InteractableObject
         }
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         visitor.StartTakingBattery(this);
         base.StartInteraction(visitor);
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         visitor.TryTakeBattery(this);
     }

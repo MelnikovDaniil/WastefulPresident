@@ -8,15 +8,15 @@ public abstract class InteractableObject : MonoBehaviour
     public bool forCharacter = true;
     public bool forAgent = true;
 
-    private IVisitor visitor;
+    private ICharacterVisitor visitor;
 
-    public virtual void StartInteraction(IVisitor visitor)
+    public virtual void StartInteraction(ICharacterVisitor visitor)
     {
         this.visitor = visitor;
         StartCoroutine(InteractionRoutine());
     }
 
-    public abstract void SuccessInteraction(IVisitor visitor);
+    public abstract void SuccessInteraction(ICharacterVisitor visitor);
 
     private IEnumerator InteractionRoutine()
     {

@@ -12,7 +12,7 @@ public class SelectionMenuItem : MonoBehaviour
     public Animator animator;
     public Button button;
     [NonSerialized]
-    public Human human;
+    public Character character;
 
 }
 

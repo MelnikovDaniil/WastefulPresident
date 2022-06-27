@@ -1,4 +1,4 @@
-﻿public enum HumanState
+﻿public enum CharacterState
 {
     Waiting = 0,
     Follow,

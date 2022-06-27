@@ -21,7 +21,7 @@ public class Timer : InteractrablePowerProvider
         base.Start();
     }
 
-    public override void StartInteraction(IVisitor visitor)
+    public override void StartInteraction(ICharacterVisitor visitor)
     {
         if (!isBusy)
         {
@@ -33,7 +33,7 @@ public class Timer : InteractrablePowerProvider
         }
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
         base.SuccessInteraction(visitor);
         visitor.FinishVisitTimer();

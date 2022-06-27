@@ -13,7 +13,7 @@ public class GameManager : BaseManager
     public static GameManager Instance;
     public UIManager uiManager;
     public ControllerManager controllerManager;
-    public Character character;
+    public President president;
     public float reloadDelay = 5;
     public bool destroyOnLoad = false;
     public string soundtrackName = "Soundtrack";
@@ -77,10 +77,10 @@ public class GameManager : BaseManager
         ControllerManager.Instance.LoadManager();
 
         Time.timeScale = 1;
-        character = FindObjectOfType<Character>();
-        if (character != null)
+        president = FindObjectOfType<President>();
+        if (president != null)
         {
-            character.OnDeath += () => LevelFail();
+            president.OnDeath += () => LevelFail();
         }
         SoundManager.PlayMusic(soundtrackName);
         isBusy = false;

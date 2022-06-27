@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Level2Scenario : MonoBehaviour
 {
-    public Character character;
+    public President character;
     public Animator gutAnimator;
     public GameObject secretWall;
     public GameObject fire;

@@ -17,18 +17,18 @@ public class Turret : PowerConsumer
     public int fireRateOverTime = 10;
     public float bulletSpeed;
     public int bulletPoolSize = 1000;
+    public LayerMask lazerMask;
+    public LayerMask targetMask;
 
     private List<GameObject> bulletsPool;
     private List<LineRenderer> lazers;
     private bool isShooting;
     private bool isReadyForShoot;
 
-    private LayerMask lazerMask;
     private LayerMask portalMask;
 
     public new void Start()
     {
-        lazerMask = LayerMask.GetMask("Ground", "Door", "Characters", "Portal");
         portalMask = LayerMask.GetMask("Portal");
         bulletsPool = new List<GameObject>();
         for (int i = 0; i < bulletPoolSize; i++)
@@ -51,13 +51,13 @@ public class Turret : PowerConsumer
             var hitCollider = RaycastLazer(
                 lazerPlace.position,
                 transform.rotation * Vector2.right * Mathf.Sign(transform.localScale.x));
-            if (!isShooting && hitCollider.gameObject.layer == 3)
+            if (!isShooting && (targetMask & (1 << hitCollider.gameObject.layer)) > 0)
             {
                 isShooting = true;
                 animator.SetBool("isShooting", true);
                 sleevesParticles.Play();
             }
-            else if (isShooting && hitCollider.gameObject.layer != 3)
+            else if (isShooting && (targetMask & (1 << hitCollider.gameObject.layer)) == 0)
             {
                 animator.SetBool("isShooting", false);
                 isShooting = false;
@@ -149,8 +149,7 @@ public class Turret : PowerConsumer
 
     public void OnDrawGizmos()
     {
-        var mask = LayerMask.GetMask("Ground", "Door", "Characters");
-        var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x), 200, mask);
+        var rayCastHit = Physics2D.Raycast(lazerPlace.position, Vector2.right * Mathf.Sign(transform.localScale.x), 200, lazerMask);
         Gizmos.DrawLine(lazerPlace.position, rayCastHit.point);
     }
 

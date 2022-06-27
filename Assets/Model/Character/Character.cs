@@ -1,79 +1,35 @@
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class Character : Human, ICharacterVisitor
+public abstract class Character : Creature, ICharacterVisitor
 {
+    [Space]
+    public SpriteRenderer characterColor;
+    public GameObject quesinMark;
+
     [NonSerialized]
-    public bool isLocked;
-    [Space]
-    [Range(0f, 1f)]
-    public float sendOrderChanse = 1;
+    public Sprite icon;
 
-    [Space]
-    public Vector2 cameraOffset = Vector2.up;
-    public Material colorMaterial;
-
-    [Space]
-    public float watchingClockFromTime = 15f;
-
-    private float currentIdleTime = 0;
-
-    public void Update()
+    protected new void Awake()
     {
-        if (!isLocked && !DialogueManager.isWorking && humanState != HumanState.Dead)
-        {
-            if (humanState == HumanState.Waiting)
-            {
-                currentIdleTime += Time.deltaTime;
-                if (currentIdleTime >= watchingClockFromTime)
-                {
-                    WatchClock();
-                }
-            }
-        }
+        base.Awake();
+        characterColor.gameObject.SetActive(false);
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (humanState != HumanState.Dead)
+        if (characterState != CharacterState.Dead)
         {
             if (isGrounded)
             {
+                currentSpeed = speed;
                 _rigidbody.sharedMaterial = fullFriction;
                 if (disableTime <= 0)
                 {
-                    if (target != null)
-                    {
-                        _rigidbody.sharedMaterial = zeroFriction;
-                        currentIdleTime = 0;
-                        movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                        transform.localScale = new Vector3(
-                            Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1),
-                            transform.localScale.y, 0);
-                        var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                        var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                        _animator.SetBool("walk", true);
-
-                        if (targetDistanceX < targetStopDistanceX
-                            && targetDistanceY < targetStopDistanceY)
-                        {
-                            HideTarget();
-                            if (humanState == HumanState.MovingToInteract)
-                            {
-                                humanState = HumanState.Waiting;
-                                TryInteract();
-                            }
-                            else
-                            {
-                                humanState = HumanState.Waiting;
-                            }
-                            _animator.SetBool("walk", false);
-                        }
-                        CheckWall();
-                        CheckPositionChanges();
-                    }
+                    CalculateTargetMovement();
                 }
                 else
                 {
@@ -87,15 +43,7 @@ public class Character : Human, ICharacterVisitor
 
             if (!inFrontOfWall)
             {
-                if (IsOnSlope())
-                {
-                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
-                }
-                else
-                {
-                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
-
-                }
+                Move();
             }
 
             CheckFalling();
@@ -103,47 +51,158 @@ public class Character : Human, ICharacterVisitor
         }
     }
 
-    public override void SetColor(Color color)
+    protected void CheckPositionChanges()
     {
-        colorMaterial.SetColor("_Color", color);
-        colorMaterial.SetFloat("_Thickness", 0f);
-    }
-
-    public override void ShowColor()
-    {
-        colorMaterial.SetFloat("_Thickness", 1.5f);
-    }
-
-    public override void HideColor()
-    {
-        colorMaterial.SetFloat("_Thickness", 0f);
-    }
-
-    public void SendOrder()
-    {
-        if (sendOrderChanse > Random.value)
+        if (transform.position.x >= previosPositionX + samePositionDistance
+            || transform.position.x <= previosPositionX - samePositionDistance)
         {
-            _animator.SetTrigger("order");
+            previosPositionX = transform.position.x;
+            currentPositionTime = 0;
+        }
+        else
+        {
+            currentPositionTime += Time.fixedDeltaTime;
+            if (currentPositionTime >= samePositionTime)
+            {
+                StartCoroutine(QuestionMarkRoutine());
+                HideTarget();
+                _animator.SetBool("walk", false);
+                currentPositionTime = 0;
+            }
         }
     }
 
-    public void PlayAnimation(string animName)
+    public abstract void SetColor(Color color);
+
+    public abstract void ShowColor();
+
+    public abstract void HideColor();
+
+    public void VisitLever()
     {
-        _animator.Play(animName);
+        _animator.SetTrigger("lever");
     }
 
-    public new void OnTriggerEnter2D(Collider2D collision)
+    public void FinishVisiting()
     {
-        base.OnTriggerEnter2D(collision);
-        if (collision.TryGetComponent<ColliderDialogueTrigger>(out var dialogueTrigger))
+        characterState = CharacterState.Waiting;
+    }
+
+    public void VisitElectricPanel()
+    {
+        _animator.SetTrigger("electricPanel");
+    }
+
+    public void ElectricPanelDeath()
+    {
+        _animator.SetTrigger("electricity");
+        Death();
+    }
+
+    public virtual void VisitPit()
+    {
+    }
+
+    public virtual void FinishVisitPit()
+    {
+    }
+
+    public void VisitTimer(float animationSpeed)
+    {
+        _animator.SetTrigger("timerOn");
+        _animator.SetFloat("timerSpeed", animationSpeed);
+    }
+
+    public void FinishVisitTimer()
+    {
+        _animator.SetTrigger("timerOff");
+    }
+
+    public virtual Battery GetBattery()
+    {
+        return null;
+    }
+
+    public virtual void StartTakingBattery(Battery battery)
+    {
+        _animator.SetTrigger("batteryTake");
+    }
+
+    public virtual void PutBattery()
+    {
+    }
+
+    public virtual bool TryTakeBattery(Battery battery)
+    {
+        return false;
+    }
+
+    public virtual void RemoveBattery()
+    {
+    }
+
+    protected void CalculateTargetMovement()
+    {
+        if (target != null)
         {
-            dialogueTrigger.TriggerDialogue();
+            _rigidbody.sharedMaterial = zeroFriction;
+            movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x) * movementSide * reversedSide,
+                transform.localScale.y, 0);
+            var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+            var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+            _animator.SetBool("walk", true);
+
+            if (targetDistanceX < targetStopDistanceX
+                && targetDistanceY < targetStopDistanceY)
+            {
+                HideTarget();
+                if (characterState == CharacterState.MovingToInteract)
+                {
+                    characterState = CharacterState.Waiting;
+                    TryInteract();
+                }
+                else
+                {
+                    characterState = CharacterState.Waiting;
+                }
+                _animator.SetBool("walk", false);
+            }
+            else if (targetDistanceX < targetStopDistanceX)
+            {
+                currentSpeed = 0;
+            }
+            CheckWall();
+            CheckPositionChanges();
         }
     }
 
-    private void WatchClock()
+    protected IEnumerator QuestionMarkRoutine()
     {
-        _animator.SetTrigger("clock");
-        currentIdleTime = 0;
+        quesinMark.transform.parent = null;
+        quesinMark.SetActive(true);
+        quesinMark.transform.localScale = Vector3.one;
+        quesinMark.transform.position = transform.position + Vector3.up * 3f;
+        yield return new WaitForSeconds(1f);
+        quesinMark.SetActive(false);
+    }
+
+    protected void TryInteract()
+    {
+        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
+            .Where(x => x.GetComponent<InteractableObject>());
+
+        var collider = interactableObjects
+            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
+            .FirstOrDefault();
+
+        if (collider != null)
+        {
+            var interactableObject = collider.GetComponent<InteractableObject>();
+            characterState = CharacterState.Acivating;
+            interactableObject.StartInteraction(this);
+        }
     }
 }

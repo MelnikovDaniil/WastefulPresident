@@ -9,13 +9,13 @@ using UnityEngine.Events;
 [Serializable]
 public class GuideStep : MonoBehaviour
 {
-    public Human humanToSelect;
+    public Character characterToSelect;
 
     private void Start()
     {
-        if (humanToSelect != null)
+        if (characterToSelect != null)
         {
-            transform.parent = humanToSelect.transform;
+            transform.parent = characterToSelect.transform;
             transform.localPosition = Vector2.zero;
         }
     }

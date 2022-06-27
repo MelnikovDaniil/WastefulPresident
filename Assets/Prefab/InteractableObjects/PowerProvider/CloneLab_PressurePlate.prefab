@@ -57,6 +57,9 @@ MonoBehaviour:
   sprteRenderer: {fileID: 5842089204502253507}
   pressedSprite: {fileID: -1028076458, guid: 127d2962bfd5e6f4e89cd0f3aacae77b, type: 3}
   releasedSprite: {fileID: 1737912332, guid: 127d2962bfd5e6f4e89cd0f3aacae77b, type: 3}
+  pressureMask:
+    serializedVersion: 2
+    m_Bits: 4104
   pressureCheckPeriod: 0.5
 --- !u!61 &5842089203385580719
 BoxCollider2D:

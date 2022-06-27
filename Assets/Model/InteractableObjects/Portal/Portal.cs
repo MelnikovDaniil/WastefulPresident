@@ -61,11 +61,11 @@ public class Portal : InteractableObject
         Destroy(gameObject, 1);
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
     }
 
-    public void TeleportHuman(IVisitor visitor)
+    public void TeleportHuman(IPortalVisitor visitor)
     {
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
@@ -113,7 +113,7 @@ public class Portal : InteractableObject
     {
         if (!isClosed)
         {
-            if (!afterTeleport && collision.gameObject.TryGetComponent(out IVisitor visitor))
+            if (!afterTeleport && collision.gameObject.TryGetComponent(out IPortalVisitor visitor))
             {
                 afterTeleport = false;
                 secondPortal.TeleportHuman(visitor);
@@ -129,7 +129,7 @@ public class Portal : InteractableObject
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<IVisitor>() != null)
+        if (collision.gameObject.GetComponent<ICharacterVisitor>() != null)
         {
             afterTeleport = false;
             _portalZone.enabled = true;

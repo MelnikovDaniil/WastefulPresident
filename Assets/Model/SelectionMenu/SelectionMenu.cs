@@ -48,7 +48,7 @@ public class SelectionMenu : BaseManager
     {
         isSelecting = true;
         selectionItems.ForEach(x => x.gameObject.SetActive(false));
-        selectionItems.ForEach(x => x.human.ShowColor());
+        selectionItems.ForEach(x => x.character.ShowColor());
 
         var menuPosition = new Vector2(
             Mathf.Clamp(interactableObject.transform.position.x, -Camera.main.orthographicSize * Camera.main.aspect + padding.x, Camera.main.orthographicSize * Camera.main.aspect - padding.x),
@@ -57,9 +57,9 @@ public class SelectionMenu : BaseManager
 
         var activeItems = selectionItems
             .Where(x => 
-            (x.human.humanState == HumanState.Waiting || x.human.humanState == HumanState.Follow || x.human.humanState == HumanState.Walking)
-            && ((interactableObject.forCharacter && x.human.GetComponent<Character>())
-                || (interactableObject.forAgent && x.human.GetComponent<Agent>())));
+            (x.character.characterState == CharacterState.Waiting || x.character.characterState == CharacterState.Follow || x.character.characterState == CharacterState.Walking)
+            && ((interactableObject.forCharacter && x.character.GetComponent<President>())
+                || (interactableObject.forAgent && x.character.GetComponent<Agent>())));
 
         var currentItemAngel = (activeItems.Count() - 1) * itemGap / 2 * -1;
         foreach (var item in activeItems)
@@ -72,16 +72,16 @@ public class SelectionMenu : BaseManager
             item.button.onClick.AddListener(() =>
             {
                 OnSelection?.Invoke();
-                ControllerManager.Instance.SendForInteraction(item.human, interactableObject);
+                ControllerManager.Instance.SendForInteraction(item.character, interactableObject);
                 Hide();
             });
             item.gameObject.SetActive(true);
         }
     }
 
-    public void SetUpNextCharacter(Human humanToInteract)
+    public void SetUpNextCharacter(Character characterToInteract)
     {
-        selectionItems.Where(x => x.human != humanToInteract).ToList()
+        selectionItems.Where(x => x.character != characterToInteract).ToList()
             .ForEach(x => {
                 x.button.interactable = false;
                 x.faceIcon.color = x.button.colors.disabledColor;
@@ -96,7 +96,7 @@ public class SelectionMenu : BaseManager
             item.faceIcon.color = Color.white;
             item.button.interactable = true;
             item.gameObject.SetActive(false);
-            item.human.HideColor();
+            item.character.HideColor();
         }
     }
 
@@ -108,12 +108,12 @@ public class SelectionMenu : BaseManager
         }
     }
 
-    public void AddItem(Human human)
+    public void AddItem(Character character)
     {
         var selectionItem = Instantiate(selectionMenuItemPrefab, menuCanvas);
-        selectionItem.faceIcon.sprite = human.icon;
-        selectionItem.colorIcon.color = human.characterColor.color;
-        selectionItem.human = human;
+        selectionItem.faceIcon.sprite = character.icon;
+        selectionItem.colorIcon.color = character.characterColor.color;
+        selectionItem.character = character;
         selectionItem.gameObject.SetActive(false);
         selectionItems.Add(selectionItem);
     }

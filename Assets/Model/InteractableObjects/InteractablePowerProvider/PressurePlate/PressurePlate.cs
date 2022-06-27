@@ -11,7 +11,7 @@ public class PressurePlate : InteractrablePowerProvider
     public SpriteRenderer sprteRenderer;
     public Sprite pressedSprite;
     public Sprite releasedSprite;
-
+    public LayerMask pressureMask;
     public float pressureCheckPeriod = 0.5f;
 
     public new void Start()
@@ -20,7 +20,7 @@ public class PressurePlate : InteractrablePowerProvider
         StartCoroutine(CheckPressureRoutine());
     }
 
-    public override void SuccessInteraction(IVisitor visitor)
+    public override void SuccessInteraction(ICharacterVisitor visitor)
     {
     }
 
@@ -41,15 +41,15 @@ public class PressurePlate : InteractrablePowerProvider
         while (true)
         {
             yield return new WaitForSeconds(pressureCheckPeriod);
-            var colliers = Physics2D.OverlapBoxAll(pressurePlacePosition + transform.position, pressureSize, 0);
-            var people = colliers.Where(x => x.GetComponent<Human>() && x.GetComponent<Human>().humanState != HumanState.Dead);
-            if (!isActive && people.Any())
+            var colliers = Physics2D.OverlapBoxAll(pressurePlacePosition + transform.position, pressureSize, 0, pressureMask);
+            var characters = colliers.Where(x => x.GetComponent<Creature>().characterState != CharacterState.Dead);
+            if (!isActive && characters.Any())
             {
                 isActive = true;
                 TurnEnergy();
                 UpdateState();
             }
-            else if (isActive && !people.Any())
+            else if (isActive && !characters.Any())
             {
                 isActive = false;
                 TurnEnergy();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Agent : Human
+public class Agent : Character
 {
     public float presidentStopDistance = 0.1f;
 
@@ -20,87 +20,6 @@ public class Agent : Human
     {
         base.Awake();
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (humanState != HumanState.Dead)
-        {
-            if (isGrounded)
-            {
-                _rigidbody.sharedMaterial = fullFriction;
-                if (disableTime <= 0)
-                {
-                    if (target != null)
-                    {
-                        _rigidbody.sharedMaterial = zeroFriction;
-                        movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1), transform.localScale.y, 0);
-                        var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                        var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                        if (humanState == HumanState.Follow)
-                        {
-                            _animator.SetBool("run", false);
-                            _animator.SetBool("walk", true);
-                        }
-                        else
-                        {
-                            _animator.SetBool("run", true);
-                            _animator.SetBool("walk", false);
-                        }
-
-                        if (humanState == HumanState.Follow && targetDistanceX < presidentStopDistance)
-                        {
-                            HideTarget();
-                            _animator.SetBool("walk", false);
-                        }
-                        else if (targetDistanceX < targetStopDistanceX
-                            && targetDistanceY < targetStopDistanceY)
-                        {
-                            HideTarget();
-                            if (humanState == HumanState.MovingToInteract)
-                            {
-                                humanState = HumanState.Waiting;
-                                TryInteract();
-                            }
-                            else
-                            {
-                                humanState = HumanState.Waiting;
-                            }
-                            _animator.SetBool("run", false);
-                        }
-                        CheckWall();
-                        CheckPositionChanges();
-                    }
-                }
-                else
-                {
-                    disableTime -= Time.deltaTime;
-                }
-            }
-            else
-            {
-                _animator.SetBool("run", false);
-                _animator.SetBool("walk", false);
-            }
-
-            if (!inFrontOfWall)
-            {
-                if (IsOnSlope())
-                {
-                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
-                }
-                else
-                {
-                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
-
-                }
-            }
-
-            CheckFalling();
-            CheckGround();
-        }
     }
 
     public override void Death()

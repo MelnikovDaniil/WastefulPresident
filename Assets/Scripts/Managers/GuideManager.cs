@@ -65,9 +65,9 @@ public class GuideManager : BaseManager
         nextStepDelay = delay;
     }
 
-    public void Select(Human human)
+    public void Select(Character character)
     {
-        SelectionMenu.Instance.SetUpNextCharacter(human);
+        SelectionMenu.Instance.SetUpNextCharacter(character);
         SelectionMenu.Instance.OnSelection.AddListener(
             () => {
                 NextStep(nextStepDelay);
