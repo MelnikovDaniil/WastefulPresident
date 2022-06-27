@@ -9,6 +9,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
     public Action OnMovementFinish;
     public Action<IEnumerable<Collider2D>> OnLanding;
     public float speed;
+    public float fallingXSpeed = 3.5f;
     public float jumpForce;
     public bool reversed = false;
 
@@ -47,14 +48,17 @@ public class Creature : MonoBehaviour, IPortalVisitor
     protected bool jumpDelay;
 
     protected float movementSide;
+    protected float currentSpeed;
     protected Vector2 slopeVectorPerp;
 
     protected float disableTime;
+    protected float reversedSide;
 
     private int groundMask = (1 << 6) | (1 << 7) | (1 << 8);
 
     protected void Awake()
     {
+        reversedSide = reversed ? -1 : 1;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -126,7 +130,12 @@ public class Creature : MonoBehaviour, IPortalVisitor
 
             if (isGrounded)
             {
+                disableTime = 0.5f;
                 OnLanding?.Invoke(colliders);
+            }
+            else
+            {
+                currentSpeed = fallingXSpeed;
             }
             _animator.SetBool("grounded", isGrounded);
         }
@@ -147,11 +156,23 @@ public class Creature : MonoBehaviour, IPortalVisitor
         transform.position = position;
     }
 
+    protected void Move()
+    {
+        if (IsOnSlope())
+        {
+            _rigidbody.velocity = movementSide * currentSpeed * -slopeVectorPerp;
+        }
+        else
+        {
+            _rigidbody.velocity = new Vector2(movementSide * currentSpeed, _rigidbody.velocity.y);
+
+        }
+    }
+
     protected void CheckFalling()
     {
         var maxFallVelocity = -20f;
         var isFalling = _rigidbody.velocity.y < -5f;
-        _animator.SetBool("fall", isFalling);
 
         if (_rigidbody.velocity.y < maxFallVelocity)
         {
@@ -162,7 +183,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
     protected void CheckWall()
     {
         var position = new Vector2(
-            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1),
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * reversedSide,
             transform.position.y + checkWallOffset.y);
         var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, groundMask);
 
@@ -171,12 +192,13 @@ public class Creature : MonoBehaviour, IPortalVisitor
 
     protected void OnDrawGizmos()
     {
+        reversedSide = reversed ? -1 : 1;
         var groundPosition = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundPosition, checkFroundRadius);
 
         var wallPosition = new Vector2(
-            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * (reversed ? -1 : 1),
+            transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * reversedSide,
             transform.position.y + checkWallOffset.y);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
@@ -184,16 +206,25 @@ public class Creature : MonoBehaviour, IPortalVisitor
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (characterState != CharacterState.Dead && collision.tag == "Bomb")
+        if (characterState != CharacterState.Dead)
         {
-            _animator.SetTrigger("bomb");
-            Death();
+            switch (collision.tag)
+            {
+                case "Bomb":
+                    _animator.SetTrigger("bomb");
+                    Death();
+                    break;
+                case "DeathCollider":
+                    _animator.SetTrigger("bomb");
+                    Death();
+                    break;
+                case "ZombieAttack":
+                    _animator.SetTrigger("deathByZombie");
+                    Death();
+                    break;
+            }
         }
-        else if (characterState != CharacterState.Dead && collision.tag == "DeathCollider")
-        {
-            _animator.SetTrigger("bomb");
-            Death();
-        }
+            
     }
 
     private void OnParticleCollision(GameObject other)

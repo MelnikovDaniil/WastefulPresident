@@ -19,27 +19,55 @@ public abstract class Character : Creature, ICharacterVisitor
         characterColor.gameObject.SetActive(false);
     }
 
-    protected void CheckPositionChanges()
+    private void FixedUpdate()
     {
-        if (isGrounded)
+        if (characterState != CharacterState.Dead)
         {
-            if (transform.position.x >= previosPositionX + samePositionDistance
-                || transform.position.x <= previosPositionX - samePositionDistance)
+            if (isGrounded)
             {
-                previosPositionX = transform.position.x;
-                currentPositionTime = 0;
+                currentSpeed = speed;
+                _rigidbody.sharedMaterial = fullFriction;
+                if (disableTime <= 0)
+                {
+                    CalculateTargetMovement();
+                }
+                else
+                {
+                    disableTime -= Time.deltaTime;
+                }
             }
             else
             {
-                currentPositionTime += Time.fixedDeltaTime;
-                if (currentPositionTime >= samePositionTime)
-                {
-                    StartCoroutine(QuestionMarkRoutine());
-                    HideTarget();
-                    _animator.SetBool("run", false);
-                    _animator.SetBool("walk", false);
-                    currentPositionTime = 0;
-                }
+                _animator.SetBool("walk", false);
+            }
+
+            if (!inFrontOfWall)
+            {
+                Move();
+            }
+
+            CheckFalling();
+            CheckGround();
+        }
+    }
+
+    protected void CheckPositionChanges()
+    {
+        if (transform.position.x >= previosPositionX + samePositionDistance
+            || transform.position.x <= previosPositionX - samePositionDistance)
+        {
+            previosPositionX = transform.position.x;
+            currentPositionTime = 0;
+        }
+        else
+        {
+            currentPositionTime += Time.fixedDeltaTime;
+            if (currentPositionTime >= samePositionTime)
+            {
+                StartCoroutine(QuestionMarkRoutine());
+                HideTarget();
+                _animator.SetBool("walk", false);
+                currentPositionTime = 0;
             }
         }
     }
@@ -49,30 +77,6 @@ public abstract class Character : Creature, ICharacterVisitor
     public abstract void ShowColor();
 
     public abstract void HideColor();
-
-    public virtual void TryInteract()
-    {
-        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
-            .Where(x => x.GetComponent<InteractableObject>());
-
-        var collider = interactableObjects
-            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
-            .FirstOrDefault();
-
-        if (collider != null)
-        {
-            var interactableObject = collider.GetComponent<InteractableObject>();
-            characterState = CharacterState.Acivating;
-            interactableObject.StartInteraction(this);
-        }
-    }
-
-    protected IEnumerator QuestionMarkRoutine()
-    {
-        quesinMark.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        quesinMark.SetActive(false);
-    }
 
     public void VisitLever()
     {
@@ -135,5 +139,70 @@ public abstract class Character : Creature, ICharacterVisitor
 
     public virtual void RemoveBattery()
     {
+    }
+
+    protected void CalculateTargetMovement()
+    {
+        if (target != null)
+        {
+            _rigidbody.sharedMaterial = zeroFriction;
+            movementSide = Mathf.Sign(target.Value.x - transform.position.x);
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x) * movementSide * reversedSide,
+                transform.localScale.y, 0);
+            var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
+            var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
+
+            _animator.SetBool("walk", true);
+
+            if (targetDistanceX < targetStopDistanceX
+                && targetDistanceY < targetStopDistanceY)
+            {
+                HideTarget();
+                if (characterState == CharacterState.MovingToInteract)
+                {
+                    characterState = CharacterState.Waiting;
+                    TryInteract();
+                }
+                else
+                {
+                    characterState = CharacterState.Waiting;
+                }
+                _animator.SetBool("walk", false);
+            }
+            else if (targetDistanceX < targetStopDistanceX)
+            {
+                currentSpeed = 0;
+            }
+            CheckWall();
+            CheckPositionChanges();
+        }
+    }
+
+    protected IEnumerator QuestionMarkRoutine()
+    {
+        quesinMark.transform.parent = null;
+        quesinMark.SetActive(true);
+        quesinMark.transform.localScale = Vector3.one;
+        quesinMark.transform.position = transform.position + Vector3.up * 3f;
+        yield return new WaitForSeconds(1f);
+        quesinMark.SetActive(false);
+    }
+
+    protected void TryInteract()
+    {
+        var interactableObjects = Physics2D.OverlapCircleAll(transform.position, interactRadius)
+            .Where(x => x.GetComponent<InteractableObject>());
+
+        var collider = interactableObjects
+            .OrderBy(x => Vector2.Distance(x.transform.position, transform.position))
+            .FirstOrDefault();
+
+        if (collider != null)
+        {
+            var interactableObject = collider.GetComponent<InteractableObject>();
+            characterState = CharacterState.Acivating;
+            interactableObject.StartInteraction(this);
+        }
     }
 }

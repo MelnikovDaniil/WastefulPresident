@@ -30,75 +30,10 @@ public class President : Character, IPresidentVisitor
                     WatchClock();
                 }
             }
-        }
-    }
-
-    public void FixedUpdate()
-    {
-        if (characterState != CharacterState.Dead)
-        {
-            if (isGrounded)
-            {
-                _rigidbody.sharedMaterial = fullFriction;
-                if (disableTime <= 0)
-                {
-                    if (target != null)
-                    {
-                        _rigidbody.sharedMaterial = zeroFriction;
-                        currentIdleTime = 0;
-                        movementSide = Mathf.Sign(target.Value.x - transform.position.x);
-                        transform.localScale = new Vector3(
-                            Mathf.Abs(transform.localScale.x) * movementSide * (reversed ? -1 : 1),
-                            transform.localScale.y, 0);
-                        var targetDistanceX = Mathf.Abs(transform.position.x - target.Value.x);
-                        var targetDistanceY = Mathf.Abs(transform.position.y - target.Value.y);
-
-                        _animator.SetBool("walk", true);
-
-                        if (targetDistanceX < targetStopDistanceX
-                            && targetDistanceY < targetStopDistanceY)
-                        {
-                            HideTarget();
-                            if (characterState == CharacterState.MovingToInteract)
-                            {
-                                characterState = CharacterState.Waiting;
-                                TryInteract();
-                            }
-                            else
-                            {
-                                characterState = CharacterState.Waiting;
-                            }
-                            _animator.SetBool("walk", false);
-                        }
-                        CheckWall();
-                        CheckPositionChanges();
-                    }
-                }
-                else
-                {
-                    disableTime -= Time.deltaTime;
-                }
-            }
             else
             {
-                _animator.SetBool("walk", false);
+                currentIdleTime = 0;
             }
-
-            if (!inFrontOfWall)
-            {
-                if (IsOnSlope())
-                {
-                    _rigidbody.velocity = movementSide * speed * -slopeVectorPerp;
-                }
-                else
-                {
-                    _rigidbody.velocity = new Vector2(movementSide * speed, _rigidbody.velocity.y);
-
-                }
-            }
-
-            CheckFalling();
-            CheckGround();
         }
     }
 

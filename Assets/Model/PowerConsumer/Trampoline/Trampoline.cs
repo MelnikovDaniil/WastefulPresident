@@ -14,18 +14,16 @@ public class Trampoline : PowerConsumer
 
     [Space]
     public GameObject arrow;
+    public LayerMask tossingLayers;
+
 
     private Animator _animator;
-    private int characterLayer;
-    private int bitmask;
 
     private BoxCollider2D _collider;
     // Start is called before the first frame update
 
     private void Awake()
     {
-        characterLayer = LayerMask.NameToLayer("Characters");
-        bitmask = LayerMask.GetMask("Characters");
         _animator = GetComponent<Animator>();
         _collider = gameObject.AddComponent<BoxCollider2D>();
         _collider.size = tossPlaceSize;
@@ -55,13 +53,13 @@ public class Trampoline : PowerConsumer
 
     public bool InTossPosition(Creature creature)
     {
-        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
+        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, tossingLayers);
         return colliers.Any(x => x.gameObject == creature.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isActive && collision.gameObject.layer == characterLayer)
+        if (isActive && (tossingLayers & (1 << collision.gameObject.layer)) > 0)
         {
             TossUp();
         }
@@ -69,8 +67,8 @@ public class Trampoline : PowerConsumer
 
     private void TossUp()
     {
-        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, bitmask);
-        var tossColliders = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, bitmask);
+        var colliers = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, discardingSize, 0, tossingLayers);
+        var tossColliders = Physics2D.OverlapBoxAll(tossPlaceOffset + transform.position, tossPlaceSize, 0, tossingLayers);
 
         if (tossColliders.Any())
         {
@@ -111,7 +109,14 @@ public class Trampoline : PowerConsumer
                     if (!trampoline || !trampoline.InTossPosition(creature))
                     {
                         creature.HideTarget();
-                        creature.Disable(disableTime);
+                        if (creature is Zombie)
+                        {
+                            creature.Disable(disableTime * 2);
+                        }
+                        else
+                        {
+                            creature.Disable(disableTime);
+                        }
                         creature.OnLanding = null;
                     }
                     else
