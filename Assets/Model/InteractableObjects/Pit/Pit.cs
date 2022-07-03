@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pit : InteractableObject, IComplexPositioning, IDoubleVisiting
+// Option 2
+public class Pit : InteractableObject, IComplexPositioning//, IDoubleVisiting
 {
     public Vector2 centerInteractionPosition;
     public Vector2 interactionSize;
@@ -45,9 +46,10 @@ public class Pit : InteractableObject, IComplexPositioning, IDoubleVisiting
             isBusy = true;
             pitVisitor = visitor;
             base.StartInteraction(visitor);
-            visitor.VisitPit();
+            visitor.VisitPit(() => PitFalling(visitor));
             bridgeCollider.enabled = true;
-            triggerCollider.enabled = false;
+            // Option 1
+            //triggerCollider.enabled = false;
             timerAnimator.SetBool("show", true);
         }
     }
@@ -59,10 +61,19 @@ public class Pit : InteractableObject, IComplexPositioning, IDoubleVisiting
             bridgeCollider.enabled = false;
             isBusy = false;
             pitVisitor = null;
-            triggerCollider.enabled = true;
-            visitor.FinishVisitPit();
+            // Option 1
+            //triggerCollider.enabled = true;
+            visitor.FinishVisitPit(() => PitFalling(visitor));
             timerAnimator.SetBool("show", false);
         }
+    }
+    private void PitFalling(ICharacterVisitor visitor)
+    {
+        // Option 1
+
+        //this.StopAllCoroutines();
+        //visitor.FinishVisiting();
+        //SuccessInteraction(pitVisitor);
     }
 
     private void OnDrawGizmos()
@@ -72,15 +83,16 @@ public class Pit : InteractableObject, IComplexPositioning, IDoubleVisiting
         Gizmos.DrawWireCube((Vector2)transform.position + centerInteractionPosition * new Vector2(-1, 1), interactionSize);
     }
 
-    public bool IsDoubleVisiting(ICharacterVisitor visitor)
-    {
-        return visitor == pitVisitor;
-    }
+    // Option 2
+    //public bool IsDoubleVisiting(ICharacterVisitor visitor)
+    //{
+    //    return visitor == pitVisitor;
+    //}
 
-    public void DoubleVisit(ICharacterVisitor visitor)
-    {
-        StopAllCoroutines();
-        visitor.FinishVisiting();
-        SuccessInteraction(pitVisitor);
-    }
+    //public void DoubleVisit(ICharacterVisitor visitor)
+    //{
+    //    this.StopAllCoroutines();
+    //    visitor.FinishVisiting();
+    //    SuccessInteraction(pitVisitor);
+    //}
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class Character : Creature, ICharacterVisitor
 {
+    public Action OnMovementStart;
     [Space]
     public SpriteRenderer characterColor;
     public GameObject quesinMark;
@@ -49,6 +50,18 @@ public abstract class Character : Creature, ICharacterVisitor
             CheckFalling();
             CheckGround();
         }
+    }
+
+    public override void WalkTo(Vector2 position)
+    {
+        OnMovementStart?.Invoke();
+        base.WalkTo(position);
+    }
+
+    public override void SetTarget(Vector2 target)
+    {
+        OnMovementStart?.Invoke();
+        base.SetTarget(target);
     }
 
     protected void CheckPositionChanges()
@@ -99,11 +112,11 @@ public abstract class Character : Creature, ICharacterVisitor
         Death();
     }
 
-    public virtual void VisitPit()
+    public virtual void VisitPit(Action onPitFalling = null)
     {
     }
 
-    public virtual void FinishVisitPit()
+    public virtual void FinishVisitPit(Action onPitFalling = null)
     {
     }
 
