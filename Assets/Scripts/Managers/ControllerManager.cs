@@ -160,36 +160,43 @@ public class ControllerManager : BaseManager
 
                 actionIcons.FirstOrDefault(x => x.character == currentCharacter)?.Hide();
                 var actionIcon = actionIcons.FirstOrDefault(x => x.character == null) ?? actionIcons.First();
-
-                if (interactableObject != null
-                    && ((currentCharacter is President && interactableObject.forCharacter)
-                        || (currentCharacter is Agent && interactableObject.forAgent)))
+                if (interactableObject is IDoubleVisiting doubleVisiting
+                    && doubleVisiting.IsDoubleVisiting(currentCharacter))
                 {
-
-                    SendForInteraction(currentCharacter, interactableObject);
-                    actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
-                    actionIcon.SetInteraction();
-
-                    if (currentCharacter is Agent)
-                    {
-                        president.SendOrder();
-                    }
+                    doubleVisiting.DoubleVisit(currentCharacter);
                 }
                 else
                 {
-                    currentCharacter.WalkTo(position);
-                    actionIcon.transform.position = (Vector2)position;
-                    actionIcon.SetWaking();
-                }
+                    if (interactableObject != null
+                        && ((currentCharacter is President && interactableObject.forCharacter)
+                            || (currentCharacter is Agent && interactableObject.forAgent)))
+                    {
 
-                actionIcon.Show(currentCharacter);
-                var deathInfo = new { actionIcon, currentCharacter };
-                currentCharacter.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
-                currentCharacter.OnMovementFinish = () =>
-                {
-                    deathInfo.currentCharacter.OnDeath -= () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
-                    actionIcon.Hide();
-                };
+                        SendForInteraction(currentCharacter, interactableObject);
+                        actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
+                        actionIcon.SetInteraction();
+
+                        if (currentCharacter is Agent)
+                        {
+                            president.SendOrder();
+                        }
+                    }
+                    else
+                    {
+                        currentCharacter.WalkTo(position);
+                        actionIcon.transform.position = (Vector2)position;
+                        actionIcon.SetWaking();
+                    }
+
+                    actionIcon.Show(currentCharacter);
+                    var deathInfo = new { actionIcon, currentCharacter };
+                    currentCharacter.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
+                    currentCharacter.OnMovementFinish = () =>
+                    {
+                        deathInfo.currentCharacter.OnDeath -= () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
+                        actionIcon.Hide();
+                    };
+                }
             }
         }
     }

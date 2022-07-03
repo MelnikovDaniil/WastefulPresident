@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pit : InteractableObject, IComplexPositioning
+public class Pit : InteractableObject, IComplexPositioning, IDoubleVisiting
 {
     public Vector2 centerInteractionPosition;
     public Vector2 interactionSize;
@@ -11,8 +11,15 @@ public class Pit : InteractableObject, IComplexPositioning
 
     public Animator timerAnimator;
 
+    private ICharacterVisitor pitVisitor;
+    private Collider2D triggerCollider;
+
     private bool isBusy;
 
+    private void Awake()
+    {
+        triggerCollider = GetComponent<BoxCollider2D>();
+    }
     private void Start()
     {
         timerAnimator.SetFloat("speed", 1.0f / interactionTime);
@@ -36,20 +43,26 @@ public class Pit : InteractableObject, IComplexPositioning
         if (!isBusy)
         {
             isBusy = true;
+            pitVisitor = visitor;
             base.StartInteraction(visitor);
             visitor.VisitPit();
             bridgeCollider.enabled = true;
-            GetComponent<BoxCollider2D>().enabled = false;
-            timerAnimator.SetTrigger("show");
+            triggerCollider.enabled = false;
+            timerAnimator.SetBool("show", true);
         }
     }
 
     public override void SuccessInteraction(ICharacterVisitor visitor)
     {
-        bridgeCollider.enabled = false;
-        isBusy = false;
-        GetComponent<BoxCollider2D>().enabled = true;
-        visitor.FinishVisitPit();
+        if (isBusy)
+        {
+            bridgeCollider.enabled = false;
+            isBusy = false;
+            pitVisitor = null;
+            triggerCollider.enabled = true;
+            visitor.FinishVisitPit();
+            timerAnimator.SetBool("show", false);
+        }
     }
 
     private void OnDrawGizmos()
@@ -57,5 +70,17 @@ public class Pit : InteractableObject, IComplexPositioning
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube((Vector2)transform.position + centerInteractionPosition, interactionSize);
         Gizmos.DrawWireCube((Vector2)transform.position + centerInteractionPosition * new Vector2(-1, 1), interactionSize);
+    }
+
+    public bool IsDoubleVisiting(ICharacterVisitor visitor)
+    {
+        return visitor == pitVisitor;
+    }
+
+    public void DoubleVisit(ICharacterVisitor visitor)
+    {
+        StopAllCoroutines();
+        visitor.FinishVisiting();
+        SuccessInteraction(pitVisitor);
     }
 }

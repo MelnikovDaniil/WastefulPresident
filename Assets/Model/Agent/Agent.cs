@@ -71,6 +71,7 @@ public class Agent : Character
     public override void FinishVisitPit()
     {
         _animator.SetBool("pit", false);
+        disableTime = 1;
         spriteRenderer.sortingOrder -= 10;
         skinRenderer.sortingOrder -= 10;
         _rigidbody.velocity = Vector2.zero;
