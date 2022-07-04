@@ -92,7 +92,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -108,7 +108,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -124,7 +124,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -203,7 +203,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -300,7 +300,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -343,7 +343,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -386,7 +386,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -466,7 +466,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)
+    path: Jopa (Bone1)
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -554,7 +554,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/L_ArmIK
+    path: L_ArmIK
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -642,7 +642,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/R_ArmIK
+    path: R_ArmIK
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -682,10 +682,19 @@ AnimationClip:
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 4.3333335
+        value: {x: 0.6416345, y: 0.29771495, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -728,7 +737,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -771,7 +780,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -795,7 +804,7 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 0.5833333
+        time: 0.51666665
         value: {x: 1, y: -1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -804,7 +813,7 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 3.8333333
+        time: 3.95
         value: {x: 1, y: -1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -813,7 +822,7 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 4
+        time: 3.9666667
         value: {x: 1, y: 1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -824,7 +833,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -1033,7 +1042,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/Jopa (Bone1)
+    path: Jopa (Bone1)
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1115,7 +1124,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/Jopa (Bone1)
+    path: Jopa (Bone1)
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1197,7 +1206,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/Jopa (Bone1)
+    path: Jopa (Bone1)
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1279,7 +1288,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1361,7 +1370,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1443,7 +1452,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1462,7 +1471,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1481,7 +1490,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1500,7 +1509,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1519,7 +1528,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1538,7 +1547,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1557,7 +1566,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1648,7 +1657,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/L_ArmIK
+    path: L_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1739,7 +1748,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/L_ArmIK
+    path: L_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1830,7 +1839,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/L_ArmIK
+    path: L_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1921,7 +1930,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/R_ArmIK
+    path: R_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2012,7 +2021,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/R_ArmIK
+    path: R_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2103,7 +2112,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/R_ArmIK
+    path: R_ArmIK
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2185,7 +2194,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2267,7 +2276,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2349,7 +2358,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2449,7 +2458,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2549,7 +2558,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2649,7 +2658,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2674,7 +2683,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5833333
+        time: 0.51666665
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2683,7 +2692,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 3.8333333
+        time: 3.95
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2692,7 +2701,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 4
+        time: 3.9666667
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2704,7 +2713,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2729,7 +2738,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5833333
+        time: 0.51666665
         value: -1
         inSlope: 0
         outSlope: 0
@@ -2738,7 +2747,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 3.8333333
+        time: 3.95
         value: -1
         inSlope: 0
         outSlope: 0
@@ -2747,7 +2756,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 4
+        time: 3.9666667
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2759,7 +2768,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2784,7 +2793,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5833333
+        time: 0.51666665
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2793,7 +2802,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 3.8333333
+        time: 3.95
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2802,7 +2811,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 4
+        time: 3.9666667
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2814,7 +2823,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2856,11 +2865,20 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 4.3333335
+        value: 0.6416345
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2902,11 +2920,20 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 4.3333335
+        value: 0.29771495
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2948,11 +2975,20 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 4.3333335
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2998,7 +3034,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3044,7 +3080,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3090,7 +3126,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3136,7 +3172,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3182,7 +3218,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3228,7 +3264,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3274,7 +3310,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3320,7 +3356,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3366,7 +3402,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3412,7 +3448,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3458,7 +3494,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3504,7 +3540,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -3515,7 +3551,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3525,7 +3561,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3535,7 +3571,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/R_Arm/R_Forearm/R_Wrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3545,7 +3581,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3555,7 +3591,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3565,7 +3601,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
+    path: Jopa (Bone1)/LowerBody/UpperBody/L_Arm/L_Forearm/LWrist
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3575,7 +3611,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3585,7 +3621,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3595,7 +3631,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody
+    path: Jopa (Bone1)/LowerBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3605,7 +3641,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3615,7 +3651,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3625,7 +3661,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3635,7 +3671,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3645,7 +3681,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3655,7 +3691,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/R_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3665,7 +3701,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3675,7 +3711,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3685,7 +3721,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
+    path: Jopa (Bone1)/LowerBody/UpperBody/Head/L_Eyebrow
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3695,7 +3731,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3705,7 +3741,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3715,7 +3751,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Zombie2 (1)/Jopa (Bone1)/LowerBody/UpperBody
+    path: Jopa (Bone1)/LowerBody/UpperBody
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
