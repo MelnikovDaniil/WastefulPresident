@@ -71,7 +71,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
         target = null;
     }
 
-    public void WalkTo(Vector2 position)
+    public virtual void WalkTo(Vector2 position)
     {
         if (characterState != CharacterState.Dead
             && characterState != CharacterState.Acivating)

@@ -139,7 +139,7 @@ public class ControllerManager : BaseManager
 
         if (!GuideManager.waitingStep || guideStep != null)
         {
-            if (character != null 
+            if (character != null
                 && character.characterState != CharacterState.Dead
                 && character != currentCharacter)
             {
@@ -160,12 +160,10 @@ public class ControllerManager : BaseManager
 
                 actionIcons.FirstOrDefault(x => x.character == currentCharacter)?.Hide();
                 var actionIcon = actionIcons.FirstOrDefault(x => x.character == null) ?? actionIcons.First();
-
                 if (interactableObject != null
                     && ((currentCharacter is President && interactableObject.forCharacter)
                         || (currentCharacter is Agent && interactableObject.forAgent)))
                 {
-
                     SendForInteraction(currentCharacter, interactableObject);
                     actionIcon.transform.position = new Vector2(interactableObject.transform.position.x, interactableObject.transform.position.y + 2);
                     actionIcon.SetInteraction();
