@@ -62,6 +62,7 @@ public class Portal : InteractableObject
 
     public void ColorPortal(Color color)
     {
+        this.color = color;
         foreach (var item in objectToColor)
         {
             item.color = color;
