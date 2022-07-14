@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Portal : InteractableObject
@@ -9,6 +10,9 @@ public class Portal : InteractableObject
     public LayerMask wallCheckLayers;
     public LayerMask portableObjectsLayers;
 
+    public Color color;
+    public List<SpriteRenderer> objectToColor;
+
     private Animator _animator;
     private Collider2D _portalZone;
     private bool afterTeleport;
@@ -18,11 +22,13 @@ public class Portal : InteractableObject
 
     private void Awake()
     {
+        ColorPortal(color);
         internalWallCheckOffset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x) * wallCheckOffset.x, 0);
         _animator = GetComponent<Animator>();
         _portalZone = GetComponent<Collider2D>();
         if (secondPortal != null)
         {
+            secondPortal.ColorPortal(color);
             secondPortal.secondPortal = this;
         }
     }
@@ -54,6 +60,14 @@ public class Portal : InteractableObject
         }
     }
 
+    public void ColorPortal(Color color)
+    {
+        foreach (var item in objectToColor)
+        {
+            item.color = color;
+        }
+    }
+
     public void ClosePortal()
     {
         isClosed = true;
@@ -67,6 +81,7 @@ public class Portal : InteractableObject
 
     public void TeleportHuman(IPortalVisitor visitor)
     {
+        _animator.SetTrigger("enter");
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);
@@ -116,6 +131,7 @@ public class Portal : InteractableObject
             if (!afterTeleport && collision.gameObject.TryGetComponent(out IPortalVisitor visitor))
             {
                 afterTeleport = false;
+                _animator.SetTrigger("enter");
                 secondPortal.TeleportHuman(visitor);
             }
             else if ((portableObjectsLayers & (1 << collision.gameObject.layer)) > 0
@@ -138,6 +154,7 @@ public class Portal : InteractableObject
 
     private void OnDrawGizmos()
     {
+        ColorPortal(color);
         Gizmos.color = Color.yellow;
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x) * wallCheckOffset.x, 0);
         var size = transform.localRotation * wallCheckSize;
