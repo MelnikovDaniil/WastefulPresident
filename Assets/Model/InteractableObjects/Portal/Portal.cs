@@ -79,17 +79,17 @@ public class Portal : InteractableObject
     public void TeleportObject(GameObject obj)
     {
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
-        var secondPortalOffset = secondPortal.transform.localRotation 
+        var previousPortalOffset = secondPortal.transform.localRotation 
             * new Vector3(Mathf.Sign(secondPortal.transform.localScale.x), 0);
-        var rotationDifference = Quaternion.Euler(0, 0, Vector2.SignedAngle(offset, secondPortalOffset));
+        var rotationDifference = Quaternion.Euler(0, 0, Vector2.SignedAngle(-previousPortalOffset, offset));
 
         var newPosition = transform.position + offset;
         obj.transform.position = newPosition;
         obj.transform.localRotation = obj.transform.localRotation * rotationDifference;
-        obj.transform.localScale = new Vector3(
-            Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
-            obj.transform.localScale.y,
-            obj.transform.localScale.z);
+        //obj.transform.localScale = new Vector3(
+        //    Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
+        //    obj.transform.localScale.y,
+        //    obj.transform.localScale.z);
         obj.SetActive(true);
 
         if (obj.TryGetComponent(out Rigidbody2D rigidbody))
