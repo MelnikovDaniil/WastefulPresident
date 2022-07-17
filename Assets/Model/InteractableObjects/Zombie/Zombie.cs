@@ -51,6 +51,7 @@ public class Zombie : Creature
                 Move();
             }
 
+            CheckViores();
             CheckFalling();
             CheckGround();
         }
@@ -77,7 +78,6 @@ public class Zombie : Creature
                 characterState = CharacterState.Waiting;
                 _animator.SetBool("walk", false);
             }
-            CheckViores();
             CheckWall();
             CheckPositionChanges();
         }
@@ -161,7 +161,7 @@ public class Zombie : Creature
         var hit = raycasts.FirstOrDefault(x => (targetMask & (1 << x.collider.gameObject.layer)) > 0);
         if (hit.collider != null)
         {
-            WalkTo(hit.point + currentDirection * 0.7f);
+            WalkTo(hit.point + currentDirection * 1f);
         }
     }
 

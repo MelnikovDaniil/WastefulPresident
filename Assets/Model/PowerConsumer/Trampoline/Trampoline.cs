@@ -106,7 +106,7 @@ public class Trampoline : PowerConsumer
                 {
                     var trampoline = colliders.FirstOrDefault(x => x.gameObject.layer == 8)?
                         .GetComponent<Trampoline>();
-                    if (!trampoline || !trampoline.InTossPosition(creature))
+                    if (!trampoline || !trampoline.isActive || !trampoline.InTossPosition(creature))
                     {
                         creature.HideTarget();
                         if (creature is Zombie)
