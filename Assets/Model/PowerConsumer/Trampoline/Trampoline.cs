@@ -130,6 +130,7 @@ public class Trampoline : PowerConsumer
 
     private void OnDrawGizmos()
     {
+        arrow.SetActive(isActive);
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(tossPlaceOffset + transform.position, tossPlaceSize);
         Gizmos.color = Color.yellow;

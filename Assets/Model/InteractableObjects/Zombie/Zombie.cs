@@ -21,6 +21,7 @@ public class Zombie : Creature
         var attackCollider = attack.AddComponent<CircleCollider2D>();
         attack.tag = "ZombieAttack";
         attackTransform = attackCollider;
+        attack.SetActive(false);
     }
 
     private void FixedUpdate()
