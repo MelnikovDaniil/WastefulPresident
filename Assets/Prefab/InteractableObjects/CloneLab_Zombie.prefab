@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 5105124119555486049}
   - component: {fileID: 5105124119555486048}
   m_Layer: 12
-  m_Name: Zombie
+  m_Name: CloneLab_Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -460,9 +460,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 712153413
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ddef21842755dea4f959d77fc0a5fba6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -573,21 +573,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f848e93ed754f5f4eb8224ccf0e2bb8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.7
+  speed: 1
+  fallingXSpeed: 3.5
   jumpForce: 14
   reversed: 1
   targetStopDistanceX: 0.15
   targetStopDistanceY: 2.5
-  checkGroundOffsetY: -1.94
+  checkGroundOffsetY: -2
   checkFroundRadius: 0.5
   interactRadius: 0.75
-  checkWallOffset: {x: 1.5, y: 0}
+  checkWallOffset: {x: 0.5, y: 0}
   fullFriction: {fileID: 6200000, guid: dc629ad1351ab3d40909d0e6b37003f8, type: 2}
   zeroFriction: {fileID: 6200000, guid: 12b3de8a7f9bac04380089b7ee926a23, type: 2}
-  samePositionTime: 0.15
-  samePositionDistance: 0.1
-  attackDistance: 1.5
-  attackRadius: 0.5
+  samePositionTime: 0.3
+  samePositionDistance: 0.05
+  attackDistance: 1
+  attackRadius: 1
   attackRate: 1
   attackDelay: 0
   searchingMask:
@@ -630,8 +631,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2.0649636}
-  m_Size: {x: 3.8399997, y: 13.800553}
+  m_Offset: {x: 0, y: -2}
+  m_Size: {x: 3.81, y: 13.8}
   m_Direction: 0
 --- !u!1 &4283162717637827134
 GameObject:

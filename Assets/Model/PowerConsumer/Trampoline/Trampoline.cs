@@ -106,7 +106,7 @@ public class Trampoline : PowerConsumer
                 {
                     var trampoline = colliders.FirstOrDefault(x => x.gameObject.layer == 8)?
                         .GetComponent<Trampoline>();
-                    if (!trampoline || !trampoline.InTossPosition(creature))
+                    if (!trampoline || !trampoline.isActive || !trampoline.InTossPosition(creature))
                     {
                         creature.HideTarget();
                         if (creature is Zombie)
@@ -130,6 +130,7 @@ public class Trampoline : PowerConsumer
 
     private void OnDrawGizmos()
     {
+        arrow.SetActive(isActive);
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(tossPlaceOffset + transform.position, tossPlaceSize);
         Gizmos.color = Color.yellow;

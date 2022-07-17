@@ -86,10 +86,10 @@ public class Portal : InteractableObject
         var newPosition = transform.position + offset;
         obj.transform.position = newPosition;
         obj.transform.localRotation = obj.transform.localRotation * rotationDifference;
-        obj.transform.localScale = new Vector3(
-            Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
-            obj.transform.localScale.y,
-            obj.transform.localScale.z);
+        //obj.transform.localScale = new Vector3(
+        //    Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
+        //    obj.transform.localScale.y,
+        //    obj.transform.localScale.z);
         obj.SetActive(true);
 
         if (obj.TryGetComponent(out Rigidbody2D rigidbody))
