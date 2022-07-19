@@ -63,6 +63,7 @@ public class Swapper : InteractableObject
             .FirstOrDefault(x => x.characterState != CharacterState.Dead);
         if (creature != null)
         {
+            creature.WalkTo(secondSwapper.transform.position);
             creature.transform.position = secondSwapper.transform.position;
         }
         else
