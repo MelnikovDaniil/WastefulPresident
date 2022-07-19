@@ -51,13 +51,17 @@ public class Turret : PowerConsumer
             var hitCollider = RaycastLazer(
                 lazerPlace.position,
                 transform.rotation * Vector2.right * Mathf.Sign(transform.localScale.x));
-            if (!isShooting && (targetMask & (1 << hitCollider.gameObject.layer)) > 0)
+            if (!isShooting && (targetMask & (1 << hitCollider.gameObject.layer)) > 0
+                && hitCollider.gameObject.TryGetComponent(out Creature creature) 
+                && creature.characterState != CharacterState.Dead)
             {
                 isShooting = true;
                 animator.SetBool("isShooting", true);
                 sleevesParticles.Play();
             }
-            else if (isShooting && (targetMask & (1 << hitCollider.gameObject.layer)) == 0)
+            else if (isShooting && ((targetMask & (1 << hitCollider.gameObject.layer)) == 0)
+                || (hitCollider.gameObject.TryGetComponent(out Creature deadCreature)
+                    && deadCreature.characterState == CharacterState.Dead))
             {
                 animator.SetBool("isShooting", false);
                 isShooting = false;
