@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pit : InteractableObject, IComplexPositioning
@@ -11,8 +9,15 @@ public class Pit : InteractableObject, IComplexPositioning
 
     public Animator timerAnimator;
 
+    private ICharacterVisitor pitVisitor;
+    private Collider2D triggerCollider;
+
     private bool isBusy;
 
+    private void Awake()
+    {
+        triggerCollider = GetComponent<BoxCollider2D>();
+    }
     private void Start()
     {
         timerAnimator.SetFloat("speed", 1.0f / interactionTime);
@@ -36,20 +41,32 @@ public class Pit : InteractableObject, IComplexPositioning
         if (!isBusy)
         {
             isBusy = true;
+            pitVisitor = visitor;
             base.StartInteraction(visitor);
-            visitor.VisitPit();
+            visitor.VisitPit(() => PitFalling(visitor));
             bridgeCollider.enabled = true;
-            GetComponent<BoxCollider2D>().enabled = false;
-            timerAnimator.SetTrigger("show");
+            triggerCollider.enabled = false;
+            timerAnimator.SetBool("show", true);
         }
     }
 
     public override void SuccessInteraction(ICharacterVisitor visitor)
     {
-        bridgeCollider.enabled = false;
-        isBusy = false;
-        GetComponent<BoxCollider2D>().enabled = true;
-        visitor.FinishVisitPit();
+        if (isBusy)
+        {
+            bridgeCollider.enabled = false;
+            isBusy = false;
+            pitVisitor = null;
+            triggerCollider.enabled = true;
+            visitor.FinishVisitPit(() => PitFalling(visitor));
+            timerAnimator.SetBool("show", false);
+        }
+    }
+    private void PitFalling(ICharacterVisitor visitor)
+    {
+        this.StopAllCoroutines();
+        visitor.FinishVisiting();
+        SuccessInteraction(pitVisitor);
     }
 
     private void OnDrawGizmos()

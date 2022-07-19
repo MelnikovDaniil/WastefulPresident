@@ -59,8 +59,9 @@ public class Agent : Character
         }
     }
 
-    public override void VisitPit()
+    public override void VisitPit(Action onPitFalling = null)
     {
+        OnMovementStart += onPitFalling;
         _animator.SetBool("pit", true);
         spriteRenderer.sortingOrder += 10;
         skinRenderer.sortingOrder += 10;
@@ -68,9 +69,11 @@ public class Agent : Character
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
-    public override void FinishVisitPit()
+    public override void FinishVisitPit(Action onPitFalling = null)
     {
+        OnMovementStart -= onPitFalling;
         _animator.SetBool("pit", false);
+        disableTime = 1;
         spriteRenderer.sortingOrder -= 10;
         skinRenderer.sortingOrder -= 10;
         _rigidbody.velocity = Vector2.zero;

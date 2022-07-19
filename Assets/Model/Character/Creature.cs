@@ -54,14 +54,15 @@ public class Creature : MonoBehaviour, IPortalVisitor
     protected float disableTime;
     protected float reversedSide;
 
-    private int groundMask = (1 << 6) | (1 << 7) | (1 << 8);
+    private LayerMask _groundMask;
 
     protected void Awake()
     {
         reversedSide = reversed ? -1 : 1;
+        _groundMask = LayerMask.GetMask("Ground", "Door", "Trampoline");
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-    }
+}
 
     public virtual void Death()
     {
@@ -71,7 +72,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
         target = null;
     }
 
-    public void WalkTo(Vector2 position)
+    public virtual void WalkTo(Vector2 position)
     {
         if (characterState != CharacterState.Dead
             && characterState != CharacterState.Acivating)
@@ -96,7 +97,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
     public void HideTarget()
     {
         OnMovementFinish?.Invoke();
-        _rigidbody.velocity = Vector2.zero;
+        //_rigidbody.velocity = Vector2.zero;
         movementSide = 0;
         target = null;
     }
@@ -108,7 +109,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
 
     protected bool IsOnSlope()
     {
-        var hit = Physics2D.Raycast(transform.position, Vector2.down, 2.5f, groundMask);
+        var hit = Physics2D.Raycast(transform.position, Vector2.down, 2.5f, _groundMask);
 
         if (isGrounded && hit && hit.normal != Vector2.up)
         {
@@ -122,7 +123,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
     protected void CheckGround()
     {
         var position = new Vector2(transform.position.x, transform.position.y + checkGroundOffsetY);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, groundMask);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, _groundMask);
         var anyCollider = colliders.Any(x => !x.isTrigger);
         if (isGrounded != anyCollider)
         {
@@ -172,7 +173,6 @@ public class Creature : MonoBehaviour, IPortalVisitor
     protected void CheckFalling()
     {
         var maxFallVelocity = -20f;
-        var isFalling = _rigidbody.velocity.y < -5f;
 
         if (_rigidbody.velocity.y < maxFallVelocity)
         {
@@ -185,7 +185,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
         var position = new Vector2(
             transform.position.x + checkWallOffset.x * Mathf.Sign(transform.localScale.x) * reversedSide,
             transform.position.y + checkWallOffset.y);
-        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, groundMask);
+        var colliders = Physics2D.OverlapCircleAll(position, checkFroundRadius, _groundMask);
 
         inFrontOfWall = colliders.Any();
     }

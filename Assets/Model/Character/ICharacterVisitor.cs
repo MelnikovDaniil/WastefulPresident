@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public interface ICharacterVisitor
 {
@@ -7,8 +8,8 @@ public interface ICharacterVisitor
     void VisitElectricPanel();
     void ElectricPanelDeath();
 
-    void VisitPit();
-    void FinishVisitPit();
+    void VisitPit(Action onPitFalling = null);
+    void FinishVisitPit(Action onPitFalling = null);
 
     void VisitTimer(float timeSpeed);
     void FinishVisitTimer();
