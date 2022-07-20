@@ -112,7 +112,8 @@ public class Zombie : Creature
         var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * reversedSide;
         var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, targetMask);
 
-        if (hit != null)
+        if (hit != null && hit.TryGetComponent(out Creature creature) 
+            && creature.characterState != CharacterState.Dead)
         {
             Attack();
         }
