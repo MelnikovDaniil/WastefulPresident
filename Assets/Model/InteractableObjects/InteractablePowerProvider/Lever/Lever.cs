@@ -12,6 +12,7 @@ public class Lever : InteractrablePowerProvider
     public override void StartInteraction(ICharacterVisitor visitor)
     {
         base.StartInteraction(visitor);
+        SoundManager.PlaySound("Lever");
         visitor.VisitLever();
     }
 

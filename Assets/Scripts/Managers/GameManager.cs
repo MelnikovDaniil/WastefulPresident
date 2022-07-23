@@ -82,7 +82,7 @@ public class GameManager : BaseManager
         {
             president.OnDeath += () => LevelFail();
         }
-        SoundManager.PlayMusic(soundtrackName);
+        //SoundManager.PlayMusic(soundtrackName);
         isBusy = false;
     }
 

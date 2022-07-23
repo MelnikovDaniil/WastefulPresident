@@ -14,6 +14,7 @@ public class Turret : PowerConsumer
     [Space]
     public Transform shootingPlace;
     public Bullet bulletPrefab;
+    public float additionaShootingTime = 1;
     public int fireRateOverTime = 10;
     public float bulletSpeed;
     public int bulletPoolSize = 1000;
@@ -24,6 +25,7 @@ public class Turret : PowerConsumer
     private List<LineRenderer> lazers;
     private bool isShooting;
     private bool isReadyForShoot;
+    private float currentShootingTime;
 
     private LayerMask portalMask;
 
@@ -55,6 +57,7 @@ public class Turret : PowerConsumer
                 && hitCollider.gameObject.TryGetComponent(out Creature creature) 
                 && creature.characterState != CharacterState.Dead)
             {
+                currentShootingTime = 0;
                 isShooting = true;
                 animator.SetBool("isShooting", true);
                 sleevesParticles.Play();
@@ -63,9 +66,16 @@ public class Turret : PowerConsumer
                 || (hitCollider.gameObject.TryGetComponent(out Creature deadCreature)
                     && deadCreature.characterState == CharacterState.Dead))
             {
-                animator.SetBool("isShooting", false);
-                isShooting = false;
-                sleevesParticles.Stop();
+                if (currentShootingTime < additionaShootingTime)
+                {
+                    currentShootingTime += Time.deltaTime;
+                }
+                else
+                {
+                    animator.SetBool("isShooting", false);
+                    isShooting = false;
+                    sleevesParticles.Stop();
+                }
             }
         }
         else if (isShooting)
@@ -73,6 +83,19 @@ public class Turret : PowerConsumer
             animator.SetBool("isShooting", false);
             isShooting = false;
             sleevesParticles.Stop();
+        }
+    }
+
+    public override void TurnEnergy()
+    {
+        base.TurnEnergy();
+        if (isActive)
+        {
+            SoundManager.PlaySound("TurretOn");
+        }
+        else
+        {
+            SoundManager.PlaySound("TurretOff");
         }
     }
 
@@ -101,6 +124,7 @@ public class Turret : PowerConsumer
                 var bullet = GetPooledBullet();
                 if (bullet != null)
                 {
+                    SoundManager.PlaySound("TurretShot");
                     bullet.transform.position = shootingPlace.position;
                     bullet.transform.rotation = transform.rotation;
                     bullet.transform.localScale = new Vector3(

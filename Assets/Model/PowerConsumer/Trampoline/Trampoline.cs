@@ -73,6 +73,7 @@ public class Trampoline : PowerConsumer
         if (tossColliders.Any())
         {
             _animator.SetTrigger("push");
+            SoundManager.PlaySound("Trampoline");
             foreach (var humanCollider in colliers)
             {
                 var creature = humanCollider.GetComponent<Creature>();

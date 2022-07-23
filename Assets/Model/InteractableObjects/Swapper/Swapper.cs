@@ -38,9 +38,18 @@ public class Swapper : InteractableObject
     {
         var colliders = Physics2D.OverlapBoxAll(transform.position, detectionSize, 0, swapObjectsLayers);
 
-        if (IsDetected(colliders))
+        if (IsDetectoinChanged(colliders))
         {
             creatureDetected = !detectionLight.activeSelf;
+
+            if (creatureDetected)
+            {
+                SoundManager.PlaySound("SwapperEnter");
+            }
+            else
+            {
+                SoundManager.PlaySound("SwapperExit");
+            }
             detectionLight.SetActive(!detectionLight.activeSelf);
         }
     }
@@ -48,6 +57,7 @@ public class Swapper : InteractableObject
     {
         if (creatureDetected && secondSwapper.creatureDetected)
         {
+            SoundManager.PlaySound("Swapper");
             Swap();
             secondSwapper.Swap();
         }
@@ -72,7 +82,7 @@ public class Swapper : InteractableObject
         }
     }
 
-    private bool IsDetected(Collider2D[] colliders)
+    private bool IsDetectoinChanged(Collider2D[] colliders)
     {
         var creatures = colliders.Where(x => x != null).Select(x => x.GetComponent<Creature>());
         var creature = creatures

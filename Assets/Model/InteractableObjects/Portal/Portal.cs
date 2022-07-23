@@ -67,6 +67,7 @@ public class Portal : InteractableObject
 
     public void TeleportHuman(IPortalVisitor visitor)
     {
+        SoundManager.PlaySound("Portal");
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);

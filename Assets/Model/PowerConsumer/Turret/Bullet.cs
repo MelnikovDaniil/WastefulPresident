@@ -29,6 +29,7 @@ public class Bullet : MonoBehaviour
     {
         if ((characterMask & (1 << collision.gameObject.layer)) > 0)
         {
+            SoundManager.PlaySound("BulletBodyHit");
             gameObject.SetActive(false);
         }
     }
@@ -37,6 +38,7 @@ public class Bullet : MonoBehaviour
     {
         if ((wallMask & (1 << collision.gameObject.layer)) > 0)
         {
+            SoundManager.PlaySound("BulletWallHit");
             gameObject.SetActive(false);
         }
     }

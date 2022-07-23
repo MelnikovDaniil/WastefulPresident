@@ -29,10 +29,12 @@ public class PressurePlate : InteractrablePowerProvider
         if (isActive)
         {
             sprteRenderer.sprite = pressedSprite;
+            SoundManager.PlaySound("PressurePlateOn");
         }
         else
         {
             sprteRenderer.sprite = releasedSprite;
+            SoundManager.PlaySound("PressurePlateOff");
         }
     }
 
