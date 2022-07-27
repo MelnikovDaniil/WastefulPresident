@@ -27,9 +27,14 @@ public class BatterySlot : InteractrablePowerProvider
             if (storedBattery != null)
             {
                 visitor.StartTakingBattery(storedBattery);
+                if (storedBattery.spriteRenderer.enabled == false)
+                {
+                    SoundManager.PlaySoundWithDelay("BatteryOutput", 0.2f);
+                }
             }
             else
             {
+                SoundManager.PlaySoundWithDelay("BatteryInput", 0.8f);
                 visitor.PutBattery();
             }
             base.StartInteraction(visitor);

@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3.5
+  fallingXSpeed: 3.5
   jumpForce: 14
   reversed: 0
   targetStopDistanceX: 0.15
@@ -171,7 +172,6 @@ MonoBehaviour:
   characterColor: {fileID: 6678740772894812069}
   quesinMark: {fileID: 6334880865862975872}
   sendOrderChanse: 1
-  cameraOffset: {x: 0, y: 1}
   colorMaterial: {fileID: 2100000, guid: ed6a96227e186d348b0b53dbd33c39bc, type: 2}
   watchingClockFromTime: 15
 --- !u!212 &6678740772988863570
@@ -280,8 +280,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.06431198}
-  m_Size: {x: 0.91, y: 3.555779}
+  m_Offset: {x: 0, y: -0.11}
+  m_Size: {x: 0.91, y: 3.2}
   m_Direction: 0
 --- !u!1001 &6678740771580154905
 PrefabInstance:

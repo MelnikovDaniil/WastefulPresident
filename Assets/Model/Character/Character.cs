@@ -108,6 +108,7 @@ public abstract class Character : Creature, ICharacterVisitor
 
     public void ElectricPanelDeath()
     {
+        SoundManager.PlaySound("ElectricPanelDeath");
         _animator.SetTrigger("electricity");
         Death();
     }

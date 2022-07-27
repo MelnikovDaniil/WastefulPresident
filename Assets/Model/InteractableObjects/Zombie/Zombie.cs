@@ -21,6 +21,7 @@ public class Zombie : Creature
         var attackCollider = attack.AddComponent<CircleCollider2D>();
         attack.tag = "ZombieAttack";
         attackTransform = attackCollider;
+        attack.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -50,6 +51,7 @@ public class Zombie : Creature
                 Move();
             }
 
+            CheckViores();
             CheckFalling();
             CheckGround();
         }
@@ -76,7 +78,6 @@ public class Zombie : Creature
                 characterState = CharacterState.Waiting;
                 _animator.SetBool("walk", false);
             }
-            CheckViores();
             CheckWall();
             CheckPositionChanges();
         }
@@ -111,7 +112,8 @@ public class Zombie : Creature
         var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * reversedSide;
         var hit = Physics2D.OverlapCircle(attackPosition, attackRadius, targetMask);
 
-        if (hit != null)
+        if (hit != null && hit.TryGetComponent(out Creature creature) 
+            && creature.characterState != CharacterState.Dead)
         {
             Attack();
         }
@@ -160,7 +162,7 @@ public class Zombie : Creature
         var hit = raycasts.FirstOrDefault(x => (targetMask & (1 << x.collider.gameObject.layer)) > 0);
         if (hit.collider != null)
         {
-            WalkTo(hit.point + currentDirection * 0.7f);
+            WalkTo(hit.point + currentDirection * 1f);
         }
     }
 
