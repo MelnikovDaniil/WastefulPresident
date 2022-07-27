@@ -11,9 +11,13 @@ public class RewardManager : BaseManager
     public Text rewardText;
     public ParticleSystem moneyParticles;
 
+    public float startPitch = 0.9f;
+    public float pitchIncrementStep = 0.02f;
+
     private const int TickCount = 5;
     private int tickMoneySum;
 
+    private float currentPitch; 
     private int reward;
 
     private void Awake()
@@ -31,18 +35,25 @@ public class RewardManager : BaseManager
         rewardText.text = string.Empty;
         currentMoneyText.text = MoneyMapper.Get().ToString() + "$";
         reward = 0;
+        currentPitch = startPitch;
     }
 
     public void FinishRewardCalculation()
     {
+        currentPitch += pitchIncrementStep;
         MoneyMapper.Add(reward);
+        SoundManager.PlaySoundUI("CashFinal")
+            .Source.pitch = currentPitch;
         currentMoneyText.text = MoneyMapper.Get().ToString() + "$";
     }
 
     public void CollectBank()
     {
+        SoundManager.PlaySoundUI("CashCollect")
+            .Source.pitch = currentPitch;
         reward += tickMoneySum;
         rewardText.text = reward.ToString() + "$";
         moneyParticles.Play();
+        currentPitch += pitchIncrementStep;
     }
 }
