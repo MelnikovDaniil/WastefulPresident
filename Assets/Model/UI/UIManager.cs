@@ -116,6 +116,7 @@ public class UIManager : BaseManager
 
     public void Finish(string nextLevel)
     {
+        SoundManager.PlaySoundUI("Victory");
         gamePanel?.SetActive(false);
         finishPanel?.SetActive(true);
         rewardManager.StartRewardCalculation();
