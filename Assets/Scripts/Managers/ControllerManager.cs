@@ -150,6 +150,7 @@ public class ControllerManager : BaseManager
                 currentCharacter?.HideColor();
                 currentCharacter = character;
                 character.ShowColor();
+                SoundManager.PlaySound("Tap");
             }
             else if (currentCharacter != null)
             {
@@ -180,6 +181,7 @@ public class ControllerManager : BaseManager
                     actionIcon.SetWaking();
                 }
 
+                SoundManager.PlaySound("Tap");
                 actionIcon.Show(currentCharacter);
                 var deathInfo = new { actionIcon, currentCharacter };
                 currentCharacter.OnDeath += () => DisableActionIconOnDeath(deathInfo.actionIcon, deathInfo.currentCharacter);
