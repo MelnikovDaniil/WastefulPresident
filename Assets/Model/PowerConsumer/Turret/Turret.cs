@@ -160,7 +160,7 @@ public class Turret : PowerConsumer
             var nextPortalDirection =
                 portal.secondPortal.transform.localRotation * new Vector2(portal.secondPortal.transform.localScale.x, 0);
             return RaycastLazer(
-                portal.secondPortal.transform.position + nextPortalDirection,
+                portal.secondPortal.transform.position + nextPortalDirection * 0.3f,
                 nextPortalDirection,
                 lazerNumber + 1);
         }

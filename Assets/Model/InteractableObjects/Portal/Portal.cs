@@ -80,8 +80,9 @@ public class Portal : InteractableObject
     {
     }
 
-    public void TeleportHuman(IPortalVisitor visitor)
+    public IEnumerator TeleportHuman(IPortalVisitor visitor)
     {
+        yield return new WaitForSeconds(0.15f);
         _animator.SetTrigger("enter");
         SoundManager.PlaySound("Portal");
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
@@ -134,12 +135,13 @@ public class Portal : InteractableObject
             {
                 afterTeleport = false;
                 _animator.SetTrigger("enter");
-                secondPortal.TeleportHuman(visitor);
+                StartCoroutine(secondPortal.TeleportHuman(visitor));
             }
             else if ((portableObjectsLayers & (1 << collision.gameObject.layer)) > 0
                 && !(collision.isTrigger && collision.GetComponent<InteractableObject>()))
             {
                 afterTeleport = false;
+                _animator.SetTrigger("enterObject");
                 secondPortal.TeleportObject(collision.gameObject);
             }
         }
