@@ -44,8 +44,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2048
-    height: 1060.8
+    width: 1536
+    height: 780.8
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -1033,7 +1033,6 @@ MonoBehaviour:
     - {fileID: 8322803202511319577, guid: adf3f829752955b42930d34896dc5541, type: 2}
     - {fileID: -8540081331514151126, guid: 8ff4e2903c16da04594a2aa215d92477, type: 2}
     - {fileID: 124813296642365107, guid: 622904ce47f1ed9478041528935f7209, type: 2}
-    - {fileID: 6585466121044691629, guid: 00e74a16100260d49a7ebabe1960cf70, type: 2}
     m_ValueSerializationHelper:
     - e00: 1
       e01: 0
@@ -1115,26 +1114,10 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 00e74a16100260d49a7ebabe1960cf70, type: 2}
+  m_AnimatorController: {fileID: 9100000, guid: c3e64b0805f26d1449c30898f48bd0f9, type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 6585466121044691629, guid: 00e74a16100260d49a7ebabe1960cf70, type: 2}
+  - m_Target: {fileID: -4018909761111683150, guid: c3e64b0805f26d1449c30898f48bd0f9, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -1167,17 +1150,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 474.4
-    y: 784.8
-    width: 983.6
-    height: 278.60004
+    x: 364
+    y: 588
+    width: 744.4
+    height: 195.39996
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -75390
+  m_LastSelectedObjectID: -3315038
 --- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1198,10 +1181,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1460
+    x: 1095.2001
     y: 73.6
-    width: 587
-    height: 989.80005
+    width: 439.80005
+    height: 709.8
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
