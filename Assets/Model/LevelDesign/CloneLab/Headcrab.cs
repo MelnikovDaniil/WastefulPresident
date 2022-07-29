@@ -10,6 +10,7 @@ public class Headcrab : MonoBehaviour
 
     private Animator _animator;
     private Vector2? targetPosition;
+    private SMSound sound;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class Headcrab : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, targetPosition.Value) < 0.1f)
             {
+                sound?.Stop();
                 targetPosition = null;
             }
         }
@@ -39,6 +41,8 @@ public class Headcrab : MonoBehaviour
 
     private void SetNextPosition()
     {
+        sound = SoundManager.PlaySound("Headcrab")
+            .SetVolume(0.5f);
         var camera = Camera.main;
         var y = Random.Range(-camera.orthographicSize, camera.orthographicSize);
         var x = Random.Range(-camera.orthographicSize, camera.orthographicSize) / Camera.main.aspect;
