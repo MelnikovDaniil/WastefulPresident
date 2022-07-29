@@ -94,8 +94,22 @@ public class Portal : InteractableObject
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
-    public void TeleportObject(GameObject obj)
+    public void TeleportObject(GameObject obj, bool isLargeObject)
     {
+        if (isLargeObject)
+        {
+            _animator.SetTrigger("enterImmediately");
+        }
+        else
+        {
+            _animator.SetTrigger("enterObject");
+        }
+        var sound = SoundManager.PlaySound("Portal");
+        sound.SetVolume(0.2f);
+        if (sound.Source != null)
+        {
+            sound.Source.pitch /= 2;
+        }
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var previousPortalOffset = secondPortal.transform.localRotation 
             * new Vector3(Mathf.Sign(secondPortal.transform.localScale.x), 0);
@@ -141,8 +155,16 @@ public class Portal : InteractableObject
                 && !(collision.isTrigger && collision.GetComponent<InteractableObject>()))
             {
                 afterTeleport = false;
-                _animator.SetTrigger("enterObject");
-                secondPortal.TeleportObject(collision.gameObject);
+                if (!collision.isTrigger)
+                {
+                    _animator.SetTrigger("enterImmediately");
+                    secondPortal.TeleportObject(collision.gameObject, true);
+                }
+                else
+                {
+                    _animator.SetTrigger("enterObject");
+                    secondPortal.TeleportObject(collision.gameObject, false);
+                }
             }
         }
     }
