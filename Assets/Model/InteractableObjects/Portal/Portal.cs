@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Portal : InteractableObject
@@ -9,6 +10,9 @@ public class Portal : InteractableObject
     public LayerMask wallCheckLayers;
     public LayerMask portableObjectsLayers;
 
+    public Color color;
+    public List<SpriteRenderer> objectToColor;
+
     private Animator _animator;
     private Collider2D _portalZone;
     private bool afterTeleport;
@@ -18,11 +22,13 @@ public class Portal : InteractableObject
 
     private void Awake()
     {
+        ColorPortal(color);
         internalWallCheckOffset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x) * wallCheckOffset.x, 0);
         _animator = GetComponent<Animator>();
         _portalZone = GetComponent<Collider2D>();
         if (secondPortal != null)
         {
+            secondPortal.ColorPortal(color);
             secondPortal.secondPortal = this;
         }
     }
@@ -54,6 +60,15 @@ public class Portal : InteractableObject
         }
     }
 
+    public void ColorPortal(Color color)
+    {
+        this.color = color;
+        foreach (var item in objectToColor)
+        {
+            item.color = color;
+        }
+    }
+
     public void ClosePortal()
     {
         isClosed = true;
@@ -65,9 +80,11 @@ public class Portal : InteractableObject
     {
     }
 
-    public void TeleportHuman(IPortalVisitor visitor)
+    public IEnumerator TeleportHuman(IPortalVisitor visitor)
     {
+        _animator.SetTrigger("enter");
         SoundManager.PlaySound("Portal");
+        yield return new WaitForSeconds(0.15f);
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);
@@ -77,8 +94,22 @@ public class Portal : InteractableObject
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
-    public void TeleportObject(GameObject obj)
+    public void TeleportObject(GameObject obj, bool isLargeObject)
     {
+        if (isLargeObject)
+        {
+            _animator.SetTrigger("enterImmediately");
+        }
+        else
+        {
+            _animator.SetTrigger("enterObject");
+        }
+        var sound = SoundManager.PlaySound("Portal");
+        sound.SetVolume(0.2f);
+        if (sound.Source != null)
+        {
+            sound.Source.pitch /= 2;
+        }
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var previousPortalOffset = secondPortal.transform.localRotation 
             * new Vector3(Mathf.Sign(secondPortal.transform.localScale.x), 0);
@@ -117,13 +148,23 @@ public class Portal : InteractableObject
             if (!afterTeleport && collision.gameObject.TryGetComponent(out IPortalVisitor visitor))
             {
                 afterTeleport = false;
-                secondPortal.TeleportHuman(visitor);
+                _animator.SetTrigger("enter");
+                StartCoroutine(secondPortal.TeleportHuman(visitor));
             }
             else if ((portableObjectsLayers & (1 << collision.gameObject.layer)) > 0
                 && !(collision.isTrigger && collision.GetComponent<InteractableObject>()))
             {
                 afterTeleport = false;
-                secondPortal.TeleportObject(collision.gameObject);
+                if (!collision.isTrigger)
+                {
+                    _animator.SetTrigger("enterImmediately");
+                    secondPortal.TeleportObject(collision.gameObject, true);
+                }
+                else
+                {
+                    _animator.SetTrigger("enterObject");
+                    secondPortal.TeleportObject(collision.gameObject, false);
+                }
             }
         }
     }
@@ -139,6 +180,7 @@ public class Portal : InteractableObject
 
     private void OnDrawGizmos()
     {
+        ColorPortal(color);
         Gizmos.color = Color.yellow;
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x) * wallCheckOffset.x, 0);
         var size = transform.localRotation * wallCheckSize;
