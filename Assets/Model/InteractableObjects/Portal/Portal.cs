@@ -82,9 +82,9 @@ public class Portal : InteractableObject
 
     public IEnumerator TeleportHuman(IPortalVisitor visitor)
     {
-        yield return new WaitForSeconds(0.15f);
         _animator.SetTrigger("enter");
         SoundManager.PlaySound("Portal");
+        yield return new WaitForSeconds(0.15f);
         var offset = transform.localRotation * new Vector3(Mathf.Sign(transform.localScale.x), 0);
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);
