@@ -14,6 +14,16 @@ public static class ComicsMapper
         return PlayerPrefs.GetString(MapperName + "Current");
     }
 
+    public static void SetAfterShow(string comicsName)
+    {
+        PlayerPrefs.SetString(MapperName + "AfterShow", comicsName);
+    }
+
+    public static string GetAfterShow()
+    {
+        return PlayerPrefs.GetString(MapperName + "AfterShow", "LevelMenu");
+    }
+
     public static void Open(string comicsName)
     {
         PlayerPrefs.SetInt(MapperName + comicsName, 1);

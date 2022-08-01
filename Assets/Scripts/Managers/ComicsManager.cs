@@ -35,7 +35,6 @@ public class ComicsManager : MonoBehaviour
     private void Start()
     {
         backgroundStartOpacity = background.color.a;
-        ComicsMapper.SetComicsToShow(chapters.FirstOrDefault().name);
         currentChapter = GetChapter();
         currentPage = currentChapter.comicsPages.FirstOrDefault();
         StartCoroutine(ShowPageRoutine(currentPage));
@@ -72,7 +71,16 @@ public class ComicsManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("LevelMenu");
+            var levelAfterShow = ComicsMapper.GetAfterShow();
+            if (levelAfterShow != "LevelMenu")
+            {
+                ComicsMapper.SetAfterShow("LevelMenu");
+                GameManager.LoadLevel(levelAfterShow);
+            }
+            else
+            {
+                GameManager.LoadMainMenu();
+            }
         }
     }
 
