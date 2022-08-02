@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class ComicsManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class ComicsManager : MonoBehaviour
     private ScriptableComicsChapter currentChapter;
     private ComicsPage currentPage;
 
+    private float currentShowTime;
+
     private float currentMovingTime;
     private RectTransform movingFrame;
 
@@ -31,6 +34,7 @@ public class ComicsManager : MonoBehaviour
     private Vector2 showScale;
 
     private float backgroundStartOpacity;
+    private float shakeForce;
 
     private void Start()
     {
@@ -47,6 +51,19 @@ public class ComicsManager : MonoBehaviour
             NextPage();
         }
 
+
+        if (shakeForce > 0 && currentShowTime < frameShowTime)
+        {
+            currentShowTime += Time.deltaTime;
+
+            var coof = 1 - (currentShowTime / frameShowTime);
+            var transform = animatedFramePlace.GetChild(0);
+
+            transform.localPosition = new Vector2(
+                Random.Range(-shakeForce, shakeForce),
+                Random.Range(-shakeForce, shakeForce)) * coof;
+        }
+
         if (movingFrame != null && currentMovingTime < movingTime)
         {
             currentMovingTime += Time.deltaTime;
@@ -55,7 +72,6 @@ public class ComicsManager : MonoBehaviour
             movingFrame.anchoredPosition = Vector3.Lerp(frameStartPosition, frameTargetPosition, coof);
             movingFrame.localScale = Vector2.Lerp(showScale, Vector3.one, coof);
             background.color = new Color(background.color.r, background.color.g, background.color.b, (1 - coof) * backgroundStartOpacity);
-
         }
     }
 
@@ -91,11 +107,7 @@ public class ComicsManager : MonoBehaviour
         foreach (var frameInfo in page.frames)
         {
             var frameObj = Instantiate(frameInfo.frame, Vector2.zero, Quaternion.identity, animatedFramePlace);
-            ShowFrame();
-            if (frameInfo.appearanceSound != null)
-            {
-                SoundManager.PlaySound(frameInfo.appearanceSound);
-            }
+            ShowFrame(frameInfo);
 
             showScale = CalculateShowScale(frameObj);
             frameObj.localScale = showScale;
@@ -118,6 +130,7 @@ public class ComicsManager : MonoBehaviour
 
     private void MoveFrame(RectTransform frameObject, Vector2 position)
     {
+        frameObject.transform.localPosition = Vector2.zero;
         movingFrame = frameObject;
         movingFrame.parent = frameStorage;
         currentMovingTime = 0;
@@ -125,8 +138,14 @@ public class ComicsManager : MonoBehaviour
         frameTargetPosition = position;
     }
 
-    private void ShowFrame()
+    private void ShowFrame(ComicsFrame showFrameInfo)
     {
+        shakeForce = showFrameInfo.shakeForce;
+        currentShowTime = 0;
+        if (showFrameInfo.appearanceSound != null)
+        {
+            SoundManager.PlaySound(showFrameInfo.appearanceSound);
+        }
         background.color = new Color(background.color.r, background.color.g, background.color.b, backgroundStartOpacity);
         var animationName = Enum.GetNames(typeof(FrameAnimation)).GetRandom(); 
         frameAnimator.Play(animationName, 0, 0);
