@@ -14,6 +14,7 @@ public class GameManager : BaseManager
     public UIManager uiManager;
     public ControllerManager controllerManager;
     public President president;
+    public ScriptableComicsChapter firstComics;
     public float reloadDelay = 5;
     public bool destroyOnLoad = false;
     public string soundtrackName = "Soundtrack";
@@ -84,6 +85,11 @@ public class GameManager : BaseManager
         }
         //SoundManager.PlayMusic(soundtrackName);
         isBusy = false;
+
+        if (GlobalMapper.IsFirstPlay())
+        {
+            LoadComics(firstComics.name, "1");
+        }
     }
 
     public static void LoadLevel(string lvlName)
@@ -93,6 +99,15 @@ public class GameManager : BaseManager
         {
             Instance.isBusy = true;
             Instance.LoadLevelInternal(lvlName);
+        }
+    }
+
+    public static void LoadComics(string comicsName, string levelAfterComics)
+    {
+        if (!Instance.isBusy)
+        {
+            Instance.isBusy = true;
+            Instance.LoadComicsInternal(comicsName, levelAfterComics);
         }
     }
 
@@ -190,6 +205,12 @@ public class GameManager : BaseManager
         }
     }
 
+    private void LoadComicsInternal(string comicsName, string levelAfterComics)
+    {
+        ComicsMapper.SetAfterShow(levelAfterComics);
+        ComicsMapper.SetComicsToShow(comicsName);
+        StartCoroutine(LoadLevelRoutine("Comics"));
+    }
 
     private void LoadMainMenuInternal()
     {

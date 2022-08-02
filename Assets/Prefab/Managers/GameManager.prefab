@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 7181241136512022528, guid: c48933c0e38e8f14b8362d1170aa6c18, type: 3}
   controllerManager: {fileID: 7588150366069560598, guid: fca4ab2bd36335744973186a61456485, type: 3}
-  character: {fileID: 0}
+  president: {fileID: 0}
+  firstComics: {fileID: 11400000, guid: 27dc16f1ee09eef42a1681f89989a36f, type: 2}
   reloadDelay: 1
   destroyOnLoad: 0
+  soundtrackName: Soundtrack

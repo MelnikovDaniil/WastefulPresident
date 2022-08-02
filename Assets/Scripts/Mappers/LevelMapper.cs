@@ -40,4 +40,14 @@ public static class LevelMapper
     {
         PlayerPrefs.SetInt(MapperName + "Attempts" + levelName, 0);
     }
+
+    public static void SetComicsBeforeLevel(string comicsName, string levelName)
+    {
+        PlayerPrefs.SetString(MapperName + "ComicsNameBeforeLevel" + levelName, comicsName);
+    }
+
+    public static string GetComicsBeforeLevel(string levelName)
+    {
+        return PlayerPrefs.GetString(MapperName + "ComicsNameBeforeLevel" + levelName, null);
+    }
 }

@@ -121,7 +121,15 @@ public class UIManager : BaseManager
         finishPanel?.SetActive(true);
         rewardManager.StartRewardCalculation();
         nextLevelButton.onClick.RemoveAllListeners();
-        nextLevelButton.onClick.AddListener(() => GameManager.LoadLevel(nextLevel));
+        var comics = LevelMapper.GetComicsBeforeLevel(nextLevel);
+        if (!string.IsNullOrEmpty(comics))
+        {
+            nextLevelButton.onClick.AddListener(() => GameManager.LoadComics(comics, nextLevel));
+        }
+        else
+        {
+            nextLevelButton.onClick.AddListener(() => GameManager.LoadLevel(nextLevel));
+        }
     }
 
     public void SkipLevel(string lvlName)

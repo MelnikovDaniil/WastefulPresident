@@ -1,35 +1,172 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class ComicsManager : BaseManager
+public class ComicsManager : MonoBehaviour
 {
-    public List<Sprite> slides;
-    public Image slide;
+    public List<ScriptableComicsChapter> chapters;
+    public Transform frameStorage;
 
-    private Queue<Sprite> sprites;
+    public Animator frameAnimator;
+    public Transform animatedFramePlace;
+    public Image background;
 
-    private void Awake()
+    public float frameShowTime = 3;
+    public float movingTime;
+
+    private ScriptableComicsChapter currentChapter;
+    private ComicsPage currentPage;
+
+    private float currentShowTime;
+
+    private float currentMovingTime;
+    private RectTransform movingFrame;
+
+    private Vector2 frameStartPosition;
+    private Vector2 frameTargetPosition;
+
+    private Vector2 showFrameSize = new Vector2(780, 1200);
+    private Vector2 showScale;
+
+    private float backgroundStartOpacity;
+    private float shakeForce;
+
+    private void Start()
     {
-        sprites = new Queue<Sprite>(slides);
+        backgroundStartOpacity = background.color.a;
+        currentChapter = GetChapter();
+        currentPage = currentChapter.comicsPages.FirstOrDefault();
+        StartCoroutine(ShowPageRoutine(currentPage));
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        NextSlide();
-    }
 
-    public void NextSlide()
+    private void Update()
     {
-        if (sprites.Count > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            var sprite = sprites.Dequeue();
-            slide.sprite = sprite;
+            NextPage();
+        }
+
+
+        if (shakeForce > 0 && currentShowTime < frameShowTime)
+        {
+            currentShowTime += Time.deltaTime;
+
+            var coof = 1 - (currentShowTime / frameShowTime);
+            var transform = animatedFramePlace.GetChild(0);
+
+            transform.localPosition = new Vector2(
+                Random.Range(-shakeForce, shakeForce),
+                Random.Range(-shakeForce, shakeForce)) * coof;
+        }
+
+        if (movingFrame != null && currentMovingTime < movingTime)
+        {
+            currentMovingTime += Time.deltaTime;
+            var coof = currentMovingTime / movingTime;
+
+            movingFrame.anchoredPosition = Vector3.Lerp(frameStartPosition, frameTargetPosition, coof);
+            movingFrame.localScale = Vector2.Lerp(showScale, Vector3.one, coof);
+            background.color = new Color(background.color.r, background.color.g, background.color.b, (1 - coof) * backgroundStartOpacity);
+        }
+    }
+
+    private void NextPage()
+    {
+        var pageIndex = currentChapter.comicsPages.IndexOf(currentPage);
+        var nextPage = currentChapter.comicsPages.ElementAtOrDefault(pageIndex + 1);
+        if (nextPage != null)
+        {
+            currentPage = nextPage;
+            StopAllCoroutines();
+            StartCoroutine(ShowPageRoutine(nextPage));
         }
         else
         {
-            GameManager.LoadLevel("Prologue");
+            var levelAfterShow = ComicsMapper.GetAfterShow();
+            if (levelAfterShow != "LevelMenu")
+            {
+                ComicsMapper.SetAfterShow("LevelMenu");
+                GameManager.LoadLevel(levelAfterShow);
+            }
+            else
+            {
+                GameManager.LoadMainMenu();
+            }
         }
+    }
+
+    private IEnumerator ShowPageRoutine(ComicsPage page)
+    {
+        Clear();
+
+        foreach (var frameInfo in page.frames)
+        {
+            var frameObj = Instantiate(frameInfo.frame, Vector2.zero, Quaternion.identity, animatedFramePlace);
+            ShowFrame(frameInfo);
+
+            showScale = CalculateShowScale(frameObj);
+            frameObj.localScale = showScale;
+            frameObj.anchoredPosition = Vector2.zero;
+
+            //var frameShowingTime = frameAnimator.GetCurrentAnimatorStateInfo(0).length + frameAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            yield return new WaitForSeconds(frameShowTime);
+            MoveFrame(frameObj, frameInfo.position);
+            yield return new WaitForSeconds(movingTime);
+        }
+    }
+
+    private Vector3 CalculateShowScale(RectTransform frameObj)
+    {
+        var xScale = showFrameSize.x / frameObj.sizeDelta.x;
+        var yScale = showFrameSize.y / frameObj.sizeDelta.y;
+
+        return Vector3.one * Mathf.Min(xScale, yScale);
+    }
+
+    private void MoveFrame(RectTransform frameObject, Vector2 position)
+    {
+        frameObject.transform.localPosition = Vector2.zero;
+        movingFrame = frameObject;
+        movingFrame.parent = frameStorage;
+        currentMovingTime = 0;
+        frameStartPosition = movingFrame.anchoredPosition;
+        frameTargetPosition = position;
+    }
+
+    private void ShowFrame(ComicsFrame showFrameInfo)
+    {
+        shakeForce = showFrameInfo.shakeForce;
+        currentShowTime = 0;
+        if (showFrameInfo.appearanceSound != null)
+        {
+            SoundManager.PlaySound(showFrameInfo.appearanceSound);
+        }
+        background.color = new Color(background.color.r, background.color.g, background.color.b, backgroundStartOpacity);
+        var animationName = Enum.GetNames(typeof(FrameAnimation)).GetRandom(); 
+        frameAnimator.Play(animationName, 0, 0);
+    }
+
+    private void Clear()
+    {
+        foreach (Transform frame in frameStorage)
+        {
+            Destroy(frame.gameObject);
+        }
+
+        foreach (Transform frame in animatedFramePlace)
+        {
+            Destroy(frame.gameObject);
+        }
+    }
+
+    public ScriptableComicsChapter GetChapter()
+    {
+        var comicsName = ComicsMapper.GetComicsToShow();
+        return chapters.FirstOrDefault(x => x.name == comicsName);
     }
 }
