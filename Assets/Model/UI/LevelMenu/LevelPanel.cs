@@ -46,6 +46,11 @@ public class LevelPanel : MonoBehaviour
         {
             LevelMapper.Open(firstLevel);
         }
+        startScreenScrollRect.onValueChanged.AddListener((v) =>
+        {
+            if (v.magnitude > 0.9f) SoundManager.PlaySound("SlideUp");
+        });
+
         startScreenScrollRect.OnScrollFinished += ScrollToChapter;
     }
 
@@ -113,6 +118,8 @@ public class LevelPanel : MonoBehaviour
                 {
                     levelButton = Instantiate(passedButtonPrefab, createdChapter.levelContainer);
                     levelButton.button.onClick.AddListener(() => GameManager.LoadLevel(level));
+                    levelButton.button.onClick.AddListener(() => SoundManager.PlaySound("LevelButton"));
+                    
                 }
                 else if (status == LevelStatus.Avaliable)
                 {
@@ -120,12 +127,14 @@ public class LevelPanel : MonoBehaviour
                     currentChapter = chapter;
                     levelButton = Instantiate(currentButtonPrefab, createdChapter.levelContainer);
                     levelButton.button.onClick.AddListener(() => GameManager.LoadLevel(level));
+                    levelButton.button.onClick.AddListener(() => SoundManager.PlaySound("LevelButton"));
                 }
                 else if (nextLevelSkip)
                 {
                     nextLevelSkip = false;
                     levelButton = Instantiate(nextButtonPrefab, createdChapter.levelContainer);
                     levelButton.button.onClick.AddListener(() => UIManager.Instance.SkipLevel(level));
+                    levelButton.button.onClick.AddListener(() => SoundManager.PlaySound("LevelButton"));
                 }
                 else
                 {
