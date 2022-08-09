@@ -83,7 +83,7 @@ public class UIManager : BaseManager
 
     private void Update()
     {
-        if (GameManager.Instance.president != null && Input.GetKeyDown(KeyCode.Escape))
+        if (GameManager.Instance?.president != null && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
