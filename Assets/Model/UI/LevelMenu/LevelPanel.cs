@@ -46,11 +46,6 @@ public class LevelPanel : MonoBehaviour
         {
             LevelMapper.Open(firstLevel);
         }
-        startScreenScrollRect.onValueChanged.AddListener((v) =>
-        {
-            if (v.magnitude > 0.9f) SoundManager.PlaySound("SlideUp");
-        });
-
         startScreenScrollRect.OnScrollFinished += ScrollToChapter;
     }
 
@@ -149,6 +144,7 @@ public class LevelPanel : MonoBehaviour
 
     public void ScrollToChapter()
     {
+        SoundManager.PlaySound("SlideUp");
         currentMovementTime = movementTime;
         firstPosition = 1;
         secondPosition = 1.0f - (float)chapters.IndexOf(currentChapter) / (chapters.Count - 1f);
