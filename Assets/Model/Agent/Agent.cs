@@ -11,6 +11,7 @@ public class Agent : Character
     [Space]
     public Transform backTransform;
 
+    public SpriteRenderer batteryAnimationSprite;
     private Battery currentBattery;
 
     public new void Awake()
@@ -85,12 +86,14 @@ public class Agent : Character
     public override void StartTakingBattery(Battery battery)
     {
         battery.spriteRenderer.enabled = false;
+        batteryAnimationSprite.sprite = battery.spriteRenderer.sprite;
         base.StartTakingBattery(battery);
     }
 
     public override void PutBattery()
     {
         currentBattery.spriteRenderer.enabled = false;
+        batteryAnimationSprite.sprite = currentBattery.spriteRenderer.sprite;
         _animator.SetTrigger("batteryPut");
         base.StartTakingBattery(currentBattery);
     }
