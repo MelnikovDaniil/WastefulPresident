@@ -87,6 +87,7 @@ public class Trampoline : PowerConsumer
                 {
                     creature.transform.position = tossPlaceOffset + transform.position + new Vector3(0, Mathf.Abs(creature.checkGroundOffsetY));
                     humanCollider.attachedRigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                    creature.Disable(0.5f);
                     creature.GetComponent<Animator>().SetTrigger("trampolineJump");
                 }
                 else
@@ -109,7 +110,19 @@ public class Trampoline : PowerConsumer
                         .GetComponent<Trampoline>();
                     if (!trampoline || !trampoline.isActive || !trampoline.InTossPosition(creature))
                     {
-                        creature.HideTarget();
+                        var target = creature.GetTarget();
+                        if (target.HasValue)
+                        {
+                            var targetIsTrampolineArea = Physics2D.OverlapCircleAll(target.Value, 1f)
+                                   .Where(x => x.gameObject == this.gameObject)
+                                   .Any();
+                            if (targetIsTrampolineArea 
+                            || creature.characterState != CharacterState.MovingToInteract)
+                            {
+                                creature.HideTarget();
+                            }
+                        }
+
                         if (creature is Zombie)
                         {
                             creature.Disable(disableTime * 2);
