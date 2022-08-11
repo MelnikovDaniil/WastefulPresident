@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d67267f84a80442890f5545d64cdce, type: 3}
+  m_Name: Laboratory
+  m_EditorClassIdentifier: 
+  comicsButtonSprite: {fileID: 21300000, guid: ade311fea074fed4cab50499d47edde4, type: 3}
+  comicsPages:
+  - frames:
+    - position: {x: -331, y: 691}
+      frame: {fileID: 6547329885599316030, guid: 521ff0893717e4d4180a753a96b94835, type: 3}
+      appearanceSound: {fileID: 0}
+      shakeForce: 0
+    - position: {x: 222, y: 691}
+      frame: {fileID: 3738881496609933161, guid: 800c2637dd264b74d9719d9ce4b3f325, type: 3}
+      appearanceSound: {fileID: 0}
+      shakeForce: 0
+    - position: {x: 0, y: 155}
+      frame: {fileID: 6217320584800094869, guid: f10a0ca894f68654382ebdab733a88d8, type: 3}
+      appearanceSound: {fileID: 0}
+      shakeForce: 0
+    - position: {x: -306, y: -512}
+      frame: {fileID: 5476175193108568221, guid: d96a5ec87eb34c248bfb4e810ac52381, type: 3}
+      appearanceSound: {fileID: 0}
+      shakeForce: 0
+    - position: {x: 179, y: -512}
+      frame: {fileID: 438809520738126243, guid: fedc6be6941349549bbf318b113ec013, type: 3}
+      appearanceSound: {fileID: 0}
+      shakeForce: 70
