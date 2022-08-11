@@ -94,6 +94,11 @@ public class Creature : MonoBehaviour, IPortalVisitor
         }
     }
 
+    public Vector2? GetTarget()
+    {
+        return target;
+    }
+
     public void HideTarget()
     {
         OnMovementFinish?.Invoke();
