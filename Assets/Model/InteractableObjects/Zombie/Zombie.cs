@@ -10,13 +10,20 @@ public class Zombie : Creature
     public float attackRadius = 1;
     public float attackRate = 1.5f;
     public float attackDelay = 0.2f;
+    public Vector2 timeRangeBeforeIdleSound = new Vector2(10, 20);
 
     public LayerMask searchingMask;
     public LayerMask targetMask;
     private Collider2D attackTransform;
 
+    private float currentTimeBeforeIdleSound;
+    private SMSound walkSound;
     private void Start()
     {
+        currentTimeBeforeIdleSound = 5;
+        walkSound = SoundManager.PlaySound("ZombieWalk")
+            .SetLooped()
+            .SetVolume(0);
         var attack = new GameObject("attack");
         var attackCollider = attack.AddComponent<CircleCollider2D>();
         attack.tag = "ZombieAttack";
@@ -26,6 +33,7 @@ public class Zombie : Creature
 
     private void FixedUpdate()
     {
+        walkSound.SetVolume(0);
         if (characterState != CharacterState.Dead)
         {
             if (isGrounded)
@@ -63,6 +71,7 @@ public class Zombie : Creature
         SearchTarget();
         if (target != null)
         {
+            walkSound.SetVolume(1);
             _rigidbody.sharedMaterial = zeroFriction;
             movementSide = Mathf.Sign(target.Value.x - transform.position.x);
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * movementSide * reversedSide, transform.localScale.y, 0);
@@ -80,6 +89,16 @@ public class Zombie : Creature
             }
             CheckWall();
             CheckPositionChanges();
+        }
+        else
+        {
+            currentTimeBeforeIdleSound -= Time.deltaTime;
+            if (currentTimeBeforeIdleSound <= 0)
+            {
+                currentTimeBeforeIdleSound = Random.Range(timeRangeBeforeIdleSound.x, timeRangeBeforeIdleSound.y);
+                var animationNumber = Random.Range(1, 4);
+                SoundManager.PlaySound("ZombieIdle0" + animationNumber);
+            }
         }
     }
 
@@ -99,7 +118,6 @@ public class Zombie : Creature
                 if (currentPositionTime >= samePositionTime)
                 {
                     HideTarget();
-                    _animator.SetBool("run", false);
                     _animator.SetBool("walk", false);
                     currentPositionTime = 0;
                 }
@@ -130,6 +148,7 @@ public class Zombie : Creature
     {
         var attackPosition = transform.position + Vector3.right * attackDistance * Mathf.Sign(transform.localScale.x) * reversedSide;
         yield return new WaitForSeconds(attackDelay);
+        SoundManager.PlaySound("ZombieAttack");
         var hitedColliders = Physics2D.OverlapCircleAll(attackPosition, attackRadius + 1, targetMask);
         foreach (var collider in hitedColliders)
         {
