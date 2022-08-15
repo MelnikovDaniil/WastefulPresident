@@ -561,6 +561,7 @@ GameObject:
   - component: {fileID: 4996282417739631106}
   - component: {fileID: 4996282417739631111}
   - component: {fileID: 4996282417739631104}
+  - component: {fileID: 4362766549927717458}
   m_Layer: 3
   m_Name: Agent_v2
   m_TagString: Untagged
@@ -610,8 +611,8 @@ MonoBehaviour:
   reversed: 1
   targetStopDistanceX: 0.15
   targetStopDistanceY: 2.5
-  checkGroundOffsetY: -1.7
-  checkFroundRadius: 0.5
+  checkGroundOffsetY: -1.75
+  checkFroundRadius: 0.41
   interactRadius: 0.75
   checkWallOffset: {x: 0.85, y: -0.5}
   fullFriction: {fileID: 6200000, guid: dc629ad1351ab3d40909d0e6b37003f8, type: 2}
