@@ -141,6 +141,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
             }
             else
             {
+                _rigidbody.sharedMaterial = zeroFriction;
                 currentSpeed = fallingXSpeed;
             }
             _animator.SetBool("grounded", isGrounded);
