@@ -96,14 +96,36 @@ public class LevelPanel : MonoBehaviour
             var createdChapter = Instantiate(chapterPrefab, chaptersPlace);
             createdChapter.background.sprite = chapter.backgroundSprite;
 
-            if (chapter.comicsChapter != null)
+            switch (chapter.chapterType)
             {
-                LevelMapper.SetComicsBeforeLevel(chapter.comicsChapter.name, chapter.levelNames.FirstOrDefault());
-                createdChapter.comicsNameText.text = chapter.comicsChapter.name;
-                createdChapter.comicsButton.image.color = Color.white;
-                createdChapter.comicsButton.image.sprite = chapter.comicsChapter.comicsButtonSprite;
-                createdChapter.comicsButton.onClick.AddListener(
-                    () => GameManager.LoadComics(chapter.comicsChapter.name, "LevelMenu"));
+                case ChapterType.Empty:
+                    createdChapter.comicsButton.gameObject.SetActive(false);
+                    break;
+                case ChapterType.Levels:
+                    var firstChapterLevel = chapter.levelNames.FirstOrDefault();
+                    var chapterStatus = LevelMapper.GetStatus(firstChapterLevel);
+                    if (chapter.comicsChapter != null)
+                    {
+                        LevelMapper.SetComicsBeforeLevel(chapter.comicsChapter.name, firstChapterLevel);
+                        if (chapterStatus != LevelStatus.Locked)
+                        {
+                            createdChapter.comicsNameText.text = chapter.comicsChapter.name;
+                            createdChapter.comicsButton.image.color = Color.white;
+                            createdChapter.comicsButton.image.sprite = chapter.comicsChapter.comicsButtonSprite;
+                            createdChapter.comicsButton.onClick.AddListener(
+                                () => GameManager.LoadComics(chapter.comicsChapter.name, "LevelMenu"));
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Chapter \"{chapter.name}\" does not have comics");
+                    }
+                    break;
+                case ChapterType.CommingSoon:
+                    createdChapter.commingSoonPanel.SetActive(true);
+                    break;
+                default:
+                    break;
             }
 
             foreach (var level in chapter.levelNames)

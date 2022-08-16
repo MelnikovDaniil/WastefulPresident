@@ -23,14 +23,4 @@ public static class ComicsMapper
     {
         return PlayerPrefs.GetString(MapperName + "AfterShow", "LevelMenu");
     }
-
-    public static void Open(string comicsName)
-    {
-        PlayerPrefs.SetInt(MapperName + comicsName, 1);
-    }
-
-    public static bool IsAvailable(string comicsName)
-    {
-        return PlayerPrefs.GetInt(MapperName + comicsName, 0) == 1;
-    }
 }
