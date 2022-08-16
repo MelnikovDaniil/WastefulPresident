@@ -24,11 +24,18 @@ public class Zombie : Creature
         walkSound = SoundManager.PlaySound("ZombieWalk")
             .SetLooped()
             .SetVolume(0);
+        walkSound.Attach = transform;
         var attack = new GameObject("attack");
         var attackCollider = attack.AddComponent<CircleCollider2D>();
         attack.tag = "ZombieAttack";
         attackTransform = attackCollider;
+        OnDeath += () => walkSound.SetVolume(0);
         attack.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        walkSound.Stop();
     }
 
     private void FixedUpdate()

@@ -80,4 +80,9 @@ public class President : Character, IPresidentVisitor
         _animator.SetTrigger("clock");
         currentIdleTime = 0;
     }
+
+    private void OnDisable()
+    {
+        HideColor();
+    }
 }
