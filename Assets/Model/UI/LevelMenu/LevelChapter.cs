@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LevelChapter : MonoBehaviour
 {
     public Button comicsButton;
+    public GameObject commingSoonPanel;
     public TextMeshProUGUI comicsNameText;
 
     [Space]
