@@ -35,9 +35,12 @@ public class ComicsManager : MonoBehaviour
 
     private float backgroundStartOpacity;
     private float shakeForce;
+    private IEnumerator frameShowRoutine;
 
     private void Start()
     {
+        currentShowTime = frameShowTime;
+        currentMovingTime = movingTime;
         backgroundStartOpacity = background.color.a;
         currentChapter = GetChapter();
         currentPage = currentChapter.comicsPages.FirstOrDefault();
@@ -48,7 +51,14 @@ public class ComicsManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            NextPage();
+            if (movingFrame != null)
+            {
+                NextFrame();
+            }
+            else
+            {
+                NextPage();
+            }
         }
 
 
@@ -73,6 +83,25 @@ public class ComicsManager : MonoBehaviour
             movingFrame.localScale = Vector2.Lerp(showScale, Vector3.one, coof);
             background.color = new Color(background.color.r, background.color.g, background.color.b, (1 - coof) * backgroundStartOpacity);
         }
+    }
+
+    private void NextFrame()
+    {
+        StopCoroutine(frameShowRoutine);
+        currentMovingTime = movingTime;
+        currentShowTime = frameShowTime;
+
+        if (movingFrame.TryGetComponent(out Animator frameAnimator))
+        {
+            frameAnimator.Play(0, 0, 1);
+        }
+
+        movingFrame.transform.localPosition = Vector2.zero;
+        movingFrame.parent = frameStorage;
+        movingFrame.anchoredPosition = frameTargetPosition;
+        movingFrame.localScale = Vector3.one;
+        movingFrame = null;
+        background.color = new Color(background.color.r, background.color.g, background.color.b, 0);
     }
 
     private void NextPage()
@@ -113,11 +142,13 @@ public class ComicsManager : MonoBehaviour
             frameObj.localScale = showScale;
             frameObj.anchoredPosition = Vector2.zero;
 
-            //var frameShowingTime = frameAnimator.GetCurrentAnimatorStateInfo(0).length + frameAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            yield return new WaitForSeconds(frameShowTime);
-            MoveFrame(frameObj, frameInfo.position);
-            yield return new WaitForSeconds(movingTime);
+            movingFrame = frameObj;
+            frameShowRoutine = MoveFrameRoutine(frameObj, frameInfo.position);
+            StartCoroutine(frameShowRoutine);
+            yield return new WaitUntil(() => movingFrame == null);
         }
+
+        yield return null;
     }
 
     private Vector3 CalculateShowScale(RectTransform frameObj)
@@ -128,14 +159,21 @@ public class ComicsManager : MonoBehaviour
         return Vector3.one * Mathf.Min(xScale, yScale);
     }
 
-    private void MoveFrame(RectTransform frameObject, Vector2 position)
+    private IEnumerator MoveFrameRoutine(RectTransform frameObject, Vector2 position)
     {
-        frameObject.transform.localPosition = Vector2.zero;
-        movingFrame = frameObject;
+        frameTargetPosition = position;
+        yield return new WaitForSeconds(frameShowTime);
+        MoveFrame();
+        yield return new WaitForSeconds(movingTime);
+        movingFrame = null;
+    }
+
+    private void MoveFrame()
+    {
+        movingFrame.transform.localPosition = Vector2.zero;
         movingFrame.parent = frameStorage;
         currentMovingTime = 0;
         frameStartPosition = movingFrame.anchoredPosition;
-        frameTargetPosition = position;
     }
 
     private void ShowFrame(ComicsFrame showFrameInfo)
