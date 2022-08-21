@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6678740772988863570, guid: 64d005876c7c55a45bb105f6b6bc7a53, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ed6a96227e186d348b0b53dbd33c39bc, type: 2}
     - target: {fileID: 6678740772988863571, guid: 64d005876c7c55a45bb105f6b6bc7a53, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -491,6 +495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agent_v2
       objectReference: {fileID: 0}
+    - target: {fileID: 4996282417739631133, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d7e3b0fdcf3b5da41a6b52f4d52d184f, type: 2}
     - target: {fileID: 4996282417739631134, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -879,9 +887,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5960774509518047201, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960774509518047201, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[3]
+      value: -1879004929
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960774509518047201, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[4]
+      value: -1879004929
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960774509518047201, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[5]
+      value: 712153413
+      objectReference: {fileID: 0}
     - target: {fileID: 5960774509518047202, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
       propertyPath: m_Name
       value: LevelLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236472158139768392, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236472158139768392, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[3]
+      value: -1879004929
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236472158139768392, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[4]
+      value: -1879004929
+      objectReference: {fileID: 0}
+    - target: {fileID: 7236472158139768392, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[5]
+      value: 712153413
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b432b4e6bc7f6c44bfee47be5e1d08f, type: 3}
@@ -1043,7 +1083,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &3091538737128968514
 Transform:
@@ -5526,7 +5566,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!156049354 &3091538737293308806
 Grid:
@@ -5578,7 +5618,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &3091538737619581953
 Transform:
@@ -9700,7 +9740,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6944923374559943132
 Transform:
@@ -9802,7 +9842,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!483693784 &7957967132202010449
 TilemapRenderer:
