@@ -8,6 +8,7 @@ public class ScriptableChapter : ScriptableObject
 {
     public ChapterType chapterType;
     public ScriptableComicsChapter comicsChapter;
+    public string soundtrackName;
     public Sprite backgroundSprite;
     public List<string> levelNames;
 }

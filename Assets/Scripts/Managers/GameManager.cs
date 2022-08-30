@@ -16,7 +16,10 @@ public class GameManager : BaseManager
     public ScriptableComicsChapter firstComics;
     public float reloadDelay = 5;
     public bool destroyOnLoad = false;
-    public string soundtrackName = "Soundtrack";
+
+    [Space]
+    public string soundtrackName;
+    public float soundtrackVolume = 0.3f;
 
     private bool isBusy;
     private void Awake()
@@ -82,7 +85,21 @@ public class GameManager : BaseManager
         {
             president.OnDeath += () => LevelFail();
         }
-        //SoundManager.PlayMusic(soundtrackName);
+
+
+        var sceenName = SceneManager.GetActiveScene().name;
+        SoundManager.SetMusicVolume(soundtrackVolume);
+        if (string.IsNullOrEmpty(soundtrackName))
+        {
+            var storedSoundtrack = SoundtrackMapper.GetSoundtrack(sceenName);
+            SoundManager.PlayMusic(storedSoundtrack);
+        }
+        else
+        {
+            SoundtrackMapper.SetSoundtrack(soundtrackName, sceenName);
+            SoundManager.PlayMusic(soundtrackName);
+        }
+
         isBusy = false;
 
         if (GlobalMapper.IsFirstPlay())

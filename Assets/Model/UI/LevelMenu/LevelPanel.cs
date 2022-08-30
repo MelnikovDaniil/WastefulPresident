@@ -104,6 +104,7 @@ public class LevelPanel : MonoBehaviour
                 case ChapterType.Levels:
                     var firstChapterLevel = chapter.levelNames.FirstOrDefault();
                     var chapterStatus = LevelMapper.GetStatus(firstChapterLevel);
+                    SoundtrackMapper.SetSoundtrack(chapter.soundtrackName, firstChapterLevel);
                     if (chapter.comicsChapter != null)
                     {
                         LevelMapper.SetComicsBeforeLevel(chapter.comicsChapter.name, firstChapterLevel);
