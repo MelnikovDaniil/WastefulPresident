@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -978,7 +979,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!483693784 &2888151872974726990
 TilemapRenderer:
@@ -5693,9 +5694,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 1
-    m_Data: {fileID: 1589599178, guid: af4d41c665a88f34eadcff4abff9fa2c, type: 3}
+    m_Data: {fileID: 1146060446, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 317958904, guid: af4d41c665a88f34eadcff4abff9fa2c, type: 3}
+    m_Data: {fileID: -879070651, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 462
     m_Data:
@@ -5757,7 +5758,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &2888151873013745034
 Transform:
@@ -5824,7 +5825,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1839735485 &2888151873490749966
 Tilemap:
@@ -9961,7 +9962,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &7102968032717500369
 Transform:
@@ -10120,7 +10121,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1001 &8481729407615802494
 PrefabInstance:

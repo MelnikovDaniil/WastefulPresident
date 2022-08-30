@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -866,6 +867,10 @@ PrefabInstance:
     - target: {fileID: 219649893765129631, guid: d11ac8c66a322ff4abc4b15b3104c7b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940861645785418429, guid: d11ac8c66a322ff4abc4b15b3104c7b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11ac8c66a322ff4abc4b15b3104c7b2, type: 3}
@@ -1628,7 +1633,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1 &3370282205062653850
 GameObject:
@@ -1646,7 +1651,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!483693784 &5131362138156096147
 TilemapRenderer:
@@ -1731,7 +1736,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1839735485 &6711588266656270790
 Tilemap:
@@ -5942,7 +5947,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6711588267116758594
 Transform:
@@ -5991,7 +5996,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!483693784 &6711588267222377606
 TilemapRenderer:
@@ -10706,9 +10711,9 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 1
-    m_Data: {fileID: 1589599178, guid: af4d41c665a88f34eadcff4abff9fa2c, type: 3}
+    m_Data: {fileID: 1146060446, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 317958904, guid: af4d41c665a88f34eadcff4abff9fa2c, type: 3}
+    m_Data: {fileID: -879070651, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 462
     m_Data:
