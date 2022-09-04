@@ -1181,7 +1181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996282417198427556, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.15159896
+      value: 0.15159898
       objectReference: {fileID: 0}
     - target: {fileID: 4996282417198427556, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1265,7 +1265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996282418545944869, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.006987967
+      value: 0.006987997
       objectReference: {fileID: 0}
     - target: {fileID: 4996282418608310055, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1273,11 +1273,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4996282418608310055, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.001452151
+      value: -0.0014521547
       objectReference: {fileID: 0}
     - target: {fileID: 4996282418951987318, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7447445
+      value: 0.7447444
       objectReference: {fileID: 0}
     - target: {fileID: 4996282418951987318, guid: 13b2a2bc679f20d48a3b3c18177407db, type: 3}
       propertyPath: m_LocalRotation.z
@@ -3022,7 +3022,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 4294967295
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -3112,7 +3112,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 4
-      m_TileSpriteIndex: 4294967295
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -3735,14 +3735,18 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: d67f6f7e6d331a74b95ca8ccf64a0d42, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 81a9a52f097f4c3409840d14af8d4ff9, type: 2}
+    m_Data: {fileID: 11400000, guid: 595b17a5b4fe43c44be0ff40031e607f, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 42eae6d32c0cc724fa25ae7f6baff40a, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 7d7a8e166d703114693313cb86328b4e, type: 2}
+    m_Data: {fileID: 11400000, guid: 636c73a8b8232a1418946ad94d7c6c95, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 156
     m_Data: {fileID: 6930752257962415950, guid: e9d66cb614cd61f4e98b88f30a5e8971, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -879070651, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 1146060446, guid: 1b4eaa70285448344968ba40983a2077, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 160
     m_Data:
@@ -3805,7 +3809,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!483693784 &3827174507760564498
 TilemapRenderer:
@@ -3886,7 +3890,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &3827174508124117974
 Transform:
@@ -3990,7 +3994,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1839735485 &3827174508335043666
 Tilemap:
@@ -8118,7 +8122,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1001 &5689161639590514724
 PrefabInstance:
@@ -8672,7 +8676,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!1001 &8481729407615802494
 PrefabInstance:

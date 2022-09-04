@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 6678740772988863573}
   - component: {fileID: 6678740772988863582}
   - component: {fileID: 6678740772988863569}
+  - component: {fileID: 1224668192152595571}
   m_Layer: 3
   m_Name: President_v2
   m_TagString: Untagged
@@ -171,7 +172,7 @@ MonoBehaviour:
   samePositionDistance: 0.15
   characterColor: {fileID: 6678740772894812069}
   quesinMark: {fileID: 6334880865862975872}
-  sendOrderChanse: 1
+  sendOrderChanse: 0.1
   colorMaterial: {fileID: 2100000, guid: ed6a96227e186d348b0b53dbd33c39bc, type: 2}
   watchingClockFromTime: 15
 --- !u!212 &6678740772988863570
@@ -283,6 +284,62 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.11}
   m_Size: {x: 0.91, y: 3.2}
   m_Direction: 0
+--- !u!114 &1224668192152595571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678740772988863572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce602faee8268243afccbda8254000d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundGroups:
+  - groupName: TurretDeath
+    audioClips:
+    - {fileID: 8300000, guid: fc676596dcfc04a4c98cedb3f790f0b6, type: 3}
+  - groupName: DeathByZombie
+    audioClips:
+    - {fileID: 8300000, guid: 08d9bbe28968f494e8719f73ea8eb291, type: 3}
+    - {fileID: 8300000, guid: b734f812e59e7404d9f1e7cd9052785b, type: 3}
+    - {fileID: 8300000, guid: 37466d685018aa84da00ee82861e806e, type: 3}
+  - groupName: ElectricityDeath
+    audioClips:
+    - {fileID: 8300000, guid: 3966d8f8b771bc443b8e3016f6711a29, type: 3}
+  - groupName: Landing
+    audioClips:
+    - {fileID: 8300000, guid: ed16cefd4d316b84184958ca10b716e2, type: 3}
+  - groupName: TakeBattery
+    audioClips:
+    - {fileID: 8300000, guid: 67d36dfcf974d8c46b82c91ad90144ca, type: 3}
+    - {fileID: 8300000, guid: 29473079ed7628a4bb08955b43932954, type: 3}
+    - {fileID: 8300000, guid: 7fefdc44bb7c2b14db945b4be0c55d94, type: 3}
+  - groupName: SendOrder
+    audioClips:
+    - {fileID: 8300000, guid: 9fc0b2fbd35d08243a3956ab544dbc16, type: 3}
+    - {fileID: 8300000, guid: db084dc641138424ca8378ea8c366aca, type: 3}
+    - {fileID: 8300000, guid: d2c08db14021b9740a12caeae2c6b050, type: 3}
+  - groupName: LongIdle
+    audioClips:
+    - {fileID: 8300000, guid: 42bf3192d78780e47b97975709682c70, type: 3}
+    - {fileID: 8300000, guid: 2fb2b8441bf847646b2e5cc8a3a52de7, type: 3}
+    - {fileID: 8300000, guid: e0b9cf12366d64145a770f7db49a388a, type: 3}
+  - groupName: ElectricPanel
+    audioClips:
+    - {fileID: 8300000, guid: 983a298a21f2c4746a3409ab04313a47, type: 3}
+  - groupName: LeverPressing
+    audioClips:
+    - {fileID: 8300000, guid: 035adba27127f454fbd118294ea12e07, type: 3}
+    - {fileID: 8300000, guid: d669a58fd4344ac4a8ed80c1b2432676, type: 3}
+    - {fileID: 8300000, guid: 0a0d021ed172f8e4bb15dfd7e96c4e69, type: 3}
+  - groupName: Walk
+    audioClips:
+    - {fileID: 8300000, guid: 07bfab07bc852c242a2617dfd4bc80c5, type: 3}
+  - groupName: TrampolineLanding
+    audioClips:
+    - {fileID: 8300000, guid: 6f45978527240f741bdba94dbc5c908b, type: 3}
 --- !u!1001 &6678740771580154905
 PrefabInstance:
   m_ObjectHideFlags: 0

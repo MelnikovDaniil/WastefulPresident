@@ -108,6 +108,8 @@ public class UIManager : BaseManager
 
     public void Pause()
     {
+        var currentVolume = SoundManager.GetMusicVolume();
+        SoundManager.SetMusicVolume(currentVolume / 6);
         GameManager.Instance.president.isLocked = true;
         Time.timeScale = 0;
         isPaused = true;
@@ -116,6 +118,8 @@ public class UIManager : BaseManager
 
     public void Finish(string nextLevel)
     {
+        var currentVolume = SoundManager.GetMusicVolume();
+        SoundManager.SetMusicVolume(currentVolume / 6);
         SoundManager.PlaySoundUI("Victory");
         gamePanel?.SetActive(false);
         finishPanel?.SetActive(true);
@@ -177,6 +181,8 @@ public class UIManager : BaseManager
 
     public void Continue()
     {
+        var currentVolume = SoundManager.GetMusicVolume();
+        SoundManager.SetMusicVolume(currentVolume * 6);
         GameManager.Instance.president.isLocked = false;
         Time.timeScale = 1;
         isPaused = false;

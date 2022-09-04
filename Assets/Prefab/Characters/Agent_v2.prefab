@@ -84,7 +84,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -188,7 +188,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -799,7 +799,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.17, y: -0.73}
   m_Size: {x: 2, y: 6}
   m_Direction: 0
---- !u!114 &4362766549927717458
+--- !u!114 &5220963536851741377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -808,9 +808,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 4996282417739631105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16c736f24ccb105488f2a660bc84fcd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ce602faee8268243afccbda8254000d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundGroups:
+  - groupName: TurretDeath
+    audioClips:
+    - {fileID: 8300000, guid: 7a1fdce57f767124998f3307d37308ce, type: 3}
+    - {fileID: 8300000, guid: fc069ea9ce2a01f44b2f6737140454ce, type: 3}
+    - {fileID: 8300000, guid: f4c13f42410cb5e4dbca1e091d4e0e81, type: 3}
+    - {fileID: 8300000, guid: a86711e02e7e073418a6300c370429cd, type: 3}
+    - {fileID: 8300000, guid: 0e4654906ef7e1b4bad73ca185460acf, type: 3}
+  - groupName: DeathByZombie
+    audioClips:
+    - {fileID: 8300000, guid: 55b436b049828054490e22ebe30a17cb, type: 3}
+    - {fileID: 8300000, guid: 1d38730785ca0e24a871bd96240a0307, type: 3}
+    - {fileID: 8300000, guid: 45c639454cacfd144b5321b7e98fe15d, type: 3}
+    - {fileID: 8300000, guid: e3fa8f9db305af542b500a919fe29592, type: 3}
+    - {fileID: 8300000, guid: 8966912fa368a4146b38f0273b470480, type: 3}
+    - {fileID: 8300000, guid: ebf98a5d527e1174da61c6cd4414f980, type: 3}
+  - groupName: ElectricityDeath
+    audioClips:
+    - {fileID: 8300000, guid: 5f99601fdc11b414fba93f8868f73e6a, type: 3}
+    - {fileID: 8300000, guid: b6713836262311b4196b92c963599695, type: 3}
+    - {fileID: 8300000, guid: 6f1c888889268074f927a428231939be, type: 3}
+    - {fileID: 8300000, guid: 458875789ec9ccb4eb3b50929535d377, type: 3}
+    - {fileID: 8300000, guid: 6b6344951f869b848a7c1fe853def680, type: 3}
+  - groupName: ElectricPanel
+    audioClips:
+    - {fileID: 8300000, guid: 87ea825813ee4e444bb13ef64e965fb7, type: 3}
+  - groupName: Landing
+    audioClips:
+    - {fileID: 8300000, guid: 1c62fbc6472ae794ba1ed24890c8eacd, type: 3}
+  - groupName: TakeBattery
+    audioClips:
+    - {fileID: 8300000, guid: e378b26d2e263e94998c9a2caf668e70, type: 3}
+  - groupName: ClosePit
+    audioClips:
+    - {fileID: 8300000, guid: 7a89154cd4c8819498d8a8b6776a7bd6, type: 3}
+    - {fileID: 8300000, guid: 2d3b650ca3aa1de44ad274a9c3c333e6, type: 3}
+    - {fileID: 8300000, guid: 14a76ec07a91b304a839d74324bf0467, type: 3}
+    - {fileID: 8300000, guid: c05bb1dd5d4d4ac4b81a841abaf20783, type: 3}
+    - {fileID: 8300000, guid: ff567d77e2ff6fd46b8a8d85947be782, type: 3}
+  - groupName: WalkStep
+    audioClips:
+    - {fileID: 8300000, guid: 0f3d19d3da4fe7d4aa0331ee1194ef5f, type: 3}
+    - {fileID: 8300000, guid: 39fc759e176d3e741a52c03150fac869, type: 3}
+    - {fileID: 8300000, guid: 4c6a75d7ed2eb2e4e991311b4318efea, type: 3}
+    - {fileID: 8300000, guid: d17cd09a044823f469e67d1e06ecd423, type: 3}
+    - {fileID: 8300000, guid: 2cfc4633424ad214c81d7225772b3aa3, type: 3}
+  - groupName: TrampolineLanding
+    audioClips:
+    - {fileID: 8300000, guid: 1c7dbe7c1c3bc7645976f5da436234bb, type: 3}
+    - {fileID: 8300000, guid: 0556c7093b83da64d8bf2884d79e9b95, type: 3}
+    - {fileID: 8300000, guid: f6efe4451a2fdbe4791536cae79f0747, type: 3}
+    - {fileID: 8300000, guid: b1d214bd470594e41bbba8a350a4b10a, type: 3}
+    - {fileID: 8300000, guid: 4215486a2620ccd48b0dbdf0098cf346, type: 3}
 --- !u!1 &4996282417876417464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,7 +1520,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1552,7 +1605,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
