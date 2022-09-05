@@ -184,6 +184,10 @@ public class ComicsManager : MonoBehaviour
         {
             SoundManager.PlaySound(showFrameInfo.appearanceSound);
         }
+        if (!string.IsNullOrEmpty(showFrameInfo.changeSoundTrackTo))
+        {
+            SoundManager.PlayMusic(showFrameInfo.changeSoundTrackTo);
+        }
         background.color = new Color(background.color.r, background.color.g, background.color.b, backgroundStartOpacity);
         var animationName = Enum.GetNames(typeof(FrameAnimation)).GetRandom(); 
         frameAnimator.Play(animationName, 0, 0);
