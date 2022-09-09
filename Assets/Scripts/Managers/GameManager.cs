@@ -6,6 +6,7 @@ using GameAnalyticsSDK;
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
+using ByteBrewSDK;
 
 public class GameManager : BaseManager
 {
@@ -52,6 +53,7 @@ public class GameManager : BaseManager
         MaxSdk.SetVerboseLogging(true);
         MaxSdk.InitializeSdk();
         GameAnalytics.Initialize();
+        ByteBrew.InitializeByteBrew();
         LionAnalytics.GameStart();
         LionDebugger.Hide();
         // import this package into the project:
