@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SoundManagerComponent : MonoBehaviour
 {
@@ -7,9 +8,21 @@ public class SoundManagerComponent : MonoBehaviour
         SoundManager.PlaySound(name);
     }
 
+    public void PlayRandomSound(IEnumerable<string> names)
+    {
+        var randomTrack = names.GetRandomOrDefault();
+        SoundManager.PlaySound(randomTrack);
+    }
+
     public void PlayClip(AudioClip clip)
     {
         SoundManager.PlaySound(clip);
+    }
+
+    public void PlayRandomClip(IEnumerable<AudioClip> clips)
+    {
+        var randomClip = clips.GetRandomOrDefault();
+        SoundManager.PlaySound(randomClip);
     }
 
     public void PlaySoundNotPausable(string name)
@@ -17,9 +30,21 @@ public class SoundManagerComponent : MonoBehaviour
         SoundManager.PlaySoundUI(name);
     }
 
+    public void PlayRandomSoundNotPausable(IEnumerable<string> names)
+    {
+        var randomTrack = names.GetRandomOrDefault();
+        SoundManager.PlaySoundUI(randomTrack);
+    }
+
     public void PlayClipNotPausable(AudioClip clip)
     {
         SoundManager.PlaySoundUI(clip);
+    }
+
+    public void PlayRandomClipNotPausable(IEnumerable<AudioClip> clips)
+    {
+        var randomClip = clips.GetRandomOrDefault();
+        SoundManager.PlaySoundUI(randomClip);
     }
 
     public void ChangeSoundVolume(float volume)
