@@ -105,7 +105,7 @@ public class Portal : InteractableObject
             _animator.SetTrigger("enterObject");
         }
         var sound = SoundManager.PlaySound("Portal");
-        sound.SetVolume(0.2f);
+        sound.SetVolume(0.8f);
         if (sound.Source != null)
         {
             sound.Source.pitch /= 2;
