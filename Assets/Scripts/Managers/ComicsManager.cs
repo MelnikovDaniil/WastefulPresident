@@ -37,6 +37,8 @@ public class ComicsManager : MonoBehaviour
     private float shakeForce;
     private IEnumerator frameShowRoutine;
 
+    private SMSound currentSound;
+
     private void Start()
     {
         currentShowTime = frameShowTime;
@@ -87,6 +89,7 @@ public class ComicsManager : MonoBehaviour
 
     private void NextFrame()
     {
+        currentSound?.Stop();
         StopCoroutine(frameShowRoutine);
         currentMovingTime = movingTime;
         currentShowTime = frameShowTime;
@@ -182,7 +185,7 @@ public class ComicsManager : MonoBehaviour
         currentShowTime = 0;
         if (showFrameInfo.appearanceSound != null)
         {
-            SoundManager.PlaySound(showFrameInfo.appearanceSound);
+            currentSound = SoundManager.PlaySound(showFrameInfo.appearanceSound);
         }
         if (!string.IsNullOrEmpty(showFrameInfo.changeSoundTrackTo))
         {
