@@ -173,7 +173,7 @@ public class UIManager : BaseManager
 
     private IEnumerator HidePanelRoutine()
     {
-        yield return new WaitForSecondsRealtime(1.91f);
+        yield return new WaitForSecondsRealtime(1.86f);
         OnSkipLevel?.Invoke();
         skipDescriptionPanel?.SetActive(true);
         skipLevelPanel?.SetActive(false);

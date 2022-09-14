@@ -23,8 +23,8 @@ public class SettingPanel : MonoBehaviour
     private void ChangeVolume(bool isOn)
     {
         SettingsMapper.SetVolume(isOn);
-        SoundManager.SetSoundVolume(isOn ? 1 : 0);
-        SoundManager.SetMusicVolume(isOn ? 1 : 0);
+        SoundManager.SetSoundMuted(!isOn);
+        SoundManager.SetMusicMuted(!isOn);
 
         SoundManager.PlaySound("checkBox");
     }
