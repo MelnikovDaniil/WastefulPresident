@@ -94,8 +94,9 @@ public class Portal : InteractableObject
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
-    public void TeleportObject(GameObject obj, bool isLargeObject)
+    public IEnumerator TeleportObject(GameObject obj, bool isLargeObject)
     {
+        var trail = obj.GetComponent<TrailRenderer>();
         if (isLargeObject)
         {
             _animator.SetTrigger("enterImmediately");
@@ -103,6 +104,11 @@ public class Portal : InteractableObject
         else
         {
             _animator.SetTrigger("enterObject");
+        }
+
+        if (trail != null)
+        {
+            trail.emitting = false;
         }
         var sound = SoundManager.PlaySound("Portal");
         sound.SetVolume(0.2f);
@@ -118,12 +124,13 @@ public class Portal : InteractableObject
         var newPosition = transform.position + offset;
         obj.transform.position = newPosition;
         obj.transform.localRotation = obj.transform.localRotation * rotationDifference;
-        //obj.transform.localScale = new Vector3(
-        //    Mathf.Abs(obj.transform.localScale.x) * Mathf.Sign(transform.localScale.x),
-        //    obj.transform.localScale.y,
-        //    obj.transform.localScale.z);
-        obj.SetActive(true);
 
+        yield return new WaitForEndOfFrame();
+
+        if (trail != null)
+        {
+            trail.emitting = true;
+        }
         if (obj.TryGetComponent(out Rigidbody2D rigidbody))
         {
             rigidbody.velocity = rotationDifference * rigidbody.velocity;
@@ -163,7 +170,7 @@ public class Portal : InteractableObject
                 else
                 {
                     _animator.SetTrigger("enterObject");
-                    secondPortal.TeleportObject(collision.gameObject, false);
+                    StartCoroutine(secondPortal.TeleportObject(collision.gameObject, false));
                 }
             }
         }
