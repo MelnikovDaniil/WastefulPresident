@@ -7,6 +7,7 @@ using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
 using ByteBrewSDK;
+using System.Linq;
 
 public class GameManager : BaseManager
 {
@@ -91,6 +92,13 @@ public class GameManager : BaseManager
 
         var sceenName = SceneManager.GetActiveScene().name;
         SoundManager.SetMusicVolume(soundtrackVolume);
+        SoundManager.Sounds.ForEach(x =>
+        {
+            if (!x.Source.ignoreListenerPause)
+            {
+                x.Stop();
+            }
+        });
         if (string.IsNullOrEmpty(soundtrackName))
         {
             var storedSoundtrack = SoundtrackMapper.GetSoundtrack(sceenName);
