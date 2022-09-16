@@ -20,7 +20,5 @@ public interface ICharacterVisitor
     bool TryTakeBattery(Battery battery);
     void RemoveBattery();
 
-    void Teleport(Vector3 position, Vector3 direction);
-
     void FinishVisiting();
 }
