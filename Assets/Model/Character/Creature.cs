@@ -62,7 +62,7 @@ public class Creature : MonoBehaviour, IPortalVisitor
         _groundMask = LayerMask.GetMask("Ground", "Door", "Trampoline");
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-}
+    }
 
     public virtual void Death()
     {
@@ -159,7 +159,11 @@ public class Creature : MonoBehaviour, IPortalVisitor
 
     public void Teleport(Vector3 position, Vector3 direction)
     {
+        movementSide = direction.x;
         WalkTo(position + direction);
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(direction.x) * reversedSide,
+            transform.localScale.y,
+            transform.localScale.z);
         transform.position = position;
     }
 

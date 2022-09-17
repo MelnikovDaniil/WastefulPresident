@@ -82,6 +82,8 @@ public class Portal : InteractableObject
 
     public IEnumerator TeleportHuman(IPortalVisitor visitor)
     {
+        _portalZone.enabled = false;
+        afterTeleport = true;
         _animator.SetTrigger("enter");
         SoundManager.PlaySound("Portal");
         yield return new WaitForSeconds(0.15f);
@@ -89,13 +91,13 @@ public class Portal : InteractableObject
         var newPosition = transform.position + offset;
         visitor.Teleport(newPosition, offset);
 
-        _portalZone.enabled = false;
-        afterTeleport = true;
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
     public IEnumerator TeleportObject(GameObject obj, bool isLargeObject)
     {
+        _portalZone.enabled = false;
+        afterTeleport = true;
         var trail = obj.GetComponent<TrailRenderer>();
         if (isLargeObject)
         {
@@ -136,8 +138,6 @@ public class Portal : InteractableObject
             rigidbody.velocity = rotationDifference * rigidbody.velocity;
         }
 
-        _portalZone.enabled = false;
-        afterTeleport = true;
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
@@ -165,7 +165,7 @@ public class Portal : InteractableObject
                 if (!collision.isTrigger)
                 {
                     _animator.SetTrigger("enterImmediately");
-                    secondPortal.TeleportObject(collision.gameObject, true);
+                    StartCoroutine(secondPortal.TeleportObject(collision.gameObject, true));
                 }
                 else
                 {
