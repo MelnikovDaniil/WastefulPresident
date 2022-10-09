@@ -18,6 +18,7 @@ namespace com.adjust.sdk
         public const string AdjustAdRevenueSourceAdmost = "admost_sdk";
         public const string AdjustAdRevenueSourceUnity = "unity_sdk";
         public const string AdjustAdRevenueSourceHeliumChartboost = "helium_chartboost_sdk";
+        public const string AdjustAdRevenueSourcePublisher = "publisher_sdk";
 
         internal string appToken;
         internal string sceneName;
@@ -59,6 +60,7 @@ namespace com.adjust.sdk
         internal bool? allowAdServicesInfoReading;
         internal bool? allowIdfaReading;
         internal bool? skAdNetworkHandling;
+        internal bool? linkMeEnabled;
         // Windows specific members
         internal Action<String> logDelegate;
 
@@ -147,6 +149,11 @@ namespace com.adjust.sdk
         public void deactivateSKAdNetworkHandling()
         {
             this.skAdNetworkHandling = true;
+        }
+
+        public void setLinkMeEnabled(bool linkMeEnabled)
+        {
+            this.linkMeEnabled = linkMeEnabled;
         }
 
         public void setDeferredDeeplinkDelegate(Action<string> deferredDeeplinkDelegate, string sceneName = "Adjust")

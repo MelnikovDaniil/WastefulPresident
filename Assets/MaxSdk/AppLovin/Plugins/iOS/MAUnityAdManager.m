@@ -5,7 +5,7 @@
 
 #import "MAUnityAdManager.h"
 
-#define VERSION @"5.3.1"
+#define VERSION @"5.5.2"
 
 #define KEY_WINDOW [UIApplication sharedApplication].keyWindow
 #define DEVICE_SPECIFIC_ADVIEW_AD_FORMAT ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? MAAdFormat.leader : MAAdFormat.banner
@@ -49,6 +49,7 @@ extern "C" {
 
 // Fullscreen Ad Fields
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MAInterstitialAd *> *interstitials;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, MAAppOpenAd *> *appOpenAds;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MARewardedAd *> *rewardedAds;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MARewardedInterstitialAd *> *rewardedInterstitialAds;
 
@@ -107,6 +108,7 @@ static ALUnityBackgroundCallback backgroundCallback;
     if ( self )
     {
         self.interstitials = [NSMutableDictionary dictionaryWithCapacity: 2];
+        self.appOpenAds = [NSMutableDictionary dictionaryWithCapacity: 2];
         self.rewardedAds = [NSMutableDictionary dictionaryWithCapacity: 2];
         self.rewardedInterstitialAds = [NSMutableDictionary dictionaryWithCapacity: 2];
         self.adViews = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -427,6 +429,38 @@ static ALUnityBackgroundCallback backgroundCallback;
     [interstitial setLocalExtraParameterForKey: key value: value];
 }
 
+#pragma mark - App Open Ads
+
+- (void)loadAppOpenAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier
+{
+    MAAppOpenAd *appOpenAd = [self retrieveAppOpenAdForAdUnitIdentifier: adUnitIdentifier];
+    [appOpenAd loadAd];
+}
+
+- (BOOL)isAppOpenAdReadyWithAdUnitIdentifier:(NSString *)adUnitIdentifier
+{
+    MAAppOpenAd *appOpenAd = [self retrieveAppOpenAdForAdUnitIdentifier: adUnitIdentifier];
+    return [appOpenAd isReady];
+}
+
+- (void)showAppOpenAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier placement:(nullable NSString *)placement customData:(nullable NSString *)customData
+{
+    MAAppOpenAd *appOpenAd = [self retrieveAppOpenAdForAdUnitIdentifier: adUnitIdentifier];
+    [appOpenAd showAdForPlacement: placement customData: customData];
+}
+
+- (void)setAppOpenAdExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable NSString *)value
+{
+    MAAppOpenAd *appOpenAd = [self retrieveAppOpenAdForAdUnitIdentifier: adUnitIdentifier];
+    [appOpenAd setExtraParameterForKey: key value: value];
+}
+
+- (void)setAppOpenAdLocalExtraParameterForAdUnitIdentifier:(NSString *)adUnitIdentifier key:(NSString *)key value:(nullable id)value
+{
+    MAAppOpenAd *appOpenAd = [self retrieveAppOpenAdForAdUnitIdentifier: adUnitIdentifier];
+    [appOpenAd setLocalExtraParameterForKey: key value: value];
+}
+
 #pragma mark - Rewarded
 
 - (void)loadRewardedAdWithAdUnitIdentifier:(NSString *)adUnitIdentifier
@@ -521,7 +555,8 @@ static ALUnityBackgroundCallback backgroundCallback;
              @"placement" : ad.placement ?: @"",
              @"revenue" : [@(ad.revenue) stringValue],
              @"revenuePrecision" : ad.revenuePrecision,
-             @"waterfallInfo" : [self createAdWaterfallInfo: ad.waterfall]};
+             @"waterfallInfo" : [self createAdWaterfallInfo: ad.waterfall],
+             @"dspName" : ad.DSPName ?: @""};
 }
 
 #pragma mark - Waterfall Information
@@ -635,6 +670,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     {
         name = @"OnInterstitialLoadedEvent";
     }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdLoadedEvent";
+    }
     else if ( MAAdFormat.rewarded == adFormat )
     {
         name = @"OnRewardedAdLoadedEvent";
@@ -687,6 +726,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     {
         name = @"OnInterstitialLoadFailedEvent";
     }
+    else if ( self.appOpenAds[adUnitIdentifier] )
+    {
+        name = @"OnAppOpenAdLoadFailedEvent";
+    }
     else if ( self.rewardedAds[adUnitIdentifier] )
     {
         name = @"OnRewardedAdLoadFailedEvent";
@@ -734,6 +777,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     {
         name = @"OnInterstitialClickedEvent";
     }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdClickedEvent";
+    }
     else if ( MAAdFormat.rewarded == adFormat )
     {
         name = @"OnRewardedAdClickedEvent";
@@ -767,6 +814,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     {
         name = @"OnInterstitialDisplayedEvent";
     }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdDisplayedEvent";
+    }
     else if ( MAAdFormat.rewarded == adFormat )
     {
         name = @"OnRewardedAdDisplayedEvent";
@@ -791,6 +842,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     {
         name = @"OnInterstitialAdFailedToDisplayEvent";
     }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdFailedToDisplayEvent";
+    }
     else if ( MAAdFormat.rewarded == adFormat )
     {
         name = @"OnRewardedAdFailedToDisplayEvent";
@@ -803,6 +858,8 @@ static ALUnityBackgroundCallback backgroundCallback;
     NSMutableDictionary<NSString *, id> *args = [self defaultAdEventParametersForName: name withAd: ad];
     args[@"errorCode"] = [@(error.code) stringValue];
     args[@"errorMessage"] = error.message;
+    args[@"mediatedNetworkErrorCode"] = [@(error.mediatedNetworkErrorCode) stringValue];
+    args[@"mediatedNetworkErrorMessage"] = error.mediatedNetworkErrorMessage;
     args[@"waterfallInfo"] = [self createAdWaterfallInfo: error.waterfall];
     [MAUnityAdManager forwardUnityEventWithArgs: args];
 }
@@ -821,6 +878,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     if ( MAAdFormat.interstitial == adFormat )
     {
         name = @"OnInterstitialHiddenEvent";
+    }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdHiddenEvent";
     }
     else if ( MAAdFormat.rewarded == adFormat )
     {
@@ -948,6 +1009,10 @@ static ALUnityBackgroundCallback backgroundCallback;
     else if ( MAAdFormat.interstitial == adFormat )
     {
         name = @"OnInterstitialAdRevenuePaidEvent";
+    }
+    else if ( MAAdFormat.appOpen == adFormat )
+    {
+        name = @"OnAppOpenAdRevenuePaidEvent";
     }
     else if ( MAAdFormat.rewarded == adFormat )
     {
@@ -1354,6 +1419,21 @@ static ALUnityBackgroundCallback backgroundCallback;
         result.revenueDelegate = self;
         
         self.interstitials[adUnitIdentifier] = result;
+    }
+    
+    return result;
+}
+
+- (MAAppOpenAd *)retrieveAppOpenAdForAdUnitIdentifier:(NSString *)adUnitIdentifier
+{
+    MAAppOpenAd *result = self.appOpenAds[adUnitIdentifier];
+    if ( !result )
+    {
+        result = [[MAAppOpenAd alloc] initWithAdUnitIdentifier: adUnitIdentifier sdk: self.sdk];
+        result.delegate = self;
+        result.revenueDelegate = self;
+        
+        self.appOpenAds[adUnitIdentifier] = result;
     }
     
     return result;

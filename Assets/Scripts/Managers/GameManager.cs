@@ -8,9 +8,11 @@ using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
 using ByteBrewSDK;
 using System.Linq;
+using Facebook.Unity;
 
 public class GameManager : BaseManager
 {
+    public static bool sdksIntegrated;
     public static GameManager Instance;
     public UIManager uiManager;
     public ControllerManager controllerManager;
@@ -26,6 +28,12 @@ public class GameManager : BaseManager
     private bool isBusy;
     private void Awake()
     {
+        if (!sdksIntegrated)
+        {
+            StartCoroutine(SdkIntegrationRoutine());
+            sdksIntegrated = true;
+        }
+
         // start of new code
         if (Instance != null)
         {
@@ -40,32 +48,11 @@ public class GameManager : BaseManager
                 return;
             }
         }
+
         // end of new code
         Instance = this;
         Instantiate(uiManager);
         Instantiate(controllerManager);
-
-        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
-            // AppLovin SDK is initialized, start loading ads
-            //MaxSdk.ShowMediationDebugger();
-        };
-        MaxSdk.SetSdkKey("CgG1BtqwUb8gNyhBVM-6AoTTU-yyGD9UyFS4QZzB7qdKR94hTICWTvRbNbGfmkw9VEQ8cUSDZFXLFELip15EZB");
-        MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
-        MaxSdk.SetVerboseLogging(true);
-        MaxSdk.InitializeSdk();
-        GameAnalytics.Initialize();
-        ByteBrew.InitializeByteBrew();
-        LionAnalytics.GameStart();
-        LionDebugger.Hide();
-        // import this package into the project:
-        // https://github.com/adjust/unity_sdk/releases
-#if UNITY_IOS
-        /* Mandatory - set your iOS app token here */
-        //InitAdjust("YOUR_IOS_APP_TOKEN_HERE");
-#elif UNITY_ANDROID
-        /* Mandatory - set your Android app token here */
-        InitAdjust("dyqevqya0zy8");
-#endif
 
         if (!destroyOnLoad)
         {
@@ -260,6 +247,58 @@ public class GameManager : BaseManager
         }
     }
 
+    private IEnumerator SdkIntegrationRoutine()
+    {
+        Debug.Log("Integration started");
+
+        if (!FB.IsInitialized)
+        {
+            // Initialize the Facebook SDK
+            FB.Init(InitCallback, OnHideUnity);
+        }
+        else
+        {
+            // Already initialized, signal an app activation App Event
+            FB.ActivateApp();
+        }
+        Debug.Log("FB integrated");
+
+        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
+            // AppLovin SDK is initialized, start loading ads
+            //MaxSdk.ShowMediationDebugger();
+        };
+        MaxSdk.SetSdkKey("CgG1BtqwUb8gNyhBVM-6AoTTU-yyGD9UyFS4QZzB7qdKR94hTICWTvRbNbGfmkw9VEQ8cUSDZFXLFELip15EZB");
+        MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
+        MaxSdk.SetVerboseLogging(true);
+        MaxSdk.InitializeSdk();
+        Debug.Log("Max integrated");
+
+        ByteBrew.InitializeByteBrew();
+        Debug.Log("ByteBrew integrated");
+
+        GameAnalytics.Initialize();
+        Debug.Log("GameAnalytics integrated");
+
+        // import this package into the project:
+        // https://github.com/adjust/unity_sdk/releases
+#if UNITY_IOS
+        /* Mandatory - set your iOS app token here */
+        //InitAdjust("YOUR_IOS_APP_TOKEN_HERE");
+#elif UNITY_ANDROID
+        /* Mandatory - set your Android app token here */
+        InitAdjust("dyqevqya0zy8");
+#endif
+        Debug.Log("Adjust integrated");
+
+        yield return new WaitForSeconds(0);
+        LionAnalytics.GameStart();
+        Debug.Log("LionAnalytics integrated");
+
+        LionDebugger.Hide();
+
+        Debug.Log("Integration finished");
+    }
+
     private void InitAdjust(string adjustAppToken)
     {
         var adjustConfig = new AdjustConfig(
@@ -275,5 +314,34 @@ public class GameManager : BaseManager
         //  Debug.LogFormat("Adjust Attribution Callback: ", adjustAttribution.trackerName);
         //});
         Adjust.start(adjustConfig);
+    }
+
+    private void InitCallback()
+    {
+        if (FB.IsInitialized)
+        {
+            // Signal an app activation App Event
+            FB.ActivateApp();
+            // Continue with Facebook SDK
+            // ...
+        }
+        else
+        {
+            Debug.Log("Failed to Initialize the Facebook SDK");
+        }
+    }
+
+    private void OnHideUnity(bool isGameShown)
+    {
+        if (!isGameShown)
+        {
+            // Pause the game - we will need to hide
+            Time.timeScale = 0;
+        }
+        else
+        {
+            // Resume the game - we're getting focus again
+            Time.timeScale = 1;
+        }
     }
 }

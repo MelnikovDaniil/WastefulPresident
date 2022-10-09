@@ -99,6 +99,7 @@ extern "C"
                           int allowAdServicesInfoReading,
                           int allowIdfaReading,
                           int deactivateSkAdNetworkHandling,
+                          int linkMeEnabled,
                           int needsCost,
                           int coppaCompliant,
                           int64_t secretId,
@@ -191,6 +192,11 @@ extern "C"
         // Allow IDFA reading.
         if (allowIdfaReading != -1) {
             [adjustConfig setAllowIdfaReading:(BOOL)allowIdfaReading];
+        }
+
+        // Enable LinkMe feature.
+        if (linkMeEnabled != -1) {
+            [adjustConfig setLinkMeEnabled:(BOOL)linkMeEnabled];
         }
 
         // Device known.
@@ -656,7 +662,7 @@ extern "C"
         [Adjust trackSubscription:subscription];
     }
 
-    void _AdjustTrackThirdPartySharing(int enabled, const char* jsonGranularOptions) {
+    void _AdjustTrackThirdPartySharing(int enabled, const char* jsonGranularOptions, const char* jsonPartnerSharingSettings) {
         NSNumber *nEnabled = enabled >= 0 ? [NSNumber numberWithInt:enabled] : nil;
         ADJThirdPartySharing *adjustThirdPartySharing = [[ADJThirdPartySharing alloc] initWithIsEnabledNumberBool:nEnabled];
 
@@ -674,8 +680,29 @@ extern "C"
                         // in here we have partner and key-value pair for it
                         for (int j = 0; j < [partnerGranularOptions count];) {
                             [adjustThirdPartySharing addGranularOption:partnerName
-                                                     key:partnerGranularOptions[j++]
-                                                     value:partnerGranularOptions[j++]];
+                                                                   key:partnerGranularOptions[j++]
+                                                                 value:partnerGranularOptions[j++]];
+                        }
+                    }
+                }
+            }
+        }
+        NSArray *arrayPartnerSharingSettings = convertArrayParameters(jsonPartnerSharingSettings);
+        if (arrayPartnerSharingSettings != nil) {
+            NSUInteger count = [arrayPartnerSharingSettings count];
+            for (int i = 0; i < count;) {
+                NSString *partnerName = arrayPartnerSharingSettings[i++];
+                NSString *sharingSettings = arrayPartnerSharingSettings[i++];
+                // sharingSettings is now NSString which pretty much contains array of partner key-value pairs
+                if (sharingSettings != nil) {
+                    NSData *dataJson = [sharingSettings dataUsingEncoding:NSUTF8StringEncoding];
+                    NSArray *partnerSharingSettings = [NSJSONSerialization JSONObjectWithData:dataJson options:0 error:nil];
+                    if (partnerSharingSettings != nil) {
+                        // in here we have partner and key-value pair for it
+                        for (int j = 0; j < [partnerSharingSettings count];) {
+                            [adjustThirdPartySharing addPartnerSharingSetting:partnerName
+                                                                          key:partnerSharingSettings[j++]
+                                                                        value:[partnerSharingSettings[j++] boolValue]];
                         }
                     }
                 }
@@ -713,6 +740,24 @@ extern "C"
 
     int _AdjustGetAppTrackingAuthorizationStatus() {
         return [Adjust appTrackingAuthorizationStatus];
+    }
+
+    char* _AdjustGetLastDeeplink() {
+        NSURL *lastDeeplink = [Adjust lastDeeplink];
+        if (nil == lastDeeplink) {
+            return NULL;
+        }
+        NSString *lastDeeplinkString = [lastDeeplink absoluteString];
+        if (nil == lastDeeplinkString) {
+            return NULL;
+        }
+        const char* lastDeeplinkCString = [lastDeeplinkString UTF8String];
+        if (NULL == lastDeeplinkCString) {
+            return NULL;
+        }
+
+        char* lastDeeplinkCStringCopy = strdup(lastDeeplinkCString);
+        return lastDeeplinkCStringCopy;
     }
 
     void _AdjustSetTestOptions(const char* baseUrl,

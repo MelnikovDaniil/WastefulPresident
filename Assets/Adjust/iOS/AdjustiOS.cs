@@ -8,7 +8,7 @@ namespace com.adjust.sdk
 #if UNITY_IOS
     public class AdjustiOS
     {
-        private const string sdkPrefix = "unity4.30.0";
+        private const string sdkPrefix = "unity4.32.1";
 
         [DllImport("__Internal")]
         private static extern void _AdjustLaunchApp(
@@ -29,6 +29,7 @@ namespace com.adjust.sdk
             int allowAdServicesInfoReading,
             int allowIdfaReading,
             int deactivateSkAdNetworkHandling,
+            int linkMeEnabled,
             int needsCost,
             int coppaCompliant,
             long secretId,
@@ -140,7 +141,7 @@ namespace com.adjust.sdk
             string jsonPartnerParameters);
 
         [DllImport("__Internal")]
-        private static extern void _AdjustTrackThirdPartySharing(int enabled, string jsonGranularOptions);
+        private static extern void _AdjustTrackThirdPartySharing(int enabled, string jsonGranularOptions, string jsonPartnerSharingSettings);
 
         [DllImport("__Internal")]
         private static extern void _AdjustTrackMeasurementConsent(int enabled);
@@ -179,6 +180,9 @@ namespace com.adjust.sdk
         [DllImport("__Internal")]
         private static extern void _AdjustTrackSubsessionEnd();
 
+        [DllImport("__Internal")]
+        private static extern string _AdjustGetLastDeeplink();
+
         public AdjustiOS() {}
 
         public static void Start(AdjustConfig adjustConfig)
@@ -206,6 +210,7 @@ namespace com.adjust.sdk
             int allowSuppressLogLevel = AdjustUtils.ConvertBool(adjustConfig.allowSuppressLogLevel);
             int launchDeferredDeeplink = AdjustUtils.ConvertBool(adjustConfig.launchDeferredDeeplink);
             int deactivateSkAdNetworkHandling = AdjustUtils.ConvertBool(adjustConfig.skAdNetworkHandling);
+            int linkMeEnabled = AdjustUtils.ConvertBool(adjustConfig.linkMeEnabled);
             int needsCost = AdjustUtils.ConvertBool(adjustConfig.needsCost);
             int coppaCompliant = AdjustUtils.ConvertBool(adjustConfig.coppaCompliantEnabled);
             int isAttributionCallbackImplemented = AdjustUtils.ConvertBool(adjustConfig.getAttributionChangedDelegate() != null);
@@ -234,6 +239,7 @@ namespace com.adjust.sdk
                 allowAdServicesInfoReading,
                 allowIdfaReading,
                 deactivateSkAdNetworkHandling,
+                linkMeEnabled,
                 needsCost,
                 coppaCompliant,
                 secretId,
@@ -385,8 +391,14 @@ namespace com.adjust.sdk
                 jsonGranularOptions.Add(entry.Key);
                 jsonGranularOptions.Add(AdjustUtils.ConvertListToJson(entry.Value));
             }
+            List<string> jsonPartnerSharingSettings = new List<string>();
+            foreach (KeyValuePair<string, List<string>> entry in thirdPartySharing.partnerSharingSettings)
+            {
+                jsonPartnerSharingSettings.Add(entry.Key);
+                jsonPartnerSharingSettings.Add(AdjustUtils.ConvertListToJson(entry.Value));
+            }
 
-            _AdjustTrackThirdPartySharing(enabled, AdjustUtils.ConvertListToJson(jsonGranularOptions));
+            _AdjustTrackThirdPartySharing(enabled, AdjustUtils.ConvertListToJson(jsonGranularOptions), AdjustUtils.ConvertListToJson(jsonPartnerSharingSettings));
         }
 
         public static void TrackMeasurementConsent(bool enabled)
@@ -455,6 +467,11 @@ namespace com.adjust.sdk
 
             var attribution = new AdjustAttribution(attributionString);
             return attribution;
+        }
+
+        public static string GetLastDeeplink()
+        {
+            return _AdjustGetLastDeeplink();
         }
 
         // Used for testing only.

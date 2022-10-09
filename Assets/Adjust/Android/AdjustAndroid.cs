@@ -8,7 +8,7 @@ namespace com.adjust.sdk
 #if UNITY_ANDROID
     public class AdjustAndroid
     {
-        private const string sdkPrefix = "unity4.30.0";
+        private const string sdkPrefix = "unity4.32.1";
         private static bool launchDeferredDeeplink = true;
         private static AndroidJavaClass ajcAdjust = new AndroidJavaClass("com.adjust.sdk.Adjust");
         private static AndroidJavaObject ajoCurrentActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
@@ -371,6 +371,8 @@ namespace com.adjust.sdk
                 }
                 adjustAttribution.costCurrency = ajoAttribution.Get<string>(AdjustUtils.KeyCostCurrency) == "" ?
                     null : ajoAttribution.Get<string>(AdjustUtils.KeyCostCurrency);
+                adjustAttribution.fbInstallReferrer = ajoAttribution.Get<string>(AdjustUtils.KeyFbInstallReferrer) == "" ?
+                    null : ajoAttribution.Get<string>(AdjustUtils.KeyFbInstallReferrer);
                 return adjustAttribution;
             }
             catch (Exception) {}
@@ -579,6 +581,17 @@ namespace com.adjust.sdk
                 }
             }
 
+            if (thirdPartySharing.partnerSharingSettings != null)
+            {
+                foreach (KeyValuePair<string, List<string>> entry in thirdPartySharing.partnerSharingSettings)
+                {
+                    for (int i = 0; i < entry.Value.Count;)
+                    {
+                        ajoAdjustThirdPartySharing.Call("addPartnerSharingSetting", entry.Key, entry.Value[i++], bool.Parse(entry.Value[i++]));
+                    }
+                }
+            }
+
             ajcAdjust.CallStatic("trackThirdPartySharing", ajoAdjustThirdPartySharing);
         }
 
@@ -677,6 +690,8 @@ namespace com.adjust.sdk
                 }
                 adjustAttribution.costCurrency = attribution.Get<string>(AdjustUtils.KeyCostCurrency) == "" ?
                     null : attribution.Get<string>(AdjustUtils.KeyCostCurrency);
+                adjustAttribution.fbInstallReferrer = attribution.Get<string>(AdjustUtils.KeyFbInstallReferrer) == "" ?
+                    null : attribution.Get<string>(AdjustUtils.KeyFbInstallReferrer);
                 callback(adjustAttribution);
             }
         }
