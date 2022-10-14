@@ -33,6 +33,8 @@ namespace com.adjust.sdk
         [HideInInspector]
         public bool coppaCompliant = false;
         [HideInInspector]
+        public bool linkMe = false;
+        [HideInInspector]
         public string defaultTracker;
         [HideInInspector]
         public AdjustUrlStrategy urlStrategy = AdjustUrlStrategy.Default;
@@ -121,6 +123,7 @@ namespace com.adjust.sdk
                 adjustConfig.setAllowIdfaReading(this.idfaInfoReading);
                 adjustConfig.setCoppaCompliantEnabled(this.coppaCompliant);
                 adjustConfig.setPlayStoreKidsAppEnabled(this.playStoreKidsApp);
+                adjustConfig.setLinkMeEnabled(this.linkMe);
                 if (!skAdNetworkHandling)
                 {
                     adjustConfig.deactivateSKAdNetworkHandling();
@@ -808,6 +811,27 @@ namespace com.adjust.sdk
             return AdjustAndroid.GetAmazonAdId();
 #elif (UNITY_WSA || UNITY_WP8)
             Debug.Log("[Adjust]: Amazon Advertising ID not available on Windows platform.");
+            return string.Empty;
+#else
+            Debug.Log(errorMsgPlatform);
+            return string.Empty;
+#endif
+        }
+
+        public static string getLastDeeplink()
+        {
+            if (IsEditor())
+            {
+                return string.Empty;
+            }
+
+#if UNITY_IOS
+            return AdjustiOS.GetLastDeeplink();
+#elif UNITY_ANDROID
+            Debug.Log("[Adjust]: Error! Last deeplink getter is not available on Android platform.");
+            return string.Empty;
+#elif (UNITY_WSA || UNITY_WP8)
+            Debug.Log("[Adjust]: Error! Last deeplink getter is not available on Windows platform.");
             return string.Empty;
 #else
             Debug.Log(errorMsgPlatform);
