@@ -20,13 +20,13 @@ public class BatterySlot : InteractrablePowerProvider
 
     public override void StartInteraction(ICharacterVisitor visitor)
     {
-        var battery = visitor.GetBattery();
-        if ((storedBattery == null && battery != null)
+        var item = visitor.GetItem();
+        if ((storedBattery == null && item is Battery)
             || storedBattery != null)
         {
             if (storedBattery != null)
             {
-                visitor.StartTakingBattery(storedBattery);
+                visitor.StartTakingItem(storedBattery);
                 if (storedBattery.spriteRenderer.enabled == false)
                 {
                     SoundManager.PlaySoundWithDelay("BatteryOutput", 0.2f);
@@ -35,7 +35,7 @@ public class BatterySlot : InteractrablePowerProvider
             else
             {
                 SoundManager.PlaySoundWithDelay("BatteryInput", 0.8f);
-                visitor.PutBattery();
+                visitor.PutItem();
             }
             base.StartInteraction(visitor);
         }
@@ -52,18 +52,18 @@ public class BatterySlot : InteractrablePowerProvider
 
     public override void SuccessInteraction(ICharacterVisitor visitor)
     {
-        var battery = visitor.GetBattery();
+        var item = visitor.GetItem() as Battery;
         if (!isActive)
         {
-            storedBattery = battery;
+            storedBattery = item;
             storedBattery.transform.parent = batteryTransform;
             storedBattery.transform.localPosition = Vector3.zero;
             storedBattery.transform.localRotation = Quaternion.identity;
-            visitor.RemoveBattery();
+            visitor.RemoveItem();
             storedBattery.Hold();
             base.SuccessInteraction(visitor);
         }
-        else if (visitor.TryTakeBattery(storedBattery))
+        else if (visitor.TryTakeItem(storedBattery))
         {
             base.SuccessInteraction(visitor);
             storedBattery = null;

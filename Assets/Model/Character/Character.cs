@@ -132,27 +132,32 @@ public abstract class Character : Creature, ICharacterVisitor
         _animator.SetTrigger("timerOff");
     }
 
-    public virtual Battery GetBattery()
+    public virtual Item GetItem()
     {
         return null;
     }
 
-    public virtual void StartTakingBattery(Battery battery)
+    public virtual void StartTakingItem(Item item)
     {
         _animator.SetTrigger("batteryTake");
     }
 
-    public virtual void PutBattery()
+    public virtual void PutItem()
     {
     }
 
-    public virtual bool TryTakeBattery(Battery battery)
+    public virtual bool TryTakeItem(Item item)
     {
         return false;
     }
 
-    public virtual void RemoveBattery()
+    public virtual void RemoveItem()
     {
+    }
+
+    public BoxedObject GetBoxedObject()
+    {
+        return GetComponent<BoxedObject>();
     }
 
     protected void CalculateTargetMovement()
