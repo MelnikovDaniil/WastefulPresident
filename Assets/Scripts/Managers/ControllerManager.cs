@@ -73,52 +73,24 @@ public class ControllerManager : BaseManager
             actionIcons.Add(Instantiate(actionIconPrefab));
         }
 
-        president = FindObjectOfType<President>();
-        AddAgents(FindObjectsOfType<Agent>().ToList());
+        FindObjectsOfType<Agent>().ToList()
+            .ForEach(x => AddAgent(x));
 
-        if (president != null)
-        {
-            president.icon = characterIcon;
-            president.characterColor.color = startColor;
-            president.SetColor(startColor);
-            SelectionMenu.Instance.AddItem(president);
-            // StartCoroutine(FollowPreidentRoutine());
-        }
+        president = FindObjectOfType<President>();
+        AddPresident(president);
     }
 
     private void Update()
     {
         ValidateInput();
-        if (president != null
-            && !DialogueManager.isWorking
+        if (//president != null
+            /*&&*/ !DialogueManager.isWorking
             && !CameraManager.Instance.isMovingByTaps
-            && president.characterState != CharacterState.Dead 
+            //&& president.characterState != CharacterState.Dead 
             && Input.GetMouseButtonUp(0) 
             && validInput)
         {
             SetUpTarget();
-        }
-    }
-    public void AddAgents(List<Agent> newSecurities)
-    {
-        this.agents.AddRange(newSecurities);
-        foreach (var agent in agents)
-        {
-            Color.RGBToHSV(currentHumanColor, out var H, out var S, out var V);
-            currentHumanColor = Color.HSVToRGB((H + SelectionMenu.Instance.itemGap / 360.0f) % 1, S, V);
-
-            agent.characterState = CharacterState.Follow;
-
-            agent.SetColor(currentHumanColor);
-            agent.characterColor.color = currentHumanColor;
-            agent.presidentStopDistance = presidentDistance;
-            presidentDistance += securityDistacnceGap;
-
-            var skin = GetAgentSkin();
-            agent.spriteRenderer.sprite = skin.skin;
-            agent.skinRenderer.sprite = skin.skin;
-            agent.icon = skin.icon;
-            SelectionMenu.Instance.AddItem(agent);
         }
     }
 
@@ -171,7 +143,7 @@ public class ControllerManager : BaseManager
 
                     if (currentCharacter is Agent)
                     {
-                        president.SendOrder();
+                        president?.SendOrder();
                     }
                 }
                 else
@@ -226,6 +198,53 @@ public class ControllerManager : BaseManager
         {
             character.SetTarget(interactableObject.transform.position);
         }
+    }
+
+
+
+    private void AddPresident(President newPresident)
+    {
+        if (newPresident != null)
+        {
+            president = newPresident;
+            president.icon = characterIcon;
+            president.characterColor.color = startColor;
+            president.SetColor(startColor);
+            president.OnDeath += () => GameManager.LevelFail();
+            SelectionMenu.Instance.AddItem(president);
+            // StartCoroutine(FollowPreidentRoutine());
+        }
+    }
+
+    public void AddCharacter(Character character)
+    {
+        if (character is President president)
+        {
+            AddPresident(president);
+        }
+        else if (character is Agent agent)
+        {
+            AddAgent(agent);
+        }
+    }
+    private void AddAgent(Agent agent)
+    {
+        agents.Add(agent);
+        Color.RGBToHSV(currentHumanColor, out var H, out var S, out var V);
+        currentHumanColor = Color.HSVToRGB((H + SelectionMenu.Instance.itemGap / 360.0f) % 1, S, V);
+
+        agent.characterState = CharacterState.Follow;
+
+        agent.SetColor(currentHumanColor);
+        agent.characterColor.color = currentHumanColor;
+        agent.presidentStopDistance = presidentDistance;
+        presidentDistance += securityDistacnceGap;
+
+        var skin = GetAgentSkin();
+        agent.spriteRenderer.sprite = skin.skin;
+        agent.skinRenderer.sprite = skin.skin;
+        agent.icon = skin.icon;
+        SelectionMenu.Instance.AddItem(agent);
     }
 
     private AgentSkin GetAgentSkin()

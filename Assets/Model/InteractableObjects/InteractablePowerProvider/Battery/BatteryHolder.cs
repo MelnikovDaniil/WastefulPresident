@@ -25,7 +25,7 @@ public class BatteryHolder : InteractableObject
     {
         if (battery != null)
         {
-            visitor.StartTakingBattery(battery);
+            visitor.StartTakingItem(battery);
             base.StartInteraction(visitor);
         }
         else
@@ -35,7 +35,7 @@ public class BatteryHolder : InteractableObject
     }
     public override void SuccessInteraction(ICharacterVisitor visitor)
     {
-        if (visitor.TryTakeBattery(battery))
+        if (visitor.TryTakeItem(battery))
         {
             light.SetActive(false);
             GetComponent<Collider2D>().enabled = false;

@@ -83,23 +83,23 @@ public class PrologueScenario : MonoBehaviour
         StartCoroutine(SpawnAgentsRoutine());
     }
 
-    public void Frame6()
-    {
-        CameraManager.Instance.CharacterCamera();
-        character.GetComponent<ControllerManager>().AddAgents(agents);
-        character.isLocked = false;
+    //public void Frame6()
+    //{
+    //    CameraManager.Instance.CharacterCamera();
+    //    character.GetComponent<ControllerManager>().AddAgents(agents);
+    //    character.isLocked = false;
 
-        if (firstCutSceen)
-        {
-            StickerManager.Instance.AddSticker("DoorOpen", "Открыть дверь при помощи \"E\"");
-            PlayerPrefs.SetInt("FirstCutSceen", 1);
-        }
-        else
-        {
-            dialogue3.gameObject.SetActive(true);
-            StickerManager.Instance.AddSticker("DoorOpen", "Отправить агента нажав \"ЛКМ\"");
-        }
-    }
+    //    if (firstCutSceen)
+    //    {
+    //        StickerManager.Instance.AddSticker("DoorOpen", "Открыть дверь при помощи \"E\"");
+    //        PlayerPrefs.SetInt("FirstCutSceen", 1);
+    //    }
+    //    else
+    //    {
+    //        dialogue3.gameObject.SetActive(true);
+    //        StickerManager.Instance.AddSticker("DoorOpen", "Отправить агента нажав \"ЛКМ\"");
+    //    }
+    //}
 
     public IEnumerator SpawnAgentsRoutine()
     {

@@ -11,8 +11,8 @@ public class Agent : Character
     [Space]
     public Transform backTransform;
 
-    public SpriteRenderer batteryAnimationSprite;
-    private Battery currentBattery;
+    public SpriteRenderer itemAnimationSprite;
+    private Item currentItem;
 
     public new void Awake()
     {
@@ -23,11 +23,11 @@ public class Agent : Character
     public override void Death()
     {
         base.Death();
-        if (currentBattery != null)
+        if (currentItem != null)
         {
-            currentBattery.Throw();
-            currentBattery.transform.parent = null;
-            currentBattery = null;
+            currentItem.Throw();
+            currentItem.transform.parent = null;
+            currentItem = null;
         }
     }
 
@@ -78,48 +78,46 @@ public class Agent : Character
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public override Battery GetBattery()
+    public override Item GetItem()
     {
-        return currentBattery;
+        return currentItem;
     }
 
-    public override void StartTakingBattery(Battery battery)
+    public override void StartTakingItem(Item item)
     {
-        battery.spriteRenderer.enabled = false;
-        batteryAnimationSprite.sprite = battery.spriteRenderer.sprite;
-        base.StartTakingBattery(battery);
+        item.spriteRenderer.enabled = false;
+        itemAnimationSprite.sprite = item.spriteRenderer.sprite;
+        base.StartTakingItem(item);
     }
 
-    public override void PutBattery()
+    public override void PutItem()
     {
-        currentBattery.spriteRenderer.enabled = false;
-        batteryAnimationSprite.sprite = currentBattery.spriteRenderer.sprite;
+        currentItem.spriteRenderer.enabled = false;
+        itemAnimationSprite.sprite = currentItem.spriteRenderer.sprite;
         _animator.SetTrigger("batteryPut");
-        base.StartTakingBattery(currentBattery);
+        base.StartTakingItem(currentItem);
     }
 
-    public override bool TryTakeBattery(Battery battery)
+    public override bool TryTakeItem(Item item)
     {
-        battery.spriteRenderer.enabled = true;
-        if (currentBattery == null)
+        item.spriteRenderer.enabled = true;
+        if (currentItem != null)
         {
-            currentBattery = battery;
-            currentBattery.transform.parent = backTransform;
-            currentBattery.transform.localPosition = Vector2.zero;
-            currentBattery.transform.localRotation = Quaternion.identity;
-            currentBattery.Hold();
+            currentItem.transform.parent = null;
+            currentItem.Throw();
         }
-        else
-        {
-            battery.transform.parent = null;
-            battery.Throw();
-        }
+
+        currentItem = item;
+        currentItem.transform.parent = backTransform;
+        currentItem.transform.localPosition = Vector2.zero;
+        currentItem.transform.localRotation = Quaternion.identity;
+        currentItem.Hold();
 
         return true;
     }
 
-    public override void RemoveBattery()
+    public override void RemoveItem()
     {
-        currentBattery = null;
+        currentItem = null;
     }
 }

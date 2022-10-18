@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6678740772988863571}
   - component: {fileID: 5968573415902539152}
+  - component: {fileID: 5674580523072139428}
   - component: {fileID: 6678740772988863570}
   - component: {fileID: 6678740772988863573}
   - component: {fileID: 6678740772988863582}
@@ -175,6 +176,19 @@ MonoBehaviour:
   sendOrderChanse: 0.1
   colorMaterial: {fileID: 2100000, guid: ed6a96227e186d348b0b53dbd33c39bc, type: 2}
   watchingClockFromTime: 15
+--- !u!114 &5674580523072139428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678740772988863572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02977fa84da977d4390af88d953b9908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxIcon: {fileID: -7407035060996154566, guid: c5f029df7affe4f40b95ae0f9b9e3c15, type: 3}
 --- !u!212 &6678740772988863570
 SpriteRenderer:
   m_ObjectHideFlags: 0

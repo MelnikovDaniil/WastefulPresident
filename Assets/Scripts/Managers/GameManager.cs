@@ -16,7 +16,6 @@ public class GameManager : BaseManager
     public static GameManager Instance;
     public UIManager uiManager;
     public ControllerManager controllerManager;
-    public President president;
     public ScriptableComicsChapter firstComics;
     public float reloadDelay = 5;
     public bool destroyOnLoad = false;
@@ -70,11 +69,6 @@ public class GameManager : BaseManager
         ControllerManager.Instance.LoadManager();
 
         Time.timeScale = 1;
-        president = FindObjectOfType<President>();
-        if (president != null)
-        {
-            president.OnDeath += () => LevelFail();
-        }
 
 
         var sceenName = SceneManager.GetActiveScene().name;

@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public interface ICharacterVisitor
 {
@@ -14,11 +13,13 @@ public interface ICharacterVisitor
     void VisitTimer(float timeSpeed);
     void FinishVisitTimer();
 
-    Battery GetBattery();
-    void StartTakingBattery(Battery battery);
-    void PutBattery();
-    bool TryTakeBattery(Battery battery);
-    void RemoveBattery();
+    Item GetItem();
+    void StartTakingItem(Item item);
+    void PutItem();
+    bool TryTakeItem(Item item);
+    void RemoveItem();
+
+    BoxedObject GetBoxedObject();
 
     void FinishVisiting();
 }

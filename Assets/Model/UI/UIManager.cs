@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ProductItem = LionStudios.Suite.Analytics.Item;
 
 public class UIManager : BaseManager
 {
@@ -83,7 +84,7 @@ public class UIManager : BaseManager
 
     private void Update()
     {
-        if (GameManager.Instance?.president != null && Input.GetKeyDown(KeyCode.Escape))
+        if (ControllerManager.Instance?.president != null && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
@@ -110,7 +111,7 @@ public class UIManager : BaseManager
     {
         var currentVolume = SoundManager.GetMusicVolume();
         SoundManager.SetMusicVolume(currentVolume / 6);
-        GameManager.Instance.president.isLocked = true;
+        ControllerManager.Instance.president.isLocked = true;
         Time.timeScale = 0;
         isPaused = true;
         pausePanel?.SetActive(true);
@@ -162,7 +163,7 @@ public class UIManager : BaseManager
         };
         var productRecieved = new Product
         {
-            items = new List<Item> { new Item($"lvl-{lvlName}", 1) },
+            items = new List<ProductItem> { new ProductItem($"lvl-{lvlName}", 1) },
         };
         LionAnalytics.EconomyEvent($"level-skip", productSpend, productRecieved);
         skipLevelNumberText.text = lvlName;
@@ -183,7 +184,7 @@ public class UIManager : BaseManager
     {
         var currentVolume = SoundManager.GetMusicVolume();
         SoundManager.SetMusicVolume(currentVolume * 6);
-        GameManager.Instance.president.isLocked = false;
+        ControllerManager.Instance.president.isLocked = false;
         Time.timeScale = 1;
         isPaused = false;
         pausePanel?.SetActive(false);
