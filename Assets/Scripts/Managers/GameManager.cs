@@ -267,7 +267,7 @@ public class GameManager : BaseManager
             // AppLovin SDK is initialized, start loading ads
             //MaxSdk.ShowMediationDebugger();
         };
-        MaxSdk.SetSdkKey("CgG1BtqwUb8gNyhBVM-6AoTTU-yyGD9UyFS4QZzB7qdKR94hTICWTvRbNbGfmkw9VEQ8cUSDZFXLFELip15EZB");
+        MaxSdk.SetSdkKey("lt7nsQAGQuderPVtuZ142vUL2g7KegOa8GqDSsEWObUThTamw5UpC5k7u9kT3XQ3bFxr0kSuomgBHN-nENHley");
         MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
         MaxSdk.SetVerboseLogging(true);
         MaxSdk.InitializeSdk();
