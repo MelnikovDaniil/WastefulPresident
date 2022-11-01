@@ -83,10 +83,8 @@ public class ControllerManager : BaseManager
     private void Update()
     {
         ValidateInput();
-        if (//president != null
-            /*&&*/ !DialogueManager.isWorking
-            && !CameraManager.Instance.isMovingByTaps
-            //&& president.characterState != CharacterState.Dead 
+        if (!DialogueManager.isWorking
+            && CameraManager.Instance?.isMovingByTaps == false
             && Input.GetMouseButtonUp(0) 
             && validInput)
         {
