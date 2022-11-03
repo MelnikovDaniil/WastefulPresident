@@ -160,6 +160,11 @@ public abstract class Character : Creature, ICharacterVisitor
         return GetComponent<BoxedObject>();
     }
 
+    public bool ShutOffGusPipe()
+    {
+        return true;
+    }
+
     protected void CalculateTargetMovement()
     {
         if (target != null)

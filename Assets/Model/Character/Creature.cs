@@ -213,7 +213,6 @@ public class Creature : MonoBehaviour, IPortalVisitor
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
     }
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (characterState != CharacterState.Dead)
@@ -225,6 +224,10 @@ public class Creature : MonoBehaviour, IPortalVisitor
                     Death();
                     break;
                 case "DeathCollider":
+                    _animator.SetTrigger("bomb");
+                    Death();
+                    break;
+                case "Gas":
                     _animator.SetTrigger("bomb");
                     Death();
                     break;
