@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using com.adjust.sdk;
-using GameAnalyticsSDK;
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
@@ -300,17 +299,6 @@ public class GameManager : BaseManager
         catch
         {
             Debug.LogError("ByteBrew integration failed");
-        }
-
-
-        try
-        {
-            GameAnalytics.Initialize();
-            Debug.Log("GameAnalytics integrated");
-        }
-        catch
-        {
-            Debug.LogError("GameAnalytics integration failed");
         }
 
         yield return new WaitForEndOfFrame();

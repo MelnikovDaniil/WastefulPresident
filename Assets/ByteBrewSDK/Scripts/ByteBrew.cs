@@ -12,7 +12,10 @@ namespace ByteBrewSDK
 
         public static ByteBrew Instance { get { return _instance; } }
 
+        ///<summary> Do not use this variable to tell if the SDK is initialized, use IsByteBrewInitialized()</summary>
         public static bool IsInitilized = false;
+
+        private static bool libraryFinishedInitialization = false;
 
         public static bool FirstTimeOpening = false;
 
@@ -58,6 +61,20 @@ namespace ByteBrewSDK
 
 #endif
 
+        }
+
+        /// <summary>
+        /// Returns whether the ByteBrew Library is fully initialized
+        /// </summary>
+        /// <returns>Boolean, true if the library for ByteBrew is initialized.</returns>
+        public static bool IsByteBrewInitialized()
+        {
+            return libraryFinishedInitialization;
+        }
+
+        public void ByteBrewSDKInitialized()
+        {
+            libraryFinishedInitialization = true;
         }
 
         public static void StartPushNotifications()
@@ -576,6 +593,8 @@ namespace ByteBrewSDK
 #elif (UNITY_ANDROID) || (UNITY_IOS)
 
             return ByteBrew_Helper.RetrieveRemoteConfigValue(key, defaultValue);
+#else
+            return defaultValue;
 #endif 
             
         }
@@ -583,7 +602,7 @@ namespace ByteBrewSDK
         /// <summary>
         /// Check ByteBrew to see if the configs are already locally set, so you dont need to kep calling Load
         /// </summary>
-        /// <return>Boolean, true if the configs are set, false otherwise.</return>
+        /// <returns>Boolean, true if the configs are set, false otherwise.</returns>
         public static bool HasRemoteConfigsBeenSet()
         {
 #if UNITY_EDITOR
@@ -592,14 +611,16 @@ namespace ByteBrewSDK
 #elif (UNITY_ANDROID) || (UNITY_IOS)
 
             return ByteBrew_Helper.AreRemoteConfigsSet();
+#else
+            return true;
 #endif 
             
         }
 
         /// <summary>
-        /// Check ByteBrew to see if the configs are already locally set, so you dont need to kep calling Load
+        /// Get the user ID given by ByteBrew, use for reference in push notifications or debugging
         /// </summary>
-        /// <return>Boolean, true if the configs are set, false otherwise.</return>
+        /// <returns>String, users userID.</returns>
         public static string GetUserID()
         {
 #if UNITY_EDITOR
@@ -608,6 +629,8 @@ namespace ByteBrewSDK
 #elif (UNITY_ANDROID) || (UNITY_IOS)
 
             return ByteBrew_Helper.GetCurrentUserID();
+#else
+            return "";
 #endif 
             
         }
