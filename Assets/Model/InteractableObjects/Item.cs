@@ -3,13 +3,15 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Item : InteractableObject
+public class Item : InteractableObject, IPortableObject
 {
     public float throwForce = 3;
     public Rigidbody2D rigidbody2D;
     public SpriteRenderer spriteRenderer;
 
     private List<Collider2D> colliders;
+
+    public bool IsSmallTeleport => false;
 
     private void Awake()
     {
@@ -56,4 +58,18 @@ public class Item : InteractableObject
     {
         visitor.TryTakeItem(this);
     }
+
+    public void Teleport(Vector3 position, Quaternion rotationDifference)
+    {
+        gameObject.transform.position = position;
+        gameObject.transform.localRotation = gameObject.transform.localRotation * rotationDifference;
+
+
+        rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
+    }
+
+    //public void AfterTeleport()
+    //{
+    //    rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
+    //}
 }

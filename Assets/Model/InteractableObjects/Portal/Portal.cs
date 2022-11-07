@@ -8,7 +8,6 @@ public class Portal : InteractableObject
     public Vector3 wallCheckSize;
     public Vector3 wallCheckOffset;
     public LayerMask wallCheckLayers;
-    public LayerMask portableObjectsLayers;
 
     public Color color;
     public List<SpriteRenderer> objectToColor;
@@ -94,24 +93,19 @@ public class Portal : InteractableObject
         StartCoroutine(EnableProtalZoneRoutine());
     }
 
-    public IEnumerator TeleportObject(GameObject obj, bool isLargeObject)
+    public IEnumerator TeleportObject(IPortableObject portableObj)
     {
         _portalZone.enabled = false;
         afterTeleport = true;
-        var trail = obj.GetComponent<TrailRenderer>();
-        if (isLargeObject)
-        {
-            _animator.SetTrigger("enterImmediately");
-        }
-        else
+        if (portableObj.IsSmallTeleport)
         {
             _animator.SetTrigger("enterObject");
         }
-
-        if (trail != null)
+        else
         {
-            trail.emitting = false;
+            _animator.SetTrigger("enterImmediately");
         }
+
         var sound = SoundManager.PlaySound("Portal");
         sound.SetVolume(0.8f);
         if (sound.Source != null)
@@ -122,21 +116,13 @@ public class Portal : InteractableObject
         var previousPortalOffset = secondPortal.transform.localRotation 
             * new Vector3(Mathf.Sign(secondPortal.transform.localScale.x), 0);
         var rotationDifference = Quaternion.Euler(0, 0, Vector2.SignedAngle(-previousPortalOffset, offset));
-
         var newPosition = transform.position + offset;
-        obj.transform.position = newPosition;
-        obj.transform.localRotation = obj.transform.localRotation * rotationDifference;
+
+        portableObj.Teleport(newPosition, rotationDifference);
 
         yield return new WaitForEndOfFrame();
 
-        if (trail != null)
-        {
-            trail.emitting = true;
-        }
-        if (obj.TryGetComponent(out Rigidbody2D rigidbody))
-        {
-            rigidbody.velocity = rotationDifference * rigidbody.velocity;
-        }
+        portableObj.AfterTeleport(offset);
 
         StartCoroutine(EnableProtalZoneRoutine());
     }
@@ -158,20 +144,19 @@ public class Portal : InteractableObject
                 _animator.SetTrigger("enter");
                 StartCoroutine(secondPortal.TeleportHuman(visitor));
             }
-            else if ((portableObjectsLayers & (1 << collision.gameObject.layer)) > 0
-                && !(collision.isTrigger && collision.GetComponent<InteractableObject>()))
+            else if (collision.gameObject.TryGetComponent(out IPortableObject portableObject))
             {
                 afterTeleport = false;
-                if (!collision.isTrigger)
+                if (portableObject.IsSmallTeleport)
                 {
-                    _animator.SetTrigger("enterImmediately");
-                    StartCoroutine(secondPortal.TeleportObject(collision.gameObject, true));
+
+                    _animator.SetTrigger("enterObject");
                 }
                 else
                 {
-                    _animator.SetTrigger("enterObject");
-                    StartCoroutine(secondPortal.TeleportObject(collision.gameObject, false));
+                    _animator.SetTrigger("enterImmediately");
                 }
+                StartCoroutine(secondPortal.TeleportObject(portableObject));
             }
         }
     }

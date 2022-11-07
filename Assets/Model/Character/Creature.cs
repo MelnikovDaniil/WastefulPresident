@@ -227,10 +227,10 @@ public class Creature : MonoBehaviour, IPortalVisitor
                     _animator.SetTrigger("bomb");
                     Death();
                     break;
-                case "Gas":
-                    _animator.SetTrigger("bomb");
-                    Death();
-                    break;
+                //case "Gas":
+                //    _animator.SetTrigger("bomb");
+                //    Death();
+                //    break;
                 case "ZombieAttack":
                     _animator.SetTrigger("deathByZombie");
                     Death();
