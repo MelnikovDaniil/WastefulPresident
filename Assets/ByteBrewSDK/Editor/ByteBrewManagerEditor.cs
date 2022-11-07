@@ -9,10 +9,6 @@ namespace ByteBrewSDK
     [CustomEditor(typeof(ByteBrewSettings))]
     public class ByteBrewEditor : Editor
     {
-        
-        private bool androidEnabled = false;
-        private bool iosEnabled = false;
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();

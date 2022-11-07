@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using com.adjust.sdk;
-using GameAnalyticsSDK;
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
 using ByteBrewSDK;
 using System.Linq;
 using Facebook.Unity;
+using System;
 
 public class GameManager : BaseManager
 {
@@ -244,51 +244,88 @@ public class GameManager : BaseManager
     private IEnumerator SdkIntegrationRoutine()
     {
         Debug.Log("Integration started");
-
-        if (!FB.IsInitialized)
+        try
         {
-            // Initialize the Facebook SDK
-            FB.Init(InitCallback, OnHideUnity);
+            if (!FB.IsInitialized)
+            {
+                // Initialize the Facebook SDK
+                FB.Init(InitCallback, OnHideUnity);
+            }
+            else
+            {
+                // Already initialized, signal an app activation App Event
+                FB.ActivateApp();
+            }
+            Debug.Log("FB integrated");
         }
-        else
+        catch (Exception)
         {
-            // Already initialized, signal an app activation App Event
-            FB.ActivateApp();
+
+            Debug.LogError("FB inegration failed");
         }
-        Debug.Log("FB integrated");
 
-        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
-            // AppLovin SDK is initialized, start loading ads
-            //MaxSdk.ShowMediationDebugger();
-        };
-        MaxSdk.SetSdkKey("lt7nsQAGQuderPVtuZ142vUL2g7KegOa8GqDSsEWObUThTamw5UpC5k7u9kT3XQ3bFxr0kSuomgBHN-nENHley");
-        MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
-        MaxSdk.SetVerboseLogging(true);
-        MaxSdk.InitializeSdk();
-        Debug.Log("Max integrated");
 
-        ByteBrew.InitializeByteBrew();
-        Debug.Log("ByteBrew integrated");
 
-        GameAnalytics.Initialize();
-        Debug.Log("GameAnalytics integrated");
+        try
+        {
+            MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) =>
+            {
+                // AppLovin SDK is initialized, start loading ads
+                //MaxSdk.ShowMediationDebugger();
+            };
+            MaxSdk.SetSdkKey("lt7nsQAGQuderPVtuZ142vUL2g7KegOa8GqDSsEWObUThTamw5UpC5k7u9kT3XQ3bFxr0kSuomgBHN-nENHley");
+            MaxSdk.SetUserId(SystemInfo.deviceUniqueIdentifier);
+            MaxSdk.SetVerboseLogging(true);
+            MaxSdk.InitializeSdk();
+            Debug.Log("Max integrated");
+        }
+        catch (Exception)
+        {
 
-        // import this package into the project:
-        // https://github.com/adjust/unity_sdk/releases
+            Debug.LogError("Max inegration failed");
+        }
+
+        try
+        {
+            ByteBrew.InitializeByteBrew();
+            Debug.Log("ByteBrew integrated");
+        }
+        catch
+        {
+            Debug.LogError("ByteBrew integration failed");
+        }
+
+        yield return new WaitForEndOfFrame();
+        try
+        {
+
+            // import this package into the project:
+            // https://github.com/adjust/unity_sdk/releases
 #if UNITY_IOS
         /* Mandatory - set your iOS app token here */
         //InitAdjust("YOUR_IOS_APP_TOKEN_HERE");
 #elif UNITY_ANDROID
-        /* Mandatory - set your Android app token here */
-        InitAdjust("dyqevqya0zy8");
+            /* Mandatory - set your Android app token here */
+            InitAdjust("dyqevqya0zy8");
 #endif
-        Debug.Log("Adjust integrated");
+            Debug.Log("Adjust integrated");
+        }
+        catch
+        {
+            Debug.LogError("Adjust integrationl failed");
+        }
 
-        yield return new WaitForSeconds(0);
-        LionAnalytics.GameStart();
-        Debug.Log("LionAnalytics integrated");
+        try
+        {
+            LionAnalytics.GameStart();
+            Debug.Log("LionAnalytics integrated");
 
-        LionDebugger.Hide();
+            LionDebugger.Hide();
+        }
+        catch
+        {
+            Debug.LogError("LionAnalytics integration failed");
+        }
 
         Debug.Log("Integration finished");
     }
