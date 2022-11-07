@@ -24,6 +24,12 @@ namespace ByteBrewSDK
             bundleID = Application.identifier;
 
 #if UNITY_IPHONE && !(UNITY_EDITOR)
+            if (string.IsNullOrEmpty(settings.iosSDKKey) || string.IsNullOrEmpty(settings.iosGameID))
+            {
+                Debug.LogError("ByteBrew Error: Settings are not setup corretcly, your iOS SDK Key or GameID is empty.");
+                return false;
+            } 
+            
             if (!string.IsNullOrEmpty(settings.iosSDKKey) || !string.IsNullOrEmpty(settings.iosGameID))
             {
                 gameKey = settings.iosSDKKey;
@@ -33,6 +39,12 @@ namespace ByteBrewSDK
 #endif
 
 #if UNITY_ANDROID && !(UNITY_EDITOR)
+            if (string.IsNullOrEmpty(settings.androidSDKKey) || string.IsNullOrEmpty(settings.androidGameID))
+            {
+                Debug.LogError("ByteBrew Error: Settings are not setup corretcly, your Android SDK Key or GameID is empty.");
+                return false;
+            } 
+            
             if (!string.IsNullOrEmpty(settings.androidSDKKey) || !string.IsNullOrEmpty(settings.androidGameID))
             {
                 gameKey = settings.androidSDKKey;
