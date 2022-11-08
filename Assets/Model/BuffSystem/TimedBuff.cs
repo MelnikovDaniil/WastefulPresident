@@ -22,11 +22,14 @@ public abstract class TimedBuff
 
     public void Tick(float delta)
     {
-        Duration -= delta;
-        if (Duration <= 0)
+        if (!IsFinished)
         {
-            End();
-            IsFinished = true;
+            Duration -= delta;
+            if (Duration <= 0)
+            {
+                End();
+                IsFinished = true;
+            }
         }
     }
 
@@ -44,6 +47,15 @@ public abstract class TimedBuff
         }
     }
 
+    public void Dispel()
+    {
+        Duration = 0;
+        IsFinished = true;
+        DispelEffect();
+    }
+
     protected abstract void ApplyEffect();
+    protected abstract void DispelEffect();
     public abstract void End();
+
 }

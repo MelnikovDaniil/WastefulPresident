@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuffableEntity : MonoBehaviour
@@ -16,12 +17,12 @@ public class BuffableEntity : MonoBehaviour
 
     private void Update()
     {
-        foreach (var buff in _buffs.Values)
+        foreach (var buff in _buffs.ToArray())
         {
-            buff.Tick(Time.deltaTime);
-            if (buff.IsFinished)
+            buff.Value.Tick(Time.deltaTime);
+            if (buff.Value.IsFinished)
             {
-                _buffs.Remove(buff.Buff);
+                _buffs.Remove(buff.Key);
             }
         }
     }
@@ -38,6 +39,15 @@ public class BuffableEntity : MonoBehaviour
             buff.Activate();
         }
     }
+
+    public void DispelAll()
+    {
+        foreach (var buff in _buffs.Values)
+        {
+            buff.Dispel();
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (character.characterState != CharacterState.Dead)

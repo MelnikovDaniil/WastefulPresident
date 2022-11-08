@@ -98,7 +98,10 @@ public abstract class Character : Creature, ICharacterVisitor
 
     public void FinishVisiting()
     {
-        characterState = CharacterState.Waiting;
+        if (characterState != CharacterState.Dead)
+        {
+            characterState = CharacterState.Waiting;
+        }
     }
 
     public void VisitElectricPanel()
@@ -157,11 +160,23 @@ public abstract class Character : Creature, ICharacterVisitor
 
     public BoxedObject GetBoxedObject()
     {
+        var buffableObject = GetComponent<BuffableEntity>();
+        if (buffableObject)
+        {
+            buffableObject.DispelAll();
+        }
         return GetComponent<BoxedObject>();
     }
 
     public bool ShutOffGusPipe()
     {
+        var buffableObject = GetComponent<BuffableEntity>();
+        if (buffableObject)
+        {
+            buffableObject.DispelAll();
+        }
+        _animator.SetTrigger("shutPipe");
+        Death();
         return true;
     }
 
