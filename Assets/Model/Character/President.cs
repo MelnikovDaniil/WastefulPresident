@@ -81,6 +81,11 @@ public class President : Character, IPresidentVisitor
         currentIdleTime = 0;
     }
 
+    public new bool ShutOffGusPipe()
+    {
+        return false;
+    }
+
     private void OnDisable()
     {
         HideColor();

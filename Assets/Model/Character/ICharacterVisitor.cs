@@ -21,5 +21,7 @@ public interface ICharacterVisitor
 
     BoxedObject GetBoxedObject();
 
+    bool ShutOffGusPipe();
+
     void FinishVisiting();
 }

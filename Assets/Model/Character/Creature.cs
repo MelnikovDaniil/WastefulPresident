@@ -213,7 +213,6 @@ public class Creature : MonoBehaviour, IPortalVisitor
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(wallPosition, checkFroundRadius);
     }
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (characterState != CharacterState.Dead)
