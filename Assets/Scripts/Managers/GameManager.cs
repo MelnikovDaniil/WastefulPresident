@@ -1,14 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using com.adjust.sdk;
 using LionStudios.Suite.Analytics;
 using LionStudios.Suite.Analytics.Events;
 using LionStudios.Suite.Debugging;
-using ByteBrewSDK;
-using System.Linq;
-using Facebook.Unity;
 using System;
+using Facebook.Unity;
+using com.adjust.sdk;
+using ByteBrewSDK;
 
 public class GameManager : BaseManager
 {

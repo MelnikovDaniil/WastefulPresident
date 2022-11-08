@@ -322,6 +322,21 @@ public class MaxSdkiOS : MaxSdkBase
     }
 
     [DllImport("__Internal")]
+    private static extern void _MaxLoadBanner(string adUnitIdentifier);
+
+    /// <summary>
+    /// Load a new banner ad.
+    /// NOTE: The <see cref="CreateBanner()"/> method loads the first banner ad and initiates an automated banner refresh process.
+    /// You only need to call this method if you pause banner refresh.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to load</param>
+    public static void LoadBanner(string adUnitIdentifier)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "load banner");
+        _MaxLoadBanner(adUnitIdentifier);
+    }
+
+    [DllImport("__Internal")]
     private static extern void _MaxSetBannerPlacement(string adUnitIdentifier, string placement);
 
     /// <summary>
@@ -562,6 +577,21 @@ public class MaxSdkiOS : MaxSdkBase
     {
         ValidateAdUnitIdentifier(adUnitIdentifier, "create MREC");
         _MaxCreateMRecXY(adUnitIdentifier, x, y);
+    }
+
+    [DllImport("__Internal")]
+    private static extern void _MaxLoadMRec(string adUnitIdentifier);
+
+    /// <summary>
+    /// Load a new MREC ad.
+    /// NOTE: The <see cref="CreateMRec()"/> method loads the first MREC ad and initiates an automated MREC refresh process.
+    /// You only need to call this method if you pause MREC refresh.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to load</param>
+    public static void LoadMRec(string adUnitIdentifier)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "load MREC");
+        _MaxLoadMRec(adUnitIdentifier);
     }
 
     [DllImport("__Internal")]
