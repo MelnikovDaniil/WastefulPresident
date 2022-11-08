@@ -11,29 +11,7 @@ public abstract class MaxSdkBase
     protected static readonly MaxUserSegment SharedUserSegment = new MaxUserSegment();
     protected static readonly MaxTargetingData SharedTargetingData = new MaxTargetingData();
 
-    /// <summary>
-    /// This enum represents whether or not the consent dialog should be shown for this user.
-    /// The state where no such determination could be made is represented by <see cref="ConsentDialogState.Unknown"/>.
-    ///
-    /// NOTE: This version of the iOS consent flow has been deprecated and is only available on UNITY_ANDROID as of MAX Unity Plugin v4.0.0 + iOS SDK v7.0.0, please refer to our documentation for enabling the new consent flow.
-    /// </summary>
-    public enum ConsentDialogState
-    {
-        /// <summary>
-        /// The consent dialog state could not be determined. This is likely due to SDK failing to initialize.
-        /// </summary>
-        Unknown,
 
-        /// <summary>
-        /// This user should be shown a consent dialog.
-        /// </summary>
-        Applies,
-
-        /// <summary>
-        /// This user should not be shown a consent dialog.
-        /// </summary>
-        DoesNotApply
-    }
 
 #if UNITY_EDITOR || UNITY_IPHONE || UNITY_IOS
     /// <summary>
@@ -102,11 +80,6 @@ public abstract class MaxSdkBase
         public bool IsSuccessfullyInitialized;
 
         /// <summary>
-        /// Get the consent dialog state for this user. If no such determination could be made, `ALConsentDialogStateUnknown` will be returned.
-        /// </summary>
-        public ConsentDialogState ConsentDialogState;
-
-        /// <summary>
         /// Get the country code for this user.
         /// </summary>
         public string CountryCode;
@@ -117,6 +90,9 @@ public abstract class MaxSdkBase
         /// </summary>
         public AppTrackingStatus AppTrackingStatus;
 #endif
+
+        [Obsolete("This API has been deprecated and will be removed in a future release.")]
+        public ConsentDialogState ConsentDialogState;
 
         public static SdkConfiguration Create(IDictionary<string, object> eventProps)
         {
@@ -496,6 +472,14 @@ public abstract class MaxSdkBase
         var height = MaxSdkUtils.GetFloatFromDictionary(rectDict, "height", 0);
 
         return new Rect(originX, originY, width, height);
+    }
+
+    [Obsolete("This API has been deprecated and will be removed in a future release.")]
+    public enum ConsentDialogState
+    {
+        Unknown,
+        Applies,
+        DoesNotApply
     }
 }
 

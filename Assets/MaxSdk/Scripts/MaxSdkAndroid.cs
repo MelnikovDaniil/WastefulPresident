@@ -263,6 +263,18 @@ public class MaxSdkAndroid : MaxSdkBase
         ValidateAdUnitIdentifier(adUnitIdentifier, "create banner");
         MaxUnityPluginClass.CallStatic("createBanner", adUnitIdentifier, x, y);
     }
+    
+    /// <summary>
+    /// Load a new banner ad.
+    /// NOTE: The <see cref="CreateBanner()"/> method loads the first banner ad and initiates an automated banner refresh process.
+    /// You only need to call this method if you pause banner refresh.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the banner to load</param>
+    public static void LoadBanner(string adUnitIdentifier)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "load banner");
+        MaxUnityPluginClass.CallStatic("loadBanner", adUnitIdentifier);
+    }
 
     /// <summary>
     /// Set the banner placement for an ad unit identifier to tie the future ad events to.
@@ -459,6 +471,18 @@ public class MaxSdkAndroid : MaxSdkBase
         MaxUnityPluginClass.CallStatic("createMRec", adUnitIdentifier, x, y);
     }
 
+    /// <summary>
+    /// Load a new MREC ad.
+    /// NOTE: The <see cref="CreateMRec()"/> method loads the first MREC ad and initiates an automated MREC refresh process.
+    /// You only need to call this method if you pause MREC refresh.
+    /// </summary>
+    /// <param name="adUnitIdentifier">Ad unit identifier of the MREC to load</param>
+    public static void LoadMRec(string adUnitIdentifier)
+    {
+        ValidateAdUnitIdentifier(adUnitIdentifier, "load MREC");
+        MaxUnityPluginClass.CallStatic("loadMRec", adUnitIdentifier);
+    }
+    
     /// <summary>
     /// Set the MREC placement for an ad unit identifier to tie the future ad events to.
     /// </summary>
