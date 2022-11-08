@@ -16,6 +16,8 @@ public class Bullet : MonoBehaviour, IPortableObject
 
     public bool IsSmallTeleport => true;
 
+    public bool TriggerTeleport => true;
+
     private void Start()
     {
 
@@ -56,7 +58,7 @@ public class Bullet : MonoBehaviour, IPortableObject
         gameObject.transform.localRotation = gameObject.transform.localRotation * rotationDifference;
     }
 
-    public void AfterTeleport(Vector2 direciton)
+    public void AfterTeleport(Vector2 direction, Quaternion rotationDifference)
     {
         trailRenderer.emitting = true;
     }

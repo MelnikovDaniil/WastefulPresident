@@ -13,6 +13,8 @@ public class Item : InteractableObject, IPortableObject
 
     public bool IsSmallTeleport => false;
 
+    public bool TriggerTeleport => false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -65,11 +67,11 @@ public class Item : InteractableObject, IPortableObject
         gameObject.transform.localRotation = gameObject.transform.localRotation * rotationDifference;
 
 
-        rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
+        //rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
     }
 
-    //public void AfterTeleport()
-    //{
-    //    rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
-    //}
+    public void AfterTeleport(Vector2 direction, Quaternion rotationDifference)
+    {
+        rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
+    }
 }

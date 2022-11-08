@@ -17,7 +17,6 @@ public class TimedGasDebuff : TimedBuff
     protected override void ApplyEffect()
     {
         particles = GameObject.Instantiate(gasDebuff.poisonParticles, character.transform);
-        //throw new System.NotImplementedException();
     }
 
     protected override void DispelEffect()

@@ -11,6 +11,8 @@ public class GasParticle : MonoBehaviour, IPortableObject
 
     public bool IsSmallTeleport => true;
 
+    public bool TriggerTeleport => false;
+
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -55,7 +57,7 @@ public class GasParticle : MonoBehaviour, IPortableObject
         rigidbody2D.velocity = rotationDifference * rigidbody2D.velocity;
     }
 
-    public void AfterTeleport(Vector2 direction)
+    public void AfterTeleport(Vector2 direction, Quaternion rotationDifference)
     {
         Debug.Log("puh");
         direction += new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f));

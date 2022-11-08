@@ -122,7 +122,7 @@ public class Portal : InteractableObject
 
         yield return new WaitForEndOfFrame();
 
-        portableObj.AfterTeleport(offset);
+        portableObj.AfterTeleport(offset, rotationDifference);
 
         StartCoroutine(EnableProtalZoneRoutine());
     }
@@ -144,7 +144,8 @@ public class Portal : InteractableObject
                 _animator.SetTrigger("enter");
                 StartCoroutine(secondPortal.TeleportHuman(visitor));
             }
-            else if (collision.gameObject.TryGetComponent(out IPortableObject portableObject))
+            else if (collision.gameObject.TryGetComponent(out IPortableObject portableObject)
+                && collision.isTrigger == portableObject.TriggerTeleport)
             {
                 afterTeleport = false;
                 if (portableObject.IsSmallTeleport)
