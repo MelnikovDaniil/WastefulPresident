@@ -504,37 +504,37 @@ namespace AppLovinMax.Scripts.Editor
                 }
             }
 
-            var unityWebRequest = UnityWebRequest.Get(uriBuilder.ToString());
-
+            using (var unityWebRequest = UnityWebRequest.Get(uriBuilder.ToString()))
+            {
 #if UNITY_2017_2_OR_NEWER
-            var operation = unityWebRequest.SendWebRequest();
+                var operation = unityWebRequest.SendWebRequest();
 #else
-            var operation = unityWebRequest.Send();
+                var operation = unityWebRequest.Send();
 #endif
-            // Wait for the download to complete or the request to timeout.
-            while (!operation.isDone) { }
-
+                // Wait for the download to complete or the request to timeout.
+                while (!operation.isDone) { }
 
 #if UNITY_2020_1_OR_NEWER
-            if (unityWebRequest.result != UnityWebRequest.Result.Success)
+                if (unityWebRequest.result != UnityWebRequest.Result.Success)
 #elif UNITY_2017_2_OR_NEWER
-            if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+                if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
 #else
-            if (unityWebRequest.isError)
+                if (unityWebRequest.isError)
 #endif
-            {
-                MaxSdkLogger.UserError("Failed to retrieve SKAdNetwork IDs with error: " + unityWebRequest.error);
-                return new SkAdNetworkData();
-            }
+                {
+                    MaxSdkLogger.UserError("Failed to retrieve SKAdNetwork IDs with error: " + unityWebRequest.error);
+                    return new SkAdNetworkData();
+                }
 
-            try
-            {
-                return JsonUtility.FromJson<SkAdNetworkData>(unityWebRequest.downloadHandler.text);
-            }
-            catch (Exception exception)
-            {
-                MaxSdkLogger.UserError("Failed to parse data '" + unityWebRequest.downloadHandler.text + "' with exception: " + exception);
-                return new SkAdNetworkData();
+                try
+                {
+                    return JsonUtility.FromJson<SkAdNetworkData>(unityWebRequest.downloadHandler.text);
+                }
+                catch (Exception exception)
+                {
+                    MaxSdkLogger.UserError("Failed to parse data '" + unityWebRequest.downloadHandler.text + "' with exception: " + exception);
+                    return new SkAdNetworkData();
+                }
             }
         }
 
